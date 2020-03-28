@@ -3,7 +3,7 @@ import unittest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from .api import GENERIC_ERROR_MSG, MessageReader
+from .api import GENERIC_ERROR_MSG, NO_OPTION_FOUND_MSG, MessageReader
 from .schema import Base, TopLevelMessage, TopLevelOption
 
 _TEST_HEADER_CONTENT = """\
@@ -45,18 +45,18 @@ class TestMessageReader(unittest.TestCase):
                 header_content=_TEST_HEADER_CONTENT,
                 top_level_options=[
                     TopLevelOption(
-                        title='*Latest Update on Coronavirus in Switzerland*',
-                        content='N/A',
-                        position=0,
-                    ),
-                    TopLevelOption(
                         title='What is Coronavirus and what are its symptoms',
-                        content='N/A',
+                        content='A bad thing',
                         position=1,
                     ),
                     TopLevelOption(
+                        title='*Latest Update on Coronavirus in Switzerland*',
+                        content='Things are going up, not the good things',
+                        position=0,
+                    ),
+                    TopLevelOption(
                         title='How does Coronavirus spread?',
-                        content='N/A',
+                        content='People',
                         position=2,
                     )
                 ]
@@ -85,6 +85,32 @@ class TestMessageReader(unittest.TestCase):
         self.assertEqual(
             top_level_message,
             GENERIC_ERROR_MSG
+        )
+
+    def test_get_option_message(self):
+        self.populate_with_test_data()
+        reader = MessageReader()
+
+        option_message_1 = reader.get_option_message(self.session, 1)
+        self.assertEqual(
+            option_message_1,
+            'Things are going up, not the good things'
+        )
+
+        option_message_3 = reader.get_option_message(self.session, 3)
+        self.assertEqual(
+            option_message_3,
+            'People'
+        )
+
+    def test_get_option_message_inexistent(self):
+        self.populate_with_test_data()
+        reader = MessageReader()
+
+        option_message = reader.get_option_message(self.session, 100)
+        self.assertEqual(
+            option_message,
+            NO_OPTION_FOUND_MSG % 100
         )
 
 

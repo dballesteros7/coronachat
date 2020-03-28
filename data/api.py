@@ -1,6 +1,7 @@
 """APIs to communicate with the underlying message storage."""
 
 from sqlalchemy.orm import Session
+from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from .schema import TopLevelMessage, TopLevelOption
 
@@ -19,6 +20,8 @@ Reply with a number at any time to get the latest information
 on any topic.
 
 """)
+
+NO_OPTION_FOUND_MSG = _('There is no option number %d')
 
 
 class MessageReader(object):
@@ -65,3 +68,22 @@ class MessageReader(object):
         ):
             result_msg += '%d. %s\n' % (idx + 1, option.title)
         return result_msg
+
+    def get_option_message(self, session: Session, option_number: int) -> str:
+        """Reads and formats a top level option message.
+
+        This method assumes a 1-based index for option_number as this is what
+        regular users understand.
+
+        Returns:
+            The formatted message to send back to the user when they text 
+            the number of the top level option.
+        """
+        try:
+            option: TopLevelOption = session.query(TopLevelOption).filter(
+                TopLevelOption.position == option_number - 1).one()
+            return option.content
+        except NoResultFound:
+            return NO_OPTION_FOUND_MSG % option_number
+        except MultipleResultsFound:
+            return GENERIC_ERROR_MSG
