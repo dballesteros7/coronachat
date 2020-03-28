@@ -78,7 +78,8 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   );
 
   return (
-    <Dialog fullScreen open={props.isVisible} className="MenuItemMessageForm" 
+    <Dialog fullScreen disableBackdropClick={true} disableEscapeKeyDown={true}
+      open={props.isVisible} className="MenuItemMessageForm" 
       onClose={onCloseMenuItemClicked} TransitionComponent={Transition}>
       <AppBar className={classes.appBar}>
         <Toolbar>
