@@ -17,14 +17,17 @@ const MainMessageForm = (props: MainMessageFormProps) => {
   var prefillHeaderRef = React.useRef<HTMLButtonElement>(null);
   var searchBarRef = React.useRef<HTMLInputElement>(null);
 
+  let onPrefillMainHeaderClicked = props.onPrefillMainHeaderClicked;
+  let onMainHeaderChanged = props.onMainHeaderChanged;
+
   useEffect(() => {
     const onPrefillHeaderClicked = function(_: Event) {
-      props.onPrefillMainHeaderClicked();
+      onPrefillMainHeaderClicked();
     }
     prefillHeaderRef?.current?.addEventListener("click", onPrefillHeaderClicked);
 
     const onHeaderTxtFieldInputChanged = function(e: Event) {
-      props.onMainHeaderChanged((e.target as HTMLInputElement).value || '');
+      onMainHeaderChanged((e.target as HTMLInputElement).value || '');
     }
     searchBarRef?.current?.addEventListener("input", onHeaderTxtFieldInputChanged);
   }, []);
@@ -33,7 +36,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
     const itemText = menuItem.index + '. ' + menuItem.title;
     const onItemClicked = () => props.onOpenMenuItem(menuItem);
     return (
-        <ListItem button>
+        <ListItem button key={menuItem.index}>
           <ListItemText primary={itemText} onClick={onItemClicked}/>
         </ListItem>
       );
