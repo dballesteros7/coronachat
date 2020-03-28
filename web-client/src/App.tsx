@@ -1,103 +1,107 @@
-import React, { Component } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 import MainMessageForm from './components/MainMessageForm/MainMessageForm';
 import { defaultTemplate } from './sampleData/defaultTemplate';
 import { Template, MenuItem } from './model/model';
-import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, Slide } from '@material-ui/core';
+import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, Slide, makeStyles, Theme, createStyles } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import CloseIcon from '@material-ui/icons/Close'
 
-type AppState = {
-  template: Template,
-  isMenuItemDialogOpen: boolean
-}
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    appBar: {
+      position: 'relative',
+    },
+    title: {
+      marginLeft: theme.spacing(2),
+      flex: 1,
+    },
+  }),
+);
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-class App extends Component<{}, AppState> {
-  constructor(props: any) {
-    super(props)
-    //TODO(MB) deep clone is temporary - replace sample template with one 
-    // returned by the server
-    this.state = {
-      template: JSON.parse(JSON.stringify(defaultTemplate)),
-      isMenuItemDialogOpen: false
-    }
+
+const App = () => {
+  const classes = useStyles();
+
+  // TODO(MB) is this really the simplest way that allows using setState inside
+  // an event handler?
+  const [_template, _setTemplate] = useState(JSON.parse(JSON.stringify(defaultTemplate)));
+  var templateRef = useRef(_template);
+  const setTemplate = (newTemplate: Template) => {
+    templateRef.current = newTemplate;
+    _setTemplate(newTemplate);
   }
 
-  updateTemplateHeaderInState(headerText: string) {
-    const template = this.state.template;
-    template.header = headerText;
-    this.setState({
-      template: template
-    }, () => {
-      console.log("Updated global template", this.state.template);
-    });
+  const [_isMenuItemDialogOpen, _setIsMenuItemDialogOpen] = useState(false);
+  var isMenuItemDialogOpenRef = useRef(_isMenuItemDialogOpen);
+  const setIsMenuItemDialogOpen = (newValue: boolean) => {
+    isMenuItemDialogOpenRef.current = newValue;
+    _setIsMenuItemDialogOpen(newValue);
   }
 
-  onPrefillMainHeaderClicked() {
-    this.updateTemplateHeaderInState(defaultTemplate.header);
+  let updateTemplateHeaderInState = (headerText: string) => {
+    // TODO(MB) check deep copy
+    const updatedTemplate = JSON.parse(JSON.stringify(templateRef.current));
+    updatedTemplate.header = headerText;
+    setTemplate(updatedTemplate);
   }
 
-  onMainHeaderChanged(newText: string) {
-    this.updateTemplateHeaderInState(newText);
+  let onPrefillMainHeaderClicked = () => {
+    updateTemplateHeaderInState(defaultTemplate.header);
   }
 
-  openMenuItem(menuItem: MenuItem) {
-    console.debug("need to open menu item", menuItem);
-    this.setState({
-      isMenuItemDialogOpen: true
-    });
+  let onMainHeaderChanged = (newText: string) => {
+    updateTemplateHeaderInState(newText);
   }
 
-  onCloseMenuItemClicked = () => {
-    this.setState({
-      isMenuItemDialogOpen: false
-    });
+  let openMenuItem = (menuItem: MenuItem) => {
+    setIsMenuItemDialogOpen(true);
+  }
+
+  let onCloseMenuItemClicked = () => {
+    setIsMenuItemDialogOpen(false);
   };
 
-  render() {
-    return (
-      <div className="App">
-        <h1>
-          Main message
-        </h1>
-        <MainMessageForm 
-          template={this.state.template}
-          onMainHeaderChanged={(newText) => this.onMainHeaderChanged(newText)}
-          onPrefillMainHeaderClicked={() => this.onPrefillMainHeaderClicked()}
-          onOpenMenuItem={(menuItem) => this.openMenuItem(menuItem)}/>
-          <Dialog fullScreen open={this.state.isMenuItemDialogOpen} onClose={this.onCloseMenuItemClicked} TransitionComponent={Transition}>
-            <AppBar>
-            {/* <AppBar className={classes.appBar}> */}
-              <Toolbar>
-                <IconButton edge="start" color="inherit" onClick={this.onCloseMenuItemClicked} aria-label="close">
-                  <CloseIcon />
-                </IconButton>
-                <Typography variant="h6">
-                {/* <Typography variant="h6" className={classes.title}> */}
-                  Sound
-                </Typography>
-                <Button autoFocus color="inherit" onClick={this.onCloseMenuItemClicked}>
-                  save
-                </Button>
-              </Toolbar>
-            </AppBar>
-            <List>
-              <ListItem button>
-                <ListItemText primary="Phone ringtone" secondary="Titania" />
-              </ListItem>
-              <Divider />
-              <ListItem button>
-                <ListItemText primary="Default notification ringtone" secondary="Tethys" />
-              </ListItem>
-            </List>
-          </Dialog>
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <h1>
+        Main message
+      </h1>
+      <MainMessageForm 
+        template={templateRef.current}
+        onMainHeaderChanged={(newText) => onMainHeaderChanged(newText)}
+        onPrefillMainHeaderClicked={() => onPrefillMainHeaderClicked()}
+        onOpenMenuItem={(menuItem) => openMenuItem(menuItem)}/>
+        <Dialog fullScreen open={isMenuItemDialogOpenRef.current} onClose={onCloseMenuItemClicked} TransitionComponent={Transition}>
+          <AppBar className={classes.appBar}>
+            <Toolbar>
+              <IconButton edge="start" color="inherit" onClick={onCloseMenuItemClicked} aria-label="close">
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" className={classes.title}>
+                Sound
+              </Typography>
+              <Button autoFocus color="inherit" onClick={onCloseMenuItemClicked}>
+                save
+              </Button>
+            </Toolbar>
+          </AppBar>
+          <List>
+            <ListItem button>
+              <ListItemText primary="Phone ringtone" secondary="Titania" />
+            </ListItem>
+            <Divider />
+            <ListItem button>
+              <ListItemText primary="Default notification ringtone" secondary="Tethys" />
+            </ListItem>
+          </List>
+        </Dialog>
+    </div>
+  );
 }
 
 export default App;
