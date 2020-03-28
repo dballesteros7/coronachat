@@ -31,6 +31,7 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
   return (
     <>
       <TextField
+        fullWidth
         className="text-field"
         label={props.label}
         multiline
