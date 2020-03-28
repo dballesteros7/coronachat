@@ -3,6 +3,11 @@ import './MenuItemMessageForm.scss';
 import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, TextField, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close'
 import { TransitionProps } from '@material-ui/core/transitions/transition';
+import { MenuItem } from '../../model/model';
+
+type MenuItemMessageFormProps = {
+  menuItem: MenuItem
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,7 +25,7 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const MenuItemMessageForm: React.FC = () => {
+const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
 
   const classes = useStyles();
   
@@ -29,7 +34,7 @@ const MenuItemMessageForm: React.FC = () => {
   };
 
   return (
-    <Dialog fullScreen open={true} onClose={onCloseMenuItemClicked} TransitionComponent={Transition}>
+    <Dialog fullScreen open={true} className="MainMessageForm" onClose={onCloseMenuItemClicked} TransitionComponent={Transition}>
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton edge="start" color="inherit" onClick={onCloseMenuItemClicked} aria-label="close">
@@ -49,7 +54,7 @@ const MenuItemMessageForm: React.FC = () => {
           label="Header"
           multiline
           rows="8"
-          value={""}
+          value={props.menuItem.content}
           placeholder={''}
           variant="outlined"
         />

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import MainMessageForm from './components/MainMessageForm/MainMessageForm';
 import { defaultTemplate } from './sampleData/defaultTemplate';
@@ -33,9 +33,14 @@ const App = () => {
     _setIsMenuItemDialogOpen(newValue);
   }
 
+  // TODO(MB) Does not make sense to store this menuItem
+  // find a way to pass it to MenuItemMessageForm directly from 'openMenuItem' handler
   const initSelectedMenuItem = getInitSelectedMenuItem();
   const [editingMenuItem, setEditingMenuItem] = useState(initSelectedMenuItem);
 
+  useEffect(() => {
+    console.debug("editing item", editingMenuItem);
+  });
 
   let updateTemplateHeaderInState = (headerText: string) => {
     // TODO(MB) check deep copy
@@ -62,6 +67,10 @@ const App = () => {
     setEditingMenuItem(getInitSelectedMenuItem());
   };
 
+  let getEditingMenuItemClone = (): MenuItem => {
+    return JSON.parse(JSON.stringify(editingMenuItem));
+  }
+
   return (
     <div className="App">
       <h1>
@@ -72,7 +81,8 @@ const App = () => {
         onMainHeaderChanged={(newText) => onMainHeaderChanged(newText)}
         onPrefillMainHeaderClicked={() => onPrefillMainHeaderClicked()}
         onOpenMenuItem={(menuItem) => openMenuItem(menuItem)}/>
-      {isMenuItemDialogOpenRef.current && <MenuItemMessageForm/>}
+      {isMenuItemDialogOpenRef.current && 
+        <MenuItemMessageForm menuItem={getEditingMenuItemClone()}/>}
     </div>
   );
 }
