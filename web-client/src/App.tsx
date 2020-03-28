@@ -1,22 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 import MainMessageForm from './components/MainMessageForm/MainMessageForm';
-import { defaultTemplate } from './sampleData/defaultTemplate';
+import { defaultTemplate, defaultFooterItemBackToMenu } from './sampleData/defaultTemplate';
 import { Template, MenuItem } from './model/model';
 import MenuItemMessageForm from './components/MenuItemMessageForm/MenuItemMessageForm';
 
 function getInitSelectedMenuItem(): MenuItem {
-    // TODO(MB) could set initial value to null without compiler complaining
+  // TODO(MB) could set initial value to null without compiler complaining
   return {
+    id: -1,
     title: '',
-    index: -1,
-    footerItems: [],
+    footerItems: [defaultFooterItemBackToMenu],
     content: ''
   };  
 }
 
 const App = () => {
-
   // TODO(MB) is this really the simplest way that allows using setState inside
   // an event handler? see https://medium.com/geographit/accessing-react-state-in-event-listeners-with-usestate-and-useref-hooks-8cceee73c559
   const [_template, _setTemplate] = useState(JSON.parse(JSON.stringify(defaultTemplate)));
@@ -38,6 +37,8 @@ const App = () => {
   const initSelectedMenuItem = getInitSelectedMenuItem();
   const [editingMenuItem, setEditingMenuItem] = useState(initSelectedMenuItem);
 
+  const [newMenuItemLatestLocalIdx, setNewMenuItemLatestLocalIdx] = useState(-1);
+
   let updateTemplateHeaderInState = (headerText: string) => {
     // TODO(MB) check deep copy
     const updatedTemplate = JSON.parse(JSON.stringify(templateRef.current));
@@ -54,8 +55,17 @@ const App = () => {
   }
 
   let openMenuItem = (menuItem: MenuItem) => {
-    setIsMenuItemDialogOpen(true);
     setEditingMenuItem(menuItem);
+    setIsMenuItemDialogOpen(true);
+  }
+
+  let onAddMenuItemClicked = () => {
+    let emptyMenuItem = getInitSelectedMenuItem();
+    const newIdx = newMenuItemLatestLocalIdx - 1;
+    emptyMenuItem.id = newIdx;
+    setEditingMenuItem(emptyMenuItem);
+    setIsMenuItemDialogOpen(true);
+    setNewMenuItemLatestLocalIdx(newIdx);
   }
 
   let onCloseAndDiscardChanges = () => {
@@ -66,11 +76,14 @@ const App = () => {
   let onCloseAndSaveChanges = (menuItemToSave: MenuItem) => {
     setIsMenuItemDialogOpen(false);
     const updatedTemplate: Template = JSON.parse(JSON.stringify(templateRef.current));
-    // TODO(MB) assuming index (ordering position unique and not changing
-    // while user its editing its details)
     const menuItemIdx = updatedTemplate.menuItems.findIndex(menuItem => 
-      menuItem.index === menuItemToSave.index);
-    updatedTemplate.menuItems[menuItemIdx] = menuItemToSave;
+      menuItem.id === menuItemToSave.id);
+    if (menuItemIdx > -1) {
+      updatedTemplate.menuItems[menuItemIdx] = menuItemToSave;
+    } else {
+      // TODO(MB) send to server instead of pushing, then add when received success from server
+      updatedTemplate.menuItems.push(menuItemToSave);
+    }
     setTemplate(updatedTemplate);
   }
 
@@ -85,9 +98,10 @@ const App = () => {
       </h1>
       <MainMessageForm 
         template={templateRef.current}
-        onMainHeaderChanged={(newText) => onMainHeaderChanged(newText)}
-        onPrefillMainHeaderClicked={() => onPrefillMainHeaderClicked()}
-        onOpenMenuItem={(menuItem) => openMenuItem(menuItem)}/>
+        onMainHeaderChanged={onMainHeaderChanged}
+        onPrefillMainHeaderClicked={onPrefillMainHeaderClicked}
+        onAddMenuItemClicked={onAddMenuItemClicked}
+        onOpenMenuItem={openMenuItem}/>
       {/* {isMenuItemDialogOpenRef.current &&  */}
         <MenuItemMessageForm 
           menuItem={getEditingMenuItemClone()}

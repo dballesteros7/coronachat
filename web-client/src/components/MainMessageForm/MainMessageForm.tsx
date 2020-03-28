@@ -9,16 +9,17 @@ type MainMessageFormProps = {
   template: Template,
   onMainHeaderChanged: (newText: string) => void,
   onPrefillMainHeaderClicked: () => void,
-  onOpenMenuItem: (menuItem: MenuItem) => void
+  onOpenMenuItem: (menuItem: MenuItem) => void,
+  onAddMenuItemClicked: () => void
 }
 
 const MainMessageForm = (props: MainMessageFormProps) => {
 
-  let menuListItems = props.template.menuItems.map(menuItem => {
-    const itemText = menuItem.index + '. ' + menuItem.title;
+  let menuListItems = props.template.menuItems.map((menuItem: MenuItem, idx: number) => {
+    const itemText = (idx + 1) + '. ' + menuItem.title;
     const onItemClicked = () => props.onOpenMenuItem(menuItem);
     return (
-        <ListItem button key={menuItem.index}>
+        <ListItem button key={idx}>
           <ListItemText primary={itemText} onClick={onItemClicked}/>
         </ListItem>
       );
@@ -39,6 +40,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
         onChange={props.onMainHeaderChanged}
       />
       <Divider className="divider"/>
+      <button onClick={props.onAddMenuItemClicked}>Add item</button>
       <List subheader={<ListSubheader>Menu</ListSubheader>} component="nav">
         {menuListItems}
       </List>

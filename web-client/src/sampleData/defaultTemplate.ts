@@ -1,5 +1,7 @@
 import { Template } from "../model/model";
 
+export const defaultFooterItemBackToMenu = 'Escriba 0 para ir al Menú';
+
 //TODO (MB) all its properties of this instance should be readonly
 export const defaultTemplate: Template = {
   header: `Bienvenidos a la OMS
@@ -11,7 +13,7 @@ export const defaultTemplate: Template = {
     Escriba el número (o emoji) para acceder a la información sobre estos temas:`,
   menuItems: [
     {
-      index: 1,
+      id: 1,
       title: 'Últimas cifras',
       content: `Últimas cifras 🔢
 
@@ -29,7 +31,7 @@ export const defaultTemplate: Template = {
       ]
     },
     {
-      index: 2,
+      id: 2,
       title: 'Cómo protegerse',
       content: `Acceda al video: https://youtu.be/8c_UJwLq8PI
 
@@ -55,7 +57,7 @@ export const defaultTemplate: Template = {
       ]
     },
     {
-      index: 3,
+      id: 3,
       title: 'Preguntas frecuentes',
       content: `
       Resuelva sus preguntas❓

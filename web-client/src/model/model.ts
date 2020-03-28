@@ -4,7 +4,7 @@ export interface Template {
 }
 
 export interface MenuItem {
-  index: number
+  id: number
   title: string
   content: string
   footerItems: Array<string>
