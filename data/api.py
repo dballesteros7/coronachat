@@ -76,7 +76,7 @@ class MessageReader(object):
         regular users understand.
 
         Returns:
-            The formatted message to send back to the user when they text 
+            The formatted message to send back to the user when they text
             the number of the top level option.
         """
         try:
