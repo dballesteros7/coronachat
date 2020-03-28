@@ -8,6 +8,7 @@ import { MenuItem } from '../../model/model';
 type MenuItemMessageFormProps = {
   menuItem: MenuItem,
   onCloseAndDiscardChanges: () => void,
+  onCloseAndSaveChanges: (menuItem: MenuItem) => void,
   isVisible: boolean
 }
 
@@ -32,9 +33,14 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   const classes = useStyles();
   
   let onCloseMenuItemClicked = () => {
-    console.debug("close pressed")
-    // TODO(MB) validation
+    // TODO(MB) ask discard changes
     props.onCloseAndDiscardChanges();
+  };
+
+  let onSaveMenuItemClicked = () => {
+    console.debug("save pressed")
+    // TODO(MB) validation
+    props.onCloseAndSaveChanges(props.menuItem);
   };
 
   return (
@@ -47,7 +53,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           <Typography variant="h6" className={classes.title}>
             Details
           </Typography>
-          <Button autoFocus color="inherit" onClick={onCloseMenuItemClicked}>
+          <Button autoFocus color="inherit" onClick={onSaveMenuItemClicked}>
             save
           </Button>
         </Toolbar>

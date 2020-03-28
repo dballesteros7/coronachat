@@ -59,17 +59,23 @@ const App = () => {
 
   let openMenuItem = (menuItem: MenuItem) => {
     setIsMenuItemDialogOpen(true);
-    setEditingMenuItem(JSON.parse(JSON.stringify(menuItem)));
+    setEditingMenuItem(menuItem);
   }
 
   let onCloseAndDiscardChanges = () => {
     setIsMenuItemDialogOpen(false);
-    debugger;
     setEditingMenuItem(getInitSelectedMenuItem());
   };
 
-  let oncloseAndSaveChanges = (menuItem: MenuItem) => {
-
+  let onCloseAndSaveChanges = (menuItemToSave: MenuItem) => {
+    setIsMenuItemDialogOpen(false);
+    const updatedTemplate: Template = JSON.parse(JSON.stringify(templateRef.current));
+    // TODO(MB) assuming index (ordering position unique and not changing
+    // while user its editing its details)
+    const menuItemIdx = updatedTemplate.menuItems.findIndex(menuItem => 
+      menuItem.index === menuItemToSave.index);
+    updatedTemplate.menuItems[menuItemIdx] = menuItemToSave;
+    setTemplate(updatedTemplate);
   }
 
   let getEditingMenuItemClone = (): MenuItem => {
@@ -90,6 +96,7 @@ const App = () => {
         <MenuItemMessageForm 
           menuItem={getEditingMenuItemClone()}
           onCloseAndDiscardChanges={onCloseAndDiscardChanges}
+          onCloseAndSaveChanges={onCloseAndSaveChanges}
           isVisible={isMenuItemDialogOpenRef.current}
         />
       {/* } */}

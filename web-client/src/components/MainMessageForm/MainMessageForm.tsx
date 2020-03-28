@@ -15,7 +15,7 @@ type MainMessageFormProps = {
 const MainMessageForm = (props: MainMessageFormProps) => {
 
   var prefillHeaderRef = React.useRef<HTMLButtonElement>(null);
-  var searchBarRef = React.useRef<HTMLInputElement>(null);
+  var mainHeaderTextFieldRef = React.useRef<HTMLInputElement>(null);
 
   let onPrefillMainHeaderClicked = props.onPrefillMainHeaderClicked;
   let onMainHeaderChanged = props.onMainHeaderChanged;
@@ -29,7 +29,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
     const onHeaderTxtFieldInputChanged = function(e: Event) {
       onMainHeaderChanged((e.target as HTMLInputElement).value || '');
     }
-    searchBarRef?.current?.addEventListener("input", onHeaderTxtFieldInputChanged);
+    mainHeaderTextFieldRef?.current?.addEventListener("input", onHeaderTxtFieldInputChanged);
   }, []);
 
   let menuListItems = props.template.menuItems.map(menuItem => {
@@ -53,7 +53,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
         value={props.template.header}
         placeholder={defaultTemplate.header}
         variant="outlined"
-        ref={searchBarRef}
+        ref={mainHeaderTextFieldRef}
       />
       <button ref={prefillHeaderRef}>Prefill</button>
 
