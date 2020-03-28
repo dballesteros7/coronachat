@@ -1,6 +1,4 @@
 """APIs to communicate with the underlying message storage."""
-
-from sqlalchemy.orm import Session
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from .schema import TopLevelMessage, TopLevelOption
@@ -34,7 +32,7 @@ class MessageReader(object):
     way of modifying the state of the system.
     """
 
-    def get_formatted_top_level_message(self, session: Session) -> str:
+    def get_formatted_top_level_message(self) -> str:
         """Reads and formats the top level message and options from storage.
 
         Returns:
@@ -56,7 +54,7 @@ class MessageReader(object):
             3. ...
             4. Profit
         """
-        top_level_message = session.query(TopLevelMessage).first()
+        top_level_message = TopLevelMessage.query.first()
         if top_level_message is None:
             return GENERIC_ERROR_MSG
         top_level_content = top_level_message.header_content
@@ -69,7 +67,7 @@ class MessageReader(object):
             result_msg += '%d. %s\n' % (idx + 1, option.title)
         return result_msg
 
-    def get_option_message(self, session: Session, option_number: int) -> str:
+    def get_option_message(self, option_number: int) -> str:
         """Reads and formats a top level option message.
 
         This method assumes a 1-based index for option_number as this is what
@@ -80,7 +78,7 @@ class MessageReader(object):
             the number of the top level option.
         """
         try:
-            option: TopLevelOption = session.query(TopLevelOption).filter(
+            option: TopLevelOption = TopLevelOption.query.filter(
                 TopLevelOption.position == option_number - 1).one()
             return option.content
         except NoResultFound:
