@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './MainMessageForm.scss';
-import { Template } from '../../model/model';
+import { Template, MenuItem } from '../../model/model';
 import TextField from '@material-ui/core/TextField';
 import { defaultTemplate } from '../../sampleData/defaultTemplate';
 import { List, ListItem, ListItemText, ListSubheader } from '@material-ui/core';
@@ -8,7 +8,8 @@ import { List, ListItem, ListItemText, ListSubheader } from '@material-ui/core';
 type MainMessageFormProps = {
   template: Template,
   onMainHeaderChanged: (newText: string) => void,
-  onPrefillMainHeaderClicked: () => void
+  onPrefillMainHeaderClicked: () => void,
+  onOpenMenuItem: (menuItem: MenuItem) => void
 }
 
 const MainMessageForm = (props: MainMessageFormProps) => {
@@ -17,7 +18,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
   var searchBarRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const onPrefillHeaderClicked = function(event: Event) {
+    const onPrefillHeaderClicked = function(_: Event) {
       props.onPrefillMainHeaderClicked();
     }
     prefillHeaderRef?.current?.addEventListener("click", onPrefillHeaderClicked);
@@ -30,9 +31,10 @@ const MainMessageForm = (props: MainMessageFormProps) => {
 
   let menuListItems = props.template.menuItems.map(menuItem => {
     const itemText = menuItem.index + '. ' + menuItem.title;
+    const onItemClicked = () => props.onOpenMenuItem(menuItem);
     return (
         <ListItem button>
-          <ListItemText primary={itemText} />
+          <ListItemText primary={itemText} onClick={onItemClicked}/>
         </ListItem>
       );
     }
@@ -52,7 +54,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
       />
       <button ref={prefillHeaderRef}>Prefill</button>
 
-      <List subheader={<ListSubheader>Menu</ListSubheader>} component="nav" aria-label="main mailbox folders">
+      <List subheader={<ListSubheader>Menu</ListSubheader>} component="nav">
         {menuListItems}
       </List>
     </div>

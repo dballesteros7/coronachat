@@ -2,7 +2,7 @@ import React, { useState, useRef, Props, Component } from 'react';
 import './App.css';
 import MainMessageForm from './components/MainMessageForm/MainMessageForm';
 import { defaultTemplate } from './sampleData/defaultTemplate';
-import { Template } from './model/model';
+import { Template, MenuItem } from './model/model';
 
 type AppState = {
   template: Template
@@ -18,14 +18,6 @@ class App extends Component<{}, AppState> {
     }
   }
 
-  onPrefillMainHeaderClicked() {
-    this.updateTemplateHeaderInState(defaultTemplate.header);
-  }
-
-  onMainHeaderChanged(newText: string) {
-    this.updateTemplateHeaderInState(newText);
-  }
-
   updateTemplateHeaderInState(headerText: string) {
     const template = this.state.template;
     template.header = headerText;
@@ -34,6 +26,18 @@ class App extends Component<{}, AppState> {
     }, () => {
       console.log("Updated global template", this.state.template);
     });
+  }
+
+  onPrefillMainHeaderClicked() {
+    this.updateTemplateHeaderInState(defaultTemplate.header);
+  }
+
+  onMainHeaderChanged(newText: string) {
+    this.updateTemplateHeaderInState(newText);
+  }
+
+  onOpenMenuItem(menuItem: MenuItem) {
+    console.debug("need to open menu item", menuItem);
   }
 
   render() {
@@ -45,7 +49,8 @@ class App extends Component<{}, AppState> {
         <MainMessageForm 
           template={this.state.template}
           onMainHeaderChanged={(newText) => this.onMainHeaderChanged(newText)}
-          onPrefillMainHeaderClicked={() => this.onPrefillMainHeaderClicked()}/>
+          onPrefillMainHeaderClicked={() => this.onPrefillMainHeaderClicked()}
+          onOpenMenuItem={(menuItem) => this.onOpenMenuItem(menuItem)}/>
       </div>
     );
   }
