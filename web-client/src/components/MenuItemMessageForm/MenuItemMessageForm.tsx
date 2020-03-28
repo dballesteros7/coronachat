@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MenuItemMessageForm.scss';
-import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide } from '@material-ui/core';
+import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, ListSubheader } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close'
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { MenuItem } from '../../model/model';
@@ -78,8 +78,17 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     setMenuItem(updatedMenuItem);
   }
 
+  let footerListItems = menuItem.footerItems.map((footerItem: string, idx: number) => {
+    return (
+        <ListItem key={idx}>
+          <ListItemText primary={footerItem}/>
+        </ListItem>
+      );
+    }
+  );
+
   return (
-    <Dialog fullScreen open={props.isVisible} className="MainMessageForm" 
+    <Dialog fullScreen open={props.isVisible} className="MenuItemMessageForm" 
       onClose={onCloseMenuItemClicked} TransitionComponent={Transition}>
       <AppBar className={classes.appBar}>
         <Toolbar>
@@ -104,13 +113,10 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           onPrefillClicked={onPrefillContentClicked}
           onChange={onContentChanged}
         />
-        <ListItem button>
-          <ListItemText primary="Phone ringtone" secondary="Titania" />
-        </ListItem>
-        <Divider />
-        <ListItem button>
-          <ListItemText primary="Default notification ringtone" secondary="Tethys" />
-        </ListItem>
+        <Divider className="divider"/>
+        <List subheader={<ListSubheader>Footer</ListSubheader>} component="nav">
+        {footerListItems}
+        </List>
       </List>
     </Dialog>
   )

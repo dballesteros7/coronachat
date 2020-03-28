@@ -2,7 +2,7 @@ import React from 'react';
 import './MainMessageForm.scss';
 import { Template, MenuItem } from '../../model/model';
 import { defaultTemplate } from '../../sampleData/defaultTemplate';
-import { List, ListItem, ListItemText, ListSubheader } from '@material-ui/core';
+import { List, ListItem, ListItemText, ListSubheader, Divider } from '@material-ui/core';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
 
 type MainMessageFormProps = {
@@ -38,6 +38,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
         onPrefillClicked={props.onPrefillMainHeaderClicked}
         onChange={props.onMainHeaderChanged}
       />
+      <Divider className="divider"/>
       <List subheader={<ListSubheader>Menu</ListSubheader>} component="nav">
         {menuListItems}
       </List>
