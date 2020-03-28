@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import './MenuItemMessageForm.scss';
-import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, ListSubheader } from '@material-ui/core';
+import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, ListSubheader, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close'
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { MenuItem } from '../../model/model';
@@ -34,6 +34,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   const classes = useStyles();
 
   const [menuItem, setMenuItem] = useState(JSON.parse(JSON.stringify(props.menuItem)));
+
   useEffect(() => {
     // TODO (MB) Ideally, we don't want to update the state if props.menuItem chages
     // to avoid changing info while the user is editing; so this approach is not
@@ -50,7 +51,6 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   };
 
   let onSaveMenuItemClicked = () => {
-    console.debug("save pressed")
     // TODO(MB) validation
     props.onCloseAndSaveChanges(menuItem);
   };
@@ -65,6 +65,12 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   let onContentChanged = (newText: string) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     updatedMenuItem.content = newText;
+    setMenuItem(updatedMenuItem);
+  }
+
+  let onTitleChanged = (newTitle: string) => {
+    let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
+    updatedMenuItem.title = newTitle;
     setMenuItem(updatedMenuItem);
   }
 
@@ -96,6 +102,8 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
         </Toolbar>
       </AppBar>
       <List>
+        <TextField label="Menu item title" value={menuItem.title} variant="outlined" 
+          onChange={e => onTitleChanged(e.target.value)}/>
         <SmartTextArea 
           label='Main content'
           value={menuItem.content}
