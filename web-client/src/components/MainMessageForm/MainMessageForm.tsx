@@ -3,6 +3,7 @@ import './MainMessageForm.scss';
 import { Template } from '../../model/model';
 import TextField from '@material-ui/core/TextField';
 import { defaultTemplate } from '../../sampleData/defaultTemplate';
+import { List, ListItem, ListItemText, ListSubheader } from '@material-ui/core';
 
 type MainMessageFormProps = {
   template: Template,
@@ -27,8 +28,15 @@ const MainMessageForm = (props: MainMessageFormProps) => {
     searchBarRef?.current?.addEventListener("input", onHeaderTxtFieldInputChanged);
   }, []);
 
-  let menuListItems = props.template.menuItems.map(menuItem => 
-    <div key={menuItem.index}>{menuItem.index}. {menuItem.title}</div>);
+  let menuListItems = props.template.menuItems.map(menuItem => {
+    const itemText = menuItem.index + '. ' + menuItem.title;
+    return (
+        <ListItem button>
+          <ListItemText primary={itemText} />
+        </ListItem>
+      );
+    }
+  );
 
   return (
     <div className="MainMessageForm">
@@ -44,10 +52,9 @@ const MainMessageForm = (props: MainMessageFormProps) => {
       />
       <button ref={prefillHeaderRef}>Prefill</button>
 
-      <h4>Menu</h4>
-      <div>
+      <List subheader={<ListSubheader>Menu</ListSubheader>} component="nav" aria-label="main mailbox folders">
         {menuListItems}
-      </div>
+      </List>
     </div>
   );
 };
