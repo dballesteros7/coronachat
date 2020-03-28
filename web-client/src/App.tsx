@@ -38,10 +38,6 @@ const App = () => {
   const initSelectedMenuItem = getInitSelectedMenuItem();
   const [editingMenuItem, setEditingMenuItem] = useState(initSelectedMenuItem);
 
-  useEffect(() => {
-    console.debug("editing item", editingMenuItem);
-  });
-
   let updateTemplateHeaderInState = (headerText: string) => {
     // TODO(MB) check deep copy
     const updatedTemplate = JSON.parse(JSON.stringify(templateRef.current));
