@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './MainMessageForm.scss';
 import { Template, MenuItem } from '../../model/model';
-import TextField from '@material-ui/core/TextField';
 import { defaultTemplate } from '../../sampleData/defaultTemplate';
 import { List, ListItem, ListItemText, ListSubheader } from '@material-ui/core';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
@@ -32,8 +31,9 @@ const MainMessageForm = (props: MainMessageFormProps) => {
           in the components tree several times? (SmartTextArea -> MainMessageForm -> App) 
       */}
       <SmartTextArea 
+        
         value={props.template.header}
-        prefillValue={defaultTemplate.header}
+        placeholder={defaultTemplate.header}
         rows={8}
         onPrefillClicked={props.onPrefillMainHeaderClicked}
         onChange={props.onMainHeaderChanged}

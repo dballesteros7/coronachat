@@ -4,7 +4,7 @@ import { TextField } from '@material-ui/core';
 
 type SmartTextAreaProps = {
   value: string,
-  prefillValue: string,
+  placeholder: string,
   rows: number,
   onPrefillClicked: () => void,
   onChange: (newText: string) => void
@@ -35,7 +35,7 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
         multiline
         rows={props.rows}
         value={props.value}
-        placeholder={props.prefillValue}
+        placeholder={props.placeholder}
         variant="outlined"
         ref={mainHeaderTextFieldRef}
       />
