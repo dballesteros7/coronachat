@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MenuItemMessageForm.scss';
-import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, TextField, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide } from '@material-ui/core';
+import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close'
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { MenuItem } from '../../model/model';
@@ -86,6 +86,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
       </AppBar>
       <List>
         <SmartTextArea 
+          label='Main content'
           value={menuItem.content}
           // TODO(MB) get default value from defaultTemplate for prefilling
           placeholder={''}

@@ -31,7 +31,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
           in the components tree several times? (SmartTextArea -> MainMessageForm -> App) 
       */}
       <SmartTextArea 
-        
+        label='Message header'
         value={props.template.header}
         placeholder={defaultTemplate.header}
         rows={8}

@@ -6,6 +6,7 @@ type SmartTextAreaProps = {
   value: string,
   placeholder: string,
   rows: number,
+  label: string,
   onPrefillClicked: () => void,
   onChange: (newText: string) => void
 }
@@ -31,7 +32,7 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
     <>
       <TextField
         className="text-field"
-        label="Header"
+        label={props.label}
         multiline
         rows={props.rows}
         value={props.value}
