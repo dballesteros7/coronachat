@@ -5,12 +5,21 @@ import CloseIcon from '@material-ui/icons/Close'
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { MenuItem } from '../../model/model';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
+import { defaultTemplate } from '../../sampleData/defaultTemplate';
 
 type MenuItemMessageFormProps = {
   menuItem: MenuItem,
   onCloseAndDiscardChanges: () => void,
   onCloseAndSaveChanges: (menuItem: MenuItem) => void,
   isVisible: boolean
+}
+
+// TODO(MB) assuming index (ordering position unique and not changing
+// while user its editing its details)
+// Does it make sense by index??? what if user reorders. Need a better id
+// Could be moved to utils
+function getDefaultMenuItemWithIndex(index: number): MenuItem | undefined {
+  return defaultTemplate.menuItems.find(menuItem => menuItem.index === index);
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,6 +41,8 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
 const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
 
   const classes = useStyles();
+
+  const defaultMenuItem = getDefaultMenuItemWithIndex(props.menuItem.index);
 
   const [menuItem, setMenuItem] = useState(JSON.parse(JSON.stringify(props.menuItem)));
   useEffect(() => {
@@ -57,7 +68,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
 
   let onPrefillContentClicked = () => {
     let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
-    updatedMenuItem.content = "Prefillleeeed";
+    updatedMenuItem.content = defaultMenuItem?.content || '';
     setMenuItem(updatedMenuItem);
   }
 
@@ -88,8 +99,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
         <SmartTextArea 
           label='Main content'
           value={menuItem.content}
-          // TODO(MB) get default value from defaultTemplate for prefilling
-          placeholder={''}
+          placeholder={defaultMenuItem?.content ?? ''}
           rows={8}
           onPrefillClicked={onPrefillContentClicked}
           onChange={onContentChanged}
