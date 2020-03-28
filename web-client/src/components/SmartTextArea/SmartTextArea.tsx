@@ -13,20 +13,8 @@ type SmartTextAreaProps = {
 
 const SmartTextArea = (props: SmartTextAreaProps) => {
 
-  var prefillHeaderRef = React.useRef<HTMLButtonElement>(null);
-  var mainHeaderTextFieldRef = React.useRef<HTMLInputElement>(null);
-
   let onPrefillClicked = props.onPrefillClicked;
   let onChange = props.onChange;
-
-  useEffect(() => {
-    prefillHeaderRef?.current?.addEventListener("click", onPrefillClicked);
-
-    const onTextChanged = function(e: Event) {
-      onChange((e.target as HTMLInputElement).value || '');
-    }
-    mainHeaderTextFieldRef?.current?.addEventListener("input", onTextChanged);
-  }, []);
 
   return (
     <>
@@ -39,9 +27,9 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
         value={props.value}
         placeholder={props.placeholder}
         variant="outlined"
-        ref={mainHeaderTextFieldRef}
+        onChange={e => onChange(e.target.value)}
       />
-      <button ref={prefillHeaderRef}>Prefill</button>
+      <button onClick={_ => onPrefillClicked()}>Prefill</button>
     </>
   )
 };
