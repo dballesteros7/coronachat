@@ -3,32 +3,22 @@ import './App.css';
 import MainMessageForm from './components/MainMessageForm/MainMessageForm';
 import { defaultTemplate } from './sampleData/defaultTemplate';
 import { Template, MenuItem } from './model/model';
-import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, Slide, makeStyles, Theme, createStyles } from '@material-ui/core';
-import { TransitionProps } from '@material-ui/core/transitions/transition';
-import CloseIcon from '@material-ui/icons/Close'
+import MenuItemMessageForm from './components/MenuItemMessageForm/MenuItemMessageForm';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    appBar: {
-      position: 'relative',
-    },
-    title: {
-      marginLeft: theme.spacing(2),
-      flex: 1,
-    },
-  }),
-);
-
-const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
+function getInitSelectedMenuItem(): MenuItem {
+    // TODO(MB) could set initial value to null without compiler complaining
+  return {
+    title: '',
+    index: -1,
+    footerItems: [],
+    content: ''
+  };  
+}
 
 const App = () => {
-  const classes = useStyles();
 
   // TODO(MB) is this really the simplest way that allows using setState inside
-  // an event handler?
+  // an event handler? see https://medium.com/geographit/accessing-react-state-in-event-listeners-with-usestate-and-useref-hooks-8cceee73c559
   const [_template, _setTemplate] = useState(JSON.parse(JSON.stringify(defaultTemplate)));
   var templateRef = useRef(_template);
   const setTemplate = (newTemplate: Template) => {
@@ -42,6 +32,10 @@ const App = () => {
     isMenuItemDialogOpenRef.current = newValue;
     _setIsMenuItemDialogOpen(newValue);
   }
+
+  const initSelectedMenuItem = getInitSelectedMenuItem();
+  const [editingMenuItem, setEditingMenuItem] = useState(initSelectedMenuItem);
+
 
   let updateTemplateHeaderInState = (headerText: string) => {
     // TODO(MB) check deep copy
@@ -60,10 +54,12 @@ const App = () => {
 
   let openMenuItem = (menuItem: MenuItem) => {
     setIsMenuItemDialogOpen(true);
+    setEditingMenuItem(JSON.parse(JSON.stringify(menuItem)));
   }
 
   let onCloseMenuItemClicked = () => {
     setIsMenuItemDialogOpen(false);
+    setEditingMenuItem(getInitSelectedMenuItem());
   };
 
   return (
@@ -76,30 +72,7 @@ const App = () => {
         onMainHeaderChanged={(newText) => onMainHeaderChanged(newText)}
         onPrefillMainHeaderClicked={() => onPrefillMainHeaderClicked()}
         onOpenMenuItem={(menuItem) => openMenuItem(menuItem)}/>
-        <Dialog fullScreen open={isMenuItemDialogOpenRef.current} onClose={onCloseMenuItemClicked} TransitionComponent={Transition}>
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton edge="start" color="inherit" onClick={onCloseMenuItemClicked} aria-label="close">
-                <CloseIcon />
-              </IconButton>
-              <Typography variant="h6" className={classes.title}>
-                Sound
-              </Typography>
-              <Button autoFocus color="inherit" onClick={onCloseMenuItemClicked}>
-                save
-              </Button>
-            </Toolbar>
-          </AppBar>
-          <List>
-            <ListItem button>
-              <ListItemText primary="Phone ringtone" secondary="Titania" />
-            </ListItem>
-            <Divider />
-            <ListItem button>
-              <ListItemText primary="Default notification ringtone" secondary="Tethys" />
-            </ListItem>
-          </List>
-        </Dialog>
+      {isMenuItemDialogOpenRef.current && <MenuItemMessageForm/>}
     </div>
   );
 }
