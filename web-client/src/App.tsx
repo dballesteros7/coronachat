@@ -62,10 +62,15 @@ const App = () => {
     setEditingMenuItem(JSON.parse(JSON.stringify(menuItem)));
   }
 
-  let onCloseMenuItemClicked = () => {
+  let onCloseAndDiscardChanges = () => {
     setIsMenuItemDialogOpen(false);
+    debugger;
     setEditingMenuItem(getInitSelectedMenuItem());
   };
+
+  let oncloseAndSaveChanges = (menuItem: MenuItem) => {
+
+  }
 
   let getEditingMenuItemClone = (): MenuItem => {
     return JSON.parse(JSON.stringify(editingMenuItem));
@@ -81,8 +86,13 @@ const App = () => {
         onMainHeaderChanged={(newText) => onMainHeaderChanged(newText)}
         onPrefillMainHeaderClicked={() => onPrefillMainHeaderClicked()}
         onOpenMenuItem={(menuItem) => openMenuItem(menuItem)}/>
-      {isMenuItemDialogOpenRef.current && 
-        <MenuItemMessageForm menuItem={getEditingMenuItemClone()}/>}
+      {/* {isMenuItemDialogOpenRef.current &&  */}
+        <MenuItemMessageForm 
+          menuItem={getEditingMenuItemClone()}
+          onCloseAndDiscardChanges={onCloseAndDiscardChanges}
+          isVisible={isMenuItemDialogOpenRef.current}
+        />
+      {/* } */}
     </div>
   );
 }

@@ -6,7 +6,9 @@ import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { MenuItem } from '../../model/model';
 
 type MenuItemMessageFormProps = {
-  menuItem: MenuItem
+  menuItem: MenuItem,
+  onCloseAndDiscardChanges: () => void,
+  isVisible: boolean
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,10 +33,12 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   
   let onCloseMenuItemClicked = () => {
     console.debug("close pressed")
+    // TODO(MB) validation
+    props.onCloseAndDiscardChanges();
   };
 
   return (
-    <Dialog fullScreen open={true} className="MainMessageForm" onClose={onCloseMenuItemClicked} TransitionComponent={Transition}>
+    <Dialog fullScreen open={props.isVisible} className="MainMessageForm" onClose={onCloseMenuItemClicked} TransitionComponent={Transition}>
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton edge="start" color="inherit" onClick={onCloseMenuItemClicked} aria-label="close">
