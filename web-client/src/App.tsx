@@ -139,6 +139,13 @@ const App = () => {
     return JSON.parse(JSON.stringify(editingMenuItem));
   }
 
+  let getMessagePreviewText = (): string => {
+    const menuText = templateRef.current.menuItems.reduce((titlesArray, item, idx) => 
+      titlesArray.concat(`${idx + 1}. ${item.title}`), [] as string[]).join('\n');
+    const text = templateRef.current.header + '\n' + menuText;
+    return text;
+  }
+
   let mainForm = (
     <MainMessageForm 
     template={templateRef.current}
@@ -150,7 +157,7 @@ const App = () => {
 
   let messagePreview = (
     <div className="msg-preview-box">
-      <MessagePreview value="very very very *very* _very_ ~very~ ```very``` very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long text"/>
+      <MessagePreview value={getMessagePreviewText()}/>
     </div>
   );
 
