@@ -136,6 +136,8 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           <List component="nav">{footerListItems}</List>
         {/* </List> */}
       </div>
+      {/* TODO(MB) there must be a better way to show a dialog/aler/toast (that may rarely be opened) programmatically 
+          than keeping a variable in the state all the time*/}
       {isDiscardChangesShowing && 
         <Dialog
           open={true}
