@@ -112,7 +112,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
             label='Main content'
             value={menuItem.content}
             placeholder={'Write the main content of your message here. You can use some existing text by pressing the "Prefill button"'}
-            rows={8}
+            rows={11}
             onPrefillClicked={onPrefillContentClicked}
             onChange={onContentChanged}
           />
