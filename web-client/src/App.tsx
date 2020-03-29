@@ -58,6 +58,7 @@ const App = () => {
   const classes = useStyles();
 
   useEffect(() => {
+    // TODO(MB) add some loading UI
     coronaChatAPI.getTemplate().then(template => {
       console.debug("Got template from server", template);
       setTemplate(template);
@@ -131,6 +132,11 @@ const App = () => {
     } else {
       // TODO(MB) send to server instead of pushing, then add when received success from server
       updatedTemplate.menuItems.push(menuItemToSave);
+      coronaChatAPI.updateTemplate(updatedTemplate).then(() => {
+        console.debug("Template updated successfully");
+      }).catch(error => {
+        console.error("Update template server request failed with error", error);
+      });
     }
     setTemplate(updatedTemplate);
   }
