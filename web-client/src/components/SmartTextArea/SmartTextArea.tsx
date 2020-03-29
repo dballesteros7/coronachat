@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SmartTextArea.scss';
 import { TextField, Button } from '@material-ui/core';
 
@@ -19,6 +19,10 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
 
   const [isEditingEnabled, setIsEditingEnabled] = useState(!props.showEdit);
   const [value, setValue]= useState(props.value);
+
+  useEffect(() => {
+    setValue(props.value);
+  }, [props.value])
 
   const onPrefillClicked = () => {
     if (props.prefillValue) {
