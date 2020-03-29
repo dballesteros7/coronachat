@@ -7,6 +7,7 @@ import MenuItemMessageForm from './components/MenuItemMessageForm/MenuItemMessag
 import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { CoronaChatAPI } from './services/CoronaChatAPI';
 import MessagePreview from './components/MessagePreview/MessagePreview';
+import SplitLayout from './components/SplitLayout/SplitLayout';
 
 function getInitSelectedMenuItem(): MenuItem {
   // TODO(MB) could set initial value to null without compiler complaining
@@ -138,6 +139,21 @@ const App = () => {
     return JSON.parse(JSON.stringify(editingMenuItem));
   }
 
+  let mainForm = (
+    <MainMessageForm 
+    template={templateRef.current}
+    onMainHeaderChanged={onMainHeaderChanged}
+    onPrefillMainHeaderClicked={onPrefillMainHeaderClicked}
+    onAddMenuItemClicked={onAddMenuItemClicked}
+    onOpenMenuItem={openMenuItem}/>
+  );
+
+  let messagePreview = (
+    <div className="msg-preview-box">
+      <MessagePreview value="very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long text"/>
+    </div>
+  );
+
   return (
     <ThemeProvider theme={theme}>
       {/* TODO(MB) create a custom appbar reusable component and use it everywhere */}
@@ -149,21 +165,16 @@ const App = () => {
         </Toolbar>
       </AppBar>
       <div className="App covid-container">
-        <MainMessageForm 
-          template={templateRef.current}
-          onMainHeaderChanged={onMainHeaderChanged}
-          onPrefillMainHeaderClicked={onPrefillMainHeaderClicked}
-          onAddMenuItemClicked={onAddMenuItemClicked}
-          onOpenMenuItem={openMenuItem}/>
-          <MenuItemMessageForm 
-            menuItem={getEditingMenuItemClone()}
-            onCloseAndDiscardChanges={onCloseAndDiscardChanges}
-            onCloseAndSaveChanges={onCloseAndSaveChanges}
-            isVisible={isMenuItemDialogOpenRef.current}
-          />
-          <div style={{width: "500px"}}>
-            <MessagePreview value="very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long text"/>
-          </div>
+        <MenuItemMessageForm 
+          menuItem={getEditingMenuItemClone()}
+          onCloseAndDiscardChanges={onCloseAndDiscardChanges}
+          onCloseAndSaveChanges={onCloseAndSaveChanges}
+          isVisible={isMenuItemDialogOpenRef.current}
+        />
+        <SplitLayout
+          mainContent = {mainForm}
+          optionalContent = {messagePreview}
+        />
       </div>
     </ThemeProvider>
   );
