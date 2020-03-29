@@ -92,7 +92,7 @@ const App = () => {
   }
 
   return (
-    <div className="App">
+    <div className="App covid-container">
       <h1>
         Main message
       </h1>

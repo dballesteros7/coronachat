@@ -2,7 +2,7 @@ import React from 'react';
 import './MainMessageForm.scss';
 import { Template, MenuItem } from '../../model/model';
 import { defaultTemplate } from '../../sampleData/defaultTemplate';
-import { List, ListItem, ListItemText, ListSubheader, Divider, TextField } from '@material-ui/core';
+import { List, ListItem, ListItemText, Divider } from '@material-ui/core';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
 
 type MainMessageFormProps = {
@@ -19,7 +19,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
     const itemText = (idx + 1) + '. ' + menuItem.title;
     const onItemClicked = () => props.onOpenMenuItem(menuItem);
     return (
-        <ListItem button key={idx}>
+        <ListItem button key={idx} dense>
           <ListItemText primary={itemText} onClick={onItemClicked}/>
         </ListItem>
       );
@@ -41,7 +41,8 @@ const MainMessageForm = (props: MainMessageFormProps) => {
       />
       <Divider className="divider"/>
       <button onClick={props.onAddMenuItemClicked}>Add item</button>
-      <List subheader={<ListSubheader>Menu</ListSubheader>} component="nav">
+      <h3 className="covid-title">Menu</h3>
+      <List>
         {menuListItems}
       </List>
     </div>

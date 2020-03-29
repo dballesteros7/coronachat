@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MenuItemMessageForm.scss';
 import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, ListSubheader, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close'
@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
       position: 'relative',
+      backgroundColor: '#1EBEA5'
     },
     title: {
       marginLeft: theme.spacing(2),
@@ -76,7 +77,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
 
   let footerListItems = menuItem.footerItems.map((footerItem: string, idx: number) => {
     return (
-        <ListItem key={idx}>
+        <ListItem key={idx} dense>
           <ListItemText primary={footerItem}/>
         </ListItem>
       );
@@ -101,22 +102,25 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           </Button>
         </Toolbar>
       </AppBar>
-      <List>
-        <TextField label="Menu item title" value={menuItem.title} variant="outlined" 
-          onChange={e => onTitleChanged(e.target.value)}/>
-        <SmartTextArea 
-          label='Main content'
-          value={menuItem.content}
-          placeholder={'Write the main content of your message here. You can use some existing text by pressing the "Prefill button"'}
-          rows={8}
-          onPrefillClicked={onPrefillContentClicked}
-          onChange={onContentChanged}
-        />
-        <Divider className="divider"/>
-        <List subheader={<ListSubheader>Footer</ListSubheader>} component="nav">
-        {footerListItems}
+      <div className="covid-container">
+        <List>
+          <h3 className="covid-title">Menu item title</h3>
+          <TextField value={menuItem.title} variant="outlined" 
+            onChange={e => onTitleChanged(e.target.value)}/>
+          <Divider className="divider"/>
+          <SmartTextArea 
+            label='Main content'
+            value={menuItem.content}
+            placeholder={'Write the main content of your message here. You can use some existing text by pressing the "Prefill button"'}
+            rows={8}
+            onPrefillClicked={onPrefillContentClicked}
+            onChange={onContentChanged}
+          />
+          <Divider className="divider"/>
+          <h3 className="covid-title">Footer</h3>
+          <List component="nav">{footerListItems}</List>
         </List>
-      </List>
+      </div>
     </Dialog>
   )
 };

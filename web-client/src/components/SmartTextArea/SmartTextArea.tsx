@@ -17,11 +17,11 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
   let onChange = props.onChange;
 
   return (
-    <>
+    <div className="SmartTextArea">
+      <h3 className="covid-title">{props.label}</h3>
       <TextField
         fullWidth
         className="text-field"
-        label={props.label}
         multiline
         rows={props.rows}
         value={props.value}
@@ -30,7 +30,7 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
         onChange={e => onChange(e.target.value)}
       />
       <button onClick={_ => onPrefillClicked()}>Prefill</button>
-    </>
+    </div>
   )
 };
 
