@@ -150,7 +150,7 @@ const App = () => {
 
   let messagePreview = (
     <div className="msg-preview-box">
-      <MessagePreview value="very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long text"/>
+      <MessagePreview value="very very very *very* _very_ ~very~ ```very``` very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long text"/>
     </div>
   );
 
