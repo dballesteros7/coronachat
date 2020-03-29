@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MenuItemMessageForm.scss';
-import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, ListSubheader, TextField } from '@material-ui/core';
+import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, ListSubheader, TextField, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close'
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { MenuItem } from '../../model/model';
@@ -37,6 +37,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   const [menuItem, setMenuItem] = useState(JSON.parse(JSON.stringify(props.menuItem)));
   const [isTitleInvalid, setIsTitleInvalid] = useState(false);
   const [isContentInvalid, setIsContentInvalid] = useState(false);
+  const [isDiscardChangesShowing, setIsDiscardChangesShowing] = useState(false);
 
   useEffect(() => {
     // TODO (MB) Ideally, we don't want to update the state if props.menuItem chages
@@ -49,12 +50,15 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   }, [props.menuItem])
 
   let onCloseMenuItemClicked = () => {
-    // TODO(MB) ask discard changes
-    props.onCloseAndDiscardChanges();
+    setIsDiscardChangesShowing(true);
   };
 
+  let onDiscardChangesClicked = () => {
+    props.onCloseAndDiscardChanges();
+    setIsDiscardChangesShowing(false);
+  }
+
   let onSaveMenuItemClicked = () => {
-    // TODO(MB) validation
     props.onCloseAndSaveChanges(menuItem);
   };
 
@@ -132,6 +136,28 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           <List component="nav">{footerListItems}</List>
         {/* </List> */}
       </div>
+      {isDiscardChangesShowing && 
+        <Dialog
+          open={true}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Are you sure to discard your changes?"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              If you close you will lose any change that you may have made.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={onDiscardChangesClicked} color="primary">
+              Yes, discard and close
+            </Button>
+            <Button onClick={() => setIsDiscardChangesShowing(false)} color="primary" style={{fontWeight: 'bold'}} autoFocus>
+              No, continue editing
+            </Button>
+          </DialogActions>
+        </Dialog>
+      }
     </Dialog>
   )
 };
