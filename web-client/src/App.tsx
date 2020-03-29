@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import MainMessageForm from './components/MainMessageForm/MainMessageForm';
 import { defaultTemplate, defaultFooterItemBackToMenu } from './sampleData/defaultTemplate';
 import { Template, MenuItem } from './model/model';
 import MenuItemMessageForm from './components/MenuItemMessageForm/MenuItemMessageForm';
 import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, ThemeProvider, createMuiTheme } from '@material-ui/core';
+import { CoronaChatAPI } from './services/CoronaChatAPI';
 
 function getInitSelectedMenuItem(): MenuItem {
   // TODO(MB) could set initial value to null without compiler complaining
@@ -14,6 +15,13 @@ function getInitSelectedMenuItem(): MenuItem {
     footerItems: [defaultFooterItemBackToMenu],
     content: ''
   };  
+}
+
+function getEmptyTemplate(): Template {
+  return {
+    header: '',
+    menuItems: []
+  }
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,11 +50,21 @@ const theme = createMuiTheme({
 });
 
 const App = () => {
+
+  const coronaChatAPI = new CoronaChatAPI();
+
   const classes = useStyles();
+
+  useEffect(() => {
+    coronaChatAPI.getTemplate().then(template => {
+      console.debug("Got template from server", template);
+      setTemplate(template);
+    }).catch(error => console.error(error));
+  }, []);
 
   // TODO(MB) is this really the simplest way that allows using setState inside
   // an event handler? see https://medium.com/geographit/accessing-react-state-in-event-listeners-with-usestate-and-useref-hooks-8cceee73c559
-  const [_template, _setTemplate] = useState(JSON.parse(JSON.stringify(defaultTemplate)));
+  const [_template, _setTemplate] = useState(getEmptyTemplate());
   var templateRef = useRef(_template);
   const setTemplate = (newTemplate: Template) => {
     templateRef.current = newTemplate;
