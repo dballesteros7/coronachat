@@ -103,6 +103,14 @@ const App = () => {
     updateTemplateHeaderInState(newText);
   }
 
+  let onSaveMainHeaderClicked = (_: string) => {
+    coronaChatAPI.updateTemplate(templateRef.current).then(() => {
+      console.debug("Template updated successfully");
+    }).catch(error => {
+      console.error("Update template server request failed with error", error);
+    });
+  }
+
   let openMenuItem = (menuItem: MenuItem) => {
     setEditingMenuItem(menuItem);
     setIsMenuItemDialogOpen(true);
@@ -130,14 +138,15 @@ const App = () => {
     if (menuItemIdx > -1) {
       updatedTemplate.menuItems[menuItemIdx] = menuItemToSave;
     } else {
-      // TODO(MB) send to server instead of pushing, then add when received success from server
+      // TODO(MB) add them to the list only when received success from server
+      // when post of single menu item is ready
       updatedTemplate.menuItems.push(menuItemToSave);
-      coronaChatAPI.updateTemplate(updatedTemplate).then(() => {
-        console.debug("Template updated successfully");
-      }).catch(error => {
-        console.error("Update template server request failed with error", error);
-      });
     }
+    coronaChatAPI.updateTemplate(updatedTemplate).then(() => {
+      console.debug("Template updated successfully");
+    }).catch(error => {
+      console.error("Update template server request failed with error", error);
+    });
     setTemplate(updatedTemplate);
   }
 
@@ -158,6 +167,7 @@ const App = () => {
     onMainHeaderChanged={onMainHeaderChanged}
     onPrefillMainHeaderClicked={onPrefillMainHeaderClicked}
     onAddMenuItemClicked={onAddMenuItemClicked}
+    onSaveMainHeaderClicked={onSaveMainHeaderClicked}
     onOpenMenuItem={openMenuItem}/>
   );
 

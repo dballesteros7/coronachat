@@ -10,7 +10,8 @@ type MainMessageFormProps = {
   onMainHeaderChanged: (newText: string) => void,
   onPrefillMainHeaderClicked: () => void,
   onOpenMenuItem: (menuItem: MenuItem) => void,
-  onAddMenuItemClicked: () => void
+  onAddMenuItemClicked: () => void,
+  onSaveMainHeaderClicked: (text: string) => void
 }
 
 const MainMessageForm = (props: MainMessageFormProps) => {
@@ -41,7 +42,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
         placeholder='Write here a custom description about this service or press PREFILL to get a standard message'
         onPrefillClicked={props.onPrefillMainHeaderClicked}
         onChange={props.onMainHeaderChanged}
-        onSaveClicked={props.onMainHeaderChanged}
+        onSaveClicked={props.onSaveMainHeaderClicked}
       />
       <Divider className="divider"/>
       <span className="covid-title-box">
