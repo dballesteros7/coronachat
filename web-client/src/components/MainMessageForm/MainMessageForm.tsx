@@ -2,7 +2,7 @@ import React from 'react';
 import './MainMessageForm.scss';
 import { Template, MenuItem } from '../../model/model';
 import { defaultTemplate } from '../../sampleData/defaultTemplate';
-import { List, ListItem, ListItemText, Divider } from '@material-ui/core';
+import { List, ListItem, ListItemText, Divider, Button } from '@material-ui/core';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
 
 type MainMessageFormProps = {
@@ -43,8 +43,13 @@ const MainMessageForm = (props: MainMessageFormProps) => {
         onSaveClicked={props.onMainHeaderChanged}
       />
       <Divider className="divider"/>
-      <button onClick={props.onAddMenuItemClicked}>Add item</button>
-      <h3 className="covid-title">Menu</h3>
+      <span className="covid-title-box">
+        <h3 className="covid-title">SUB-MESSAGE MENU</h3>
+        <span className="action-button-group">
+          <Button size="small" color="primary"
+            onClick={props.onAddMenuItemClicked}>ADD ITEM</Button>
+        </span>
+      </span>
       <List>
         {menuListItems}
       </List>
