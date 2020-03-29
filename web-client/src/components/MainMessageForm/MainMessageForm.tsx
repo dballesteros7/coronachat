@@ -38,6 +38,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
         value={props.template.header}
         prefillValue={defaultTemplate.header}
         rows={8}
+        placeholder='Write here a custom description about this service or press PREFILL to get a standard message'
         onPrefillClicked={props.onPrefillMainHeaderClicked}
         onChange={props.onMainHeaderChanged}
         onSaveClicked={props.onMainHeaderChanged}

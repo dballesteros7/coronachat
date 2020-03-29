@@ -104,8 +104,8 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
       </AppBar>
       <div className="covid-container">
         {/* <List> */}
-          <h3 className="covid-title">Menu item title</h3>
-          <TextField value={menuItem.title} variant="outlined" 
+          <h3 className="covid-title">Sub-message title</h3>
+          <TextField fullWidth placeholder="Write the text to show next to the menu item number" value={menuItem.title} variant="outlined" 
             onChange={e => onTitleChanged(e.target.value)}/>
           <Divider className="divider"/>
           <SmartTextArea 
@@ -114,6 +114,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
             label='Main content'
             value={menuItem.content}
             rows={11}
+            placeholder='Write here the main content of the sub-message'
             onPrefillClicked={onPrefillContentClicked}
             onChange={onContentChanged}
             onSaveClicked={onContentChanged}

@@ -9,6 +9,7 @@ type SmartTextAreaProps = {
   label: string,
   showEdit: boolean,
   showPrefill: boolean,
+  placeholder: string,
   onSaveClicked: (text: string) => void,
   onPrefillClicked: () => void,
   onChange?: (newText: string) => void
@@ -52,6 +53,7 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
       </span>
       <TextField
         fullWidth
+        placeholder={isEditingEnabled ? props.placeholder : ''}
         className="text-field"
         multiline
         disabled={!isEditingEnabled}
