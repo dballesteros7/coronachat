@@ -62,7 +62,10 @@ const App = () => {
     coronaChatAPI.getTemplate().then(template => {
       console.debug("Got template from server", template);
       setTemplate(template);
-    }).catch(error => console.error(error));
+    }).catch(error => {
+      // TODO(MB) notify user
+      console.error(error);
+    });
   }, []);
 
   // TODO(MB) is this really the simplest way that allows using setState inside
@@ -107,6 +110,7 @@ const App = () => {
     coronaChatAPI.updateTemplate(templateRef.current).then(() => {
       console.debug("Template updated successfully");
     }).catch(error => {
+      // TODO(MB) notify user
       console.error("Update template server request failed with error", error);
     });
   }
@@ -145,6 +149,7 @@ const App = () => {
     coronaChatAPI.updateTemplate(updatedTemplate).then(() => {
       console.debug("Template updated successfully");
     }).catch(error => {
+      // TODO(MB) notify user
       console.error("Update template server request failed with error", error);
     });
     setTemplate(updatedTemplate);

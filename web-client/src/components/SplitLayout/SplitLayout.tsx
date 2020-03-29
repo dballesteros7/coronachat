@@ -1,4 +1,4 @@
-import React, { ReactComponentElement } from 'react';
+import React from 'react';
 import './SplitLayout.scss';
 
 type SplitLayoutProps = {

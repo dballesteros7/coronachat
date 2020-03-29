@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MenuItemMessageForm.scss';
-import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, ListSubheader, TextField, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, TextField, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close'
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { MenuItem } from '../../model/model';
@@ -73,14 +73,14 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     updatedMenuItem.content = newText;
     setMenuItem(updatedMenuItem);
-    setIsContentInvalid(newText.length == 0);
+    setIsContentInvalid(newText.length === 0);
   }
 
   let onTitleChanged = (newTitle: string) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     updatedMenuItem.title = newTitle;
     setMenuItem(updatedMenuItem);
-    setIsTitleInvalid(newTitle.length == 0);
+    setIsTitleInvalid(newTitle.length === 0);
   }
 
   let footerListItems = menuItem.footerItems.map((footerItem: string, idx: number) => {
