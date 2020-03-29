@@ -6,5 +6,6 @@ $covid-margin: 20px;
 }
 
 .covid-container {
-  margin: $covid-margin;
+  padding: $covid-margin;
+  padding-top: 0;
 }

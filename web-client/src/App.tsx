@@ -4,6 +4,7 @@ import MainMessageForm from './components/MainMessageForm/MainMessageForm';
 import { defaultTemplate, defaultFooterItemBackToMenu } from './sampleData/defaultTemplate';
 import { Template, MenuItem } from './model/model';
 import MenuItemMessageForm from './components/MenuItemMessageForm/MenuItemMessageForm';
+import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography } from '@material-ui/core';
 
 function getInitSelectedMenuItem(): MenuItem {
   // TODO(MB) could set initial value to null without compiler complaining
@@ -15,7 +16,22 @@ function getInitSelectedMenuItem(): MenuItem {
   };  
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    appBar: {
+      position: 'relative',
+      backgroundColor: '#1EBEA5'
+    },
+    title: {
+      marginLeft: theme.spacing(2),
+      flex: 1,
+    },
+  }),
+);
+
 const App = () => {
+  const classes = useStyles();
+
   // TODO(MB) is this really the simplest way that allows using setState inside
   // an event handler? see https://medium.com/geographit/accessing-react-state-in-event-listeners-with-usestate-and-useref-hooks-8cceee73c559
   const [_template, _setTemplate] = useState(JSON.parse(JSON.stringify(defaultTemplate)));
@@ -92,25 +108,32 @@ const App = () => {
   }
 
   return (
-    <div className="App covid-container">
-      <h1>
-        Main message
-      </h1>
-      <MainMessageForm 
-        template={templateRef.current}
-        onMainHeaderChanged={onMainHeaderChanged}
-        onPrefillMainHeaderClicked={onPrefillMainHeaderClicked}
-        onAddMenuItemClicked={onAddMenuItemClicked}
-        onOpenMenuItem={openMenuItem}/>
-      {/* {isMenuItemDialogOpenRef.current &&  */}
-        <MenuItemMessageForm 
-          menuItem={getEditingMenuItemClone()}
-          onCloseAndDiscardChanges={onCloseAndDiscardChanges}
-          onCloseAndSaveChanges={onCloseAndSaveChanges}
-          isVisible={isMenuItemDialogOpenRef.current}
-        />
-      {/* } */}
-    </div>
+    <>
+      {/* TODO(MB) create a custom appbar reusable component and use it everywhere */}
+      <AppBar className={classes.appBar}>
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            Initial message
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <div className="App covid-container">
+        <MainMessageForm 
+          template={templateRef.current}
+          onMainHeaderChanged={onMainHeaderChanged}
+          onPrefillMainHeaderClicked={onPrefillMainHeaderClicked}
+          onAddMenuItemClicked={onAddMenuItemClicked}
+          onOpenMenuItem={openMenuItem}/>
+        {/* {isMenuItemDialogOpenRef.current &&  */}
+          <MenuItemMessageForm 
+            menuItem={getEditingMenuItemClone()}
+            onCloseAndDiscardChanges={onCloseAndDiscardChanges}
+            onCloseAndSaveChanges={onCloseAndSaveChanges}
+            isVisible={isMenuItemDialogOpenRef.current}
+          />
+        {/* } */}
+      </div>
+    </>
   );
 }
 

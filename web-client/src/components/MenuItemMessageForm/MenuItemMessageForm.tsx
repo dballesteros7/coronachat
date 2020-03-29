@@ -103,7 +103,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
         </Toolbar>
       </AppBar>
       <div className="covid-container">
-        <List>
+        {/* <List> */}
           <h3 className="covid-title">Menu item title</h3>
           <TextField value={menuItem.title} variant="outlined" 
             onChange={e => onTitleChanged(e.target.value)}/>
@@ -119,7 +119,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           <Divider className="divider"/>
           <h3 className="covid-title">Footer</h3>
           <List component="nav">{footerListItems}</List>
-        </List>
+        {/* </List> */}
       </div>
     </Dialog>
   )
