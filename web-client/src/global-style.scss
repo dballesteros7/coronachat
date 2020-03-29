@@ -1,5 +1,16 @@
 $covid-margin: 20px;
 
+.covid-title-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .action-button-group {
+    padding-top: 15px;
+    padding-bottom: 4px;
+  }
+}
+
 .covid-title {
   font-weight: lighter;
   margin-bottom: 6px;

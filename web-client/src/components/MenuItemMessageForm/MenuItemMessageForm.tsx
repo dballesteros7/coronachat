@@ -16,12 +16,12 @@ type MenuItemMessageFormProps = {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
-      position: 'relative',
-      backgroundColor: '#1EBEA5'
+      position: 'relative'
     },
     title: {
       marginLeft: theme.spacing(2),
       flex: 1,
+      color: 'white'
     },
   }),
 );
@@ -90,14 +90,14 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
       onClose={onCloseMenuItemClicked} TransitionComponent={Transition}>
       <AppBar className={classes.appBar}>
         <Toolbar>
-          <IconButton edge="start" color="inherit" 
+          <IconButton edge="start" color="secondary" 
           onClick={onCloseMenuItemClicked} aria-label="close">
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             Details
           </Typography>
-          <Button autoFocus color="inherit" onClick={onSaveMenuItemClicked}>
+          <Button autoFocus color="secondary" onClick={onSaveMenuItemClicked}>
             save
           </Button>
         </Toolbar>
@@ -109,12 +109,14 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
             onChange={e => onTitleChanged(e.target.value)}/>
           <Divider className="divider"/>
           <SmartTextArea 
+            showPrefill={false}
+            showEdit={false}
             label='Main content'
             value={menuItem.content}
-            placeholder={'Write the main content of your message here. You can use some existing text by pressing the "Prefill button"'}
             rows={11}
             onPrefillClicked={onPrefillContentClicked}
             onChange={onContentChanged}
+            onSaveClicked={onContentChanged}
           />
           <Divider className="divider"/>
           <h3 className="covid-title">Footer</h3>

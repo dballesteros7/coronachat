@@ -32,12 +32,15 @@ const MainMessageForm = (props: MainMessageFormProps) => {
           in the components tree several times? (SmartTextArea -> MainMessageForm -> App) 
       */}
       <SmartTextArea 
+        showPrefill={true}
+        showEdit={true}
         label='Message header'
         value={props.template.header}
-        placeholder={defaultTemplate.header}
+        prefillValue={defaultTemplate.header}
         rows={8}
         onPrefillClicked={props.onPrefillMainHeaderClicked}
         onChange={props.onMainHeaderChanged}
+        onSaveClicked={props.onMainHeaderChanged}
       />
       <Divider className="divider"/>
       <button onClick={props.onAddMenuItemClicked}>Add item</button>

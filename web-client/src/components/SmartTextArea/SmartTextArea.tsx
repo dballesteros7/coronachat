@@ -1,35 +1,65 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import './SmartTextArea.scss';
-import { TextField } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 
 type SmartTextAreaProps = {
   value: string,
-  placeholder: string,
+  prefillValue?: string,
   rows: number,
   label: string,
+  showEdit: boolean,
+  showPrefill: boolean,
+  onSaveClicked: (text: string) => void,
   onPrefillClicked: () => void,
-  onChange: (newText: string) => void
+  onChange?: (newText: string) => void
 }
 
 const SmartTextArea = (props: SmartTextAreaProps) => {
 
-  let onPrefillClicked = props.onPrefillClicked;
-  let onChange = props.onChange;
+  const [isEditingEnabled, setIsEditingEnabled] = useState(!props.showEdit);
+  const [value, setValue]= useState(props.value);
+
+  const onPrefillClicked = () => {
+    if (props.prefillValue) {
+      setValue(props.prefillValue);
+    }
+    props.onPrefillClicked();
+  };
+
+  const onChange = (text: string) => {
+    setValue(text);
+    if (props.onChange) {
+      props.onChange(text);
+    }
+  }
+  const onSaveClicked = () => {
+    setIsEditingEnabled(false);
+    props.onSaveClicked(value);
+  }
 
   return (
     <div className="SmartTextArea">
-      <h3 className="covid-title">{props.label}</h3>
+      <span className="covid-title-box">
+        <h3 className="covid-title">{props.label}</h3>
+        <span className="action-button-group">
+          {!isEditingEnabled && props.showEdit && <Button size="small" color="primary"
+            onClick={_ => setIsEditingEnabled(true)}>EDIT</Button>}
+          {isEditingEnabled && props.showPrefill && <Button size="small" color="primary"
+            onClick={_ => onPrefillClicked()}>PREFILL</Button>}
+          {isEditingEnabled && props.showEdit && <Button color="primary" size="small" 
+            className="save-button" onClick={_ => onSaveClicked()}>DONE</Button>}
+        </span>
+      </span>
       <TextField
         fullWidth
         className="text-field"
         multiline
+        disabled={!isEditingEnabled}
         rows={props.rows}
-        value={props.value}
-        placeholder={props.placeholder}
+        value={value}
         variant="outlined"
         onChange={e => onChange(e.target.value)}
       />
-      <button onClick={_ => onPrefillClicked()}>Prefill</button>
     </div>
   )
 };

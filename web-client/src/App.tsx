@@ -4,7 +4,7 @@ import MainMessageForm from './components/MainMessageForm/MainMessageForm';
 import { defaultTemplate, defaultFooterItemBackToMenu } from './sampleData/defaultTemplate';
 import { Template, MenuItem } from './model/model';
 import MenuItemMessageForm from './components/MenuItemMessageForm/MenuItemMessageForm';
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 function getInitSelectedMenuItem(): MenuItem {
   // TODO(MB) could set initial value to null without compiler complaining
@@ -19,15 +19,27 @@ function getInitSelectedMenuItem(): MenuItem {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
-      position: 'relative',
-      backgroundColor: '#1EBEA5'
+      position: 'relative'
     },
     title: {
       marginLeft: theme.spacing(2),
       flex: 1,
+      color: 'white'
     },
   }),
 );
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      // Whatsapp top bar green
+      main: '#1EBEA5',
+    },
+    secondary: {
+      main: '#FFFFFF',
+    },
+  },
+});
 
 const App = () => {
   const classes = useStyles();
@@ -108,11 +120,11 @@ const App = () => {
   }
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       {/* TODO(MB) create a custom appbar reusable component and use it everywhere */}
       <AppBar className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" color="secondary" className={classes.title}>
             Initial message
           </Typography>
         </Toolbar>
@@ -133,7 +145,7 @@ const App = () => {
           />
         {/* } */}
       </div>
-    </>
+    </ThemeProvider>
   );
 }
 
