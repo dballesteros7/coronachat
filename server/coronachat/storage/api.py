@@ -2,6 +2,7 @@
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from .schema import TopLevelMessage, TopLevelOption
+from .transforms import from_top_level_message_to_template
 
 # TODO(dballest): Make this into a localization class with scopes.
 if '_' not in globals():
@@ -21,6 +22,13 @@ on any topic.
 
 NO_OPTION_FOUND_MSG = _('There is no option number %d')
 
+
+class AdminReader(object):
+    def get_top_level_message(self) -> dict:
+        top_level_message = TopLevelMessage.query.first()
+        if top_level_message is None:
+            return GENERIC_ERROR_MSG
+        return from_top_level_message_to_template(top_level_message)
 
 class MessageReader(object):
     """Read-only API to get the messages to send to users chatting with the bot.

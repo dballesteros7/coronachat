@@ -1,5 +1,7 @@
 from flask import Flask
 
+from .handlers.web_endpoints import register_endpoints
+
 def create_app(config_object) -> Flask:
     """Creates a new Flask application according to the config.
 
@@ -9,4 +11,7 @@ def create_app(config_object) -> Flask:
     """
     app = Flask(__name__.split('.')[0])
     app.config.from_object(config_object)
+    
+    register_endpoints(app)
+
     return app
