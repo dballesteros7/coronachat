@@ -7,14 +7,13 @@ _TEST_HEADER_CONTENT = """\
 Welcome to your local government bot
 
 Get information and guidance from use regarding the current
-outbreak of coronavirus disease (COVID-19)."""
+outbreak of coronavirus disease (COVID-19).
+
+Reply with a number at any time to get the latest information
+on any topic."""
 
 _EXPECTED_TEST_DATA_TOP_LEVEL_MESSAGE = """\
 %s
-
-Reply with a number at any time to get the latest information
-on any topic.
-
 1. *Latest Update on Coronavirus in Switzerland*
 2. What is Coronavirus and what are its symptoms
 3. How does Coronavirus spread?

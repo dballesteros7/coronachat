@@ -46,10 +46,17 @@ class TopLevelMessage(db.Model):
     header_content = db.Column(db.String)
 
     organization = db.relationship(
-        'Organization', uselist=False, back_populates='top_level_message')
+        'Organization',
+        uselist=False,
+        back_populates='top_level_message',
+    )
 
     top_level_options = db.relationship(
-        'TopLevelOption', uselist=True, back_populates='top_level_message')
+        'TopLevelOption',
+        uselist=True,
+        back_populates='top_level_message',
+        cascade='save-update, merge, delete',
+    )
 
 
 class TopLevelOption(db.Model):
@@ -63,4 +70,28 @@ class TopLevelOption(db.Model):
     top_level_message_id = db.Column(
         db.Integer, db.ForeignKey('top_level_messages.id'))
     top_level_message = db.relationship(
-        'TopLevelMessage', back_populates='top_level_options')
+        'TopLevelMessage',
+        back_populates='top_level_options',
+    )
+
+    secondary_options = db.relationship(
+        'SecondaryOption',
+        uselist=True,
+        back_populates='top_level_option',
+        cascade='save-update, merge, delete',
+    )
+
+
+class SecondaryOption(db.Model):
+    __tablename__ = 'secondary_option'
+
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String)
+    position = db.Column(db.Integer)
+
+    top_level_option_id = db.Column(
+        db.Integer, db.ForeignKey('top_level_options.id'))
+    top_level_option = db.relationship(
+        'TopLevelOption',
+        back_populates='secondary_options',
+    )
