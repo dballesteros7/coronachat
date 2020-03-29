@@ -6,6 +6,7 @@ import { Template, MenuItem } from './model/model';
 import MenuItemMessageForm from './components/MenuItemMessageForm/MenuItemMessageForm';
 import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { CoronaChatAPI } from './services/CoronaChatAPI';
+import MessagePreview from './components/MessagePreview/MessagePreview';
 
 function getInitSelectedMenuItem(): MenuItem {
   // TODO(MB) could set initial value to null without compiler complaining
@@ -154,14 +155,15 @@ const App = () => {
           onPrefillMainHeaderClicked={onPrefillMainHeaderClicked}
           onAddMenuItemClicked={onAddMenuItemClicked}
           onOpenMenuItem={openMenuItem}/>
-        {/* {isMenuItemDialogOpenRef.current &&  */}
           <MenuItemMessageForm 
             menuItem={getEditingMenuItemClone()}
             onCloseAndDiscardChanges={onCloseAndDiscardChanges}
             onCloseAndSaveChanges={onCloseAndSaveChanges}
             isVisible={isMenuItemDialogOpenRef.current}
           />
-        {/* } */}
+          <div style={{width: "500px"}}>
+            <MessagePreview value="very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long text"/>
+          </div>
       </div>
     </ThemeProvider>
   );
