@@ -76,7 +76,7 @@ def frontend_top_message_to_web_template(top_level_message: dict) -> dict:
         key=lambda o: o['position']
     )
 
-    for top_level_option in sorted_options:
+    for idx, top_level_option in enumerate(sorted_options):
         sorted_secondary_options = sorted(
             top_level_option['secondary_options'],
             key=lambda o: o['position']
@@ -86,7 +86,7 @@ def frontend_top_message_to_web_template(top_level_message: dict) -> dict:
         )
 
         menu_items.append({
-            'id': 'nonsense',
+            'id': idx,
             'title': top_level_option['title'],
             'content': top_level_option['content'],
             'footerItems': footer_items,
