@@ -35,6 +35,8 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   const classes = useStyles();
 
   const [menuItem, setMenuItem] = useState(JSON.parse(JSON.stringify(props.menuItem)));
+  const [isTitleInvalid, setIsTitleInvalid] = useState(false);
+  const [isContentInvalid, setIsContentInvalid] = useState(false);
 
   useEffect(() => {
     // TODO (MB) Ideally, we don't want to update the state if props.menuItem chages
@@ -67,12 +69,14 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     updatedMenuItem.content = newText;
     setMenuItem(updatedMenuItem);
+    setIsContentInvalid(newText.length == 0);
   }
 
   let onTitleChanged = (newTitle: string) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     updatedMenuItem.title = newTitle;
     setMenuItem(updatedMenuItem);
+    setIsTitleInvalid(newTitle.length == 0);
   }
 
   let footerListItems = menuItem.footerItems.map((footerItem: string, idx: number) => {
@@ -97,7 +101,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           <Typography variant="h6" className={classes.title}>
             Details
           </Typography>
-          <Button autoFocus color="secondary" onClick={onSaveMenuItemClicked}>
+          <Button autoFocus disabled={isTitleInvalid || isContentInvalid} color="secondary" onClick={onSaveMenuItemClicked}>
             save
           </Button>
         </Toolbar>
@@ -105,10 +109,14 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
       <div className="covid-container">
         {/* <List> */}
           <h3 className="covid-title">Sub-message title</h3>
-          <TextField fullWidth placeholder="Write the text to show next to the menu item number" value={menuItem.title} variant="outlined" 
+          <TextField fullWidth error={isTitleInvalid} helperText="The title cannot be empty." 
+            placeholder="Write the text to show next to the menu item number" 
+            value={menuItem.title} variant="outlined" 
             onChange={e => onTitleChanged(e.target.value)}/>
           <Divider className="divider"/>
           <SmartTextArea 
+            error={isContentInvalid}
+            helperText="The content cannot be empty." 
             showPrefill={false}
             showEdit={false}
             label='Main content'

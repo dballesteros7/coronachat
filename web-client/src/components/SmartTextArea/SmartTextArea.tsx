@@ -10,6 +10,8 @@ type SmartTextAreaProps = {
   showEdit: boolean,
   showPrefill: boolean,
   placeholder: string,
+  error?: boolean,
+  helperText?: string,
   onSaveClicked: (text: string) => void,
   onPrefillClicked: () => void,
   onChange?: (newText: string) => void
@@ -60,6 +62,8 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
         placeholder={isEditingEnabled ? props.placeholder : ''}
         className="text-field"
         multiline
+        error={props.error}
+        helperText={props.helperText ?? ''}
         disabled={!isEditingEnabled}
         rows={props.rows}
         value={value}
