@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './MainMessage.css';
+import './MainMessage.scss';
 import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { defaultTemplate, defaultFooterItemBackToMenu } from '../../sampleData/defaultTemplate';
 import { Template, MenuItem } from '../../model/model';
