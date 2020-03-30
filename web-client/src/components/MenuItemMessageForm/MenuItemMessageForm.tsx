@@ -11,6 +11,7 @@ type MenuItemMessageFormProps = {
   menuItem: MenuItem,
   onCloseAndDiscardChanges: () => void,
   onCloseAndSaveChanges: (menuItem: MenuItem) => void,
+  onDeleteMenuItem: (menuItem: MenuItem) => void,
   isVisible: boolean
 }
 
@@ -44,7 +45,8 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   const [menuItem, setMenuItem] = useState(JSON.parse(JSON.stringify(props.menuItem)));
   const [isTitleInvalid, setIsTitleInvalid] = useState(false);
   const [isContentInvalid, setIsContentInvalid] = useState(false);
-  const [isDiscardChangesShowing, setIsDiscardChangesShowing] = useState(false);
+  const [isDiscardChangesAlertShowing, setIsDiscardChangesAlertShowing] = useState(false);
+  const [isDeleteItemAlertShowing, setIsDeleteItemAlertShowing] = useState(false);
 
   useEffect(() => {
     // TODO (MB) Ideally, we don't want to update the state if props.menuItem chages
@@ -57,12 +59,21 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   }, [props.menuItem])
 
   let onCloseMenuItemClicked = () => {
-    setIsDiscardChangesShowing(true);
+    setIsDiscardChangesAlertShowing(true);
   };
+
+  let onDeleteItemAskForConfirmClicked = () => {
+    setIsDeleteItemAlertShowing(true);
+  }
+
+  let onDeleteItemClicked = () => {
+    props.onDeleteMenuItem(props.menuItem);
+    setIsDeleteItemAlertShowing(false);
+  }
 
   let onDiscardChangesClicked = () => {
     props.onCloseAndDiscardChanges();
-    setIsDiscardChangesShowing(false);
+    setIsDiscardChangesAlertShowing(false);
   }
 
   let onSaveMenuItemClicked = () => {
@@ -145,13 +156,14 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           color="primary"
           className={classes.deleteButton}
           startIcon={<DeleteIcon />}
+          onClick={onDeleteItemAskForConfirmClicked}
         >
           Borrar esta opción
         </Button>
       </div>
       {/* TODO(MB) there must be a better way to show a dialog/aler/toast (that may rarely be opened) programmatically 
           than keeping a variable in the state all the time*/}
-      {isDiscardChangesShowing && 
+      {isDiscardChangesAlertShowing && 
         <Dialog
           open={true}
           aria-labelledby="alert-dialog-title"
@@ -167,7 +179,29 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
             <Button onClick={onDiscardChangesClicked} color="primary">
               Sí, cerrar y descartar cambios
             </Button>
-            <Button onClick={() => setIsDiscardChangesShowing(false)} color="primary" style={{fontWeight: 'bold'}} autoFocus>
+            <Button onClick={() => setIsDiscardChangesAlertShowing(false)} color="primary" style={{fontWeight: 'bold'}} autoFocus>
+              No, seguir editando
+            </Button>
+          </DialogActions>
+        </Dialog>
+      }
+      {isDeleteItemAlertShowing && 
+        <Dialog
+          open={true}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Borrar esta opción"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Si borra esta opción, se eliminará del menú principal y se perderá su contenido. ¿Está seguro?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={onDeleteItemClicked} color="primary">
+              Sí, borrar la opción
+            </Button>
+            <Button onClick={() => setIsDeleteItemAlertShowing(false)} color="primary" style={{fontWeight: 'bold'}} autoFocus>
               No, seguir editando
             </Button>
           </DialogActions>

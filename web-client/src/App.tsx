@@ -134,17 +134,21 @@ const App = () => {
     setEditingMenuItem(getInitSelectedMenuItem());
   };
 
-  let onCloseAndSaveChanges = (menuItemToSave: MenuItem) => {
+  let onCloseAndSaveChanges = (menuItem: MenuItem, deleteItem: boolean = false) => {
     setIsMenuItemDialogOpen(false);
     const updatedTemplate: Template = JSON.parse(JSON.stringify(templateRef.current));
-    const menuItemIdx = updatedTemplate.menuItems.findIndex(menuItem => 
-      menuItem.id === menuItemToSave.id);
-    if (menuItemIdx > -1) {
-      updatedTemplate.menuItems[menuItemIdx] = menuItemToSave;
-    } else {
+    const menuItemIdx = updatedTemplate.menuItems.findIndex(item => 
+      item.id === menuItem.id);
+    if (deleteItem && menuItemIdx > -1) {
+      updatedTemplate.menuItems.splice(menuItemIdx, 1);
+    } else if (!deleteItem && menuItemIdx > -1) {
+      updatedTemplate.menuItems[menuItemIdx] = menuItem;
+    } else if (!deleteItem) {
+      // menuItem not found in existing array and must be saved (i.e. !delete)
+
       // TODO(MB) add them to the list only when received success from server
       // when post of single menu item is ready
-      updatedTemplate.menuItems.push(menuItemToSave);
+      updatedTemplate.menuItems.push(menuItem);
     }
     coronaChatAPI.updateTemplate(updatedTemplate).then(() => {
       console.debug("Template updated successfully");
@@ -153,6 +157,7 @@ const App = () => {
       console.error("Update template server request failed with error", error);
     });
     setTemplate(updatedTemplate);
+    setEditingMenuItem(getInitSelectedMenuItem());
   }
 
   let getEditingMenuItemClone = (): MenuItem => {
@@ -197,6 +202,7 @@ const App = () => {
           menuItem={getEditingMenuItemClone()}
           onCloseAndDiscardChanges={onCloseAndDiscardChanges}
           onCloseAndSaveChanges={onCloseAndSaveChanges}
+          onDeleteMenuItem={(menuItem) => {onCloseAndSaveChanges(menuItem, true)}}
           isVisible={isMenuItemDialogOpenRef.current}
         />
         <SplitLayout
