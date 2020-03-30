@@ -24,29 +24,29 @@ const Home = () => {
 
       <div id="chat-box">
         <div id="message-box-1" className="message-box">
-          <MessagePreview value="Hello. I am the mayor of a South American town. The people here use *WhatsApp* a lot and 
+          <MessagePreview bgColor="#F4F4F4" value="Hello. I am the mayor of a South American town. The people here use *WhatsApp* a lot and 
             share many chains and fake news about COVID-19."/>
         </div>
         <div id="message-box-2" className="message-box">
-          <MessagePreview value="They also have limited data plans and access to important
+          <MessagePreview bgColor="#F4F4F4" value="They also have limited data plans and access to important
             information is not always possible. I saw that WHO and India have some phone number that people can write to
             via Whatsapp and get *official information quickly* via message..."/>
         </div>
         <div id="message-box-3" className="message-box">
-          <MessagePreview value="I don't know how to configure one for the people here."/>
+          <MessagePreview bgColor="#F4F4F4" value="I don't know how to configure one for the people here."/>
         </div>
         <div id="message-box-4" className="message-box">
-          <MessagePreview value="Hello Mr Gonzales, we appreciate your initiative and would like to help you out."/>
+          <MessagePreview bgColor="#F8EA8C" value="Hello Mr Gonzales, we appreciate your initiative and would like to help you out."/>
         </div>
         <div id="message-box-5" className="message-box">
-          <MessagePreview value="Our app _Coronainfochat_ creates the chatbot for you. You just need to feed it with the
+          <MessagePreview bgColor="#F8EA8C" value="Our app _Coronainfochat_ creates the chatbot for you. You just need to feed it with the
             content that the people of your town will read in the chat. It works with *Facebook Messenger* too."/>
         </div>
         <div id="message-box-6" className="message-box">
-          <MessagePreview value="Awesome! Thank you. Can they also get a notification with important updates?"/>
+          <MessagePreview bgColor="#F4F4F4" value="Awesome! Thank you. Can they also get a notification with important updates?"/>
         </div>
         <div id="message-box-7" className="message-box">
-          <MessagePreview value="Not yet, but soon. We'll keep you posted. Try the app by clicking below and stay _healhty_!"/>
+          <MessagePreview bgColor="#F8EA8C" value="Not yet, but soon. We'll keep you posted. Try the app by clicking below and stay _healhty_!"/>
         </div>
       </div>
       <Link to="/dashboard">

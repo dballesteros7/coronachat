@@ -178,7 +178,7 @@ const MainMessage = (props: {isTrial?: boolean}) => {
 
   let messagePreview = (
     <div className="msg-preview-box">
-      <MessagePreview value={getMessagePreviewText()}/>
+      <MessagePreview bgColor="#F4F4F4" value={getMessagePreviewText()}/>
     </div>
   );
 

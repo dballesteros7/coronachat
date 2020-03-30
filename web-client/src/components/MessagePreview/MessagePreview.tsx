@@ -42,10 +42,18 @@ function getHTMLValueFromWhatsappFormatting(text: string): string {
   return e;
 }
 
-const MessagePreview = (props: {value: string}) => {
+function getMessagePreviewHTMLContent(whatsAppFormattedText: string, bgColor: string): string {
+  const htmlText = getHTMLValueFromWhatsappFormatting(whatsAppFormattedText);
+  return `${htmlText}<div style="border-right-color: ${bgColor}" class='bubble-triangle'></div>`;
+}
+
+const MessagePreview = (props: {value: string, bgColor: string}) => {
   return (
-    <div className="MessagePreview" dangerouslySetInnerHTML={{__html: getHTMLValueFromWhatsappFormatting(props.value)}}>
-    </div>
+    <>
+      <div className="MessagePreview" style={{ backgroundColor: props.bgColor }}
+        dangerouslySetInnerHTML={{__html: getMessagePreviewHTMLContent(props.value, props.bgColor)}}>
+      </div>
+    </>
   )
 };
 

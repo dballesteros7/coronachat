@@ -6,7 +6,7 @@
   padding: 15px;
 }
   
-.MessagePreview:after {
+.bubble-triangle {
   content: '';
   position: absolute;
   left: 5px;
@@ -14,7 +14,6 @@
   width: 0;
   height: 0;
   border: 13px solid transparent;
-  border-right-color: #F4F4F4;
   border-left: 0;
   border-top: 0;
   margin-left: -11px;
