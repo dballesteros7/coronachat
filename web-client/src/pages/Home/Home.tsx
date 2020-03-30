@@ -21,10 +21,10 @@ const Home = () => {
       <img id="logo" src={logo} alt="Coronainfochat"/>
       <h1 className="covid-title">Stop misinformation about COVID-19 and inform your people officially</h1>
       <p id="main-content">
-        You are a government, an institution, or an organisation<br />
+        You are a government, an institution, or an organization<br />
         You want the community to access your official information via <b>WhatsApp</b><br /><br />
 
-        Our tool sets up the infrastracture and creates a chatbot for your<br /><br />
+        Our tool sets up the infrastructure and creates a chatbot for you<br /><br />
 
         You just need to seed it with the content of the messages that the people will receive<br />
       </p>
