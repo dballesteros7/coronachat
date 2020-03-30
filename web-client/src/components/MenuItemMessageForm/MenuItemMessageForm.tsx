@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MenuItemMessageForm.scss';
-import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, TextField, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, TextField, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { TransitionProps } from '@material-ui/core/transitions/transition';
