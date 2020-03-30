@@ -25,10 +25,5 @@ app = create_app(ProdConfig)
 app.debug = True
 
 db.init_app(app)
-with app.app_context():
-    db.drop_all()
-    db.create_all()
-    writer = AdminWriter()
-    writer.update_top_level_message(DEFAULT_TOP_LEVEL_MESSAGE)
 
 application = app

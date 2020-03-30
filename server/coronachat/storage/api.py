@@ -117,15 +117,14 @@ class MessageReader(object):
         if top_level_message is None:
             return GENERIC_ERROR_MSG
         top_level_content = top_level_message.header_content
-        message = top_level_content
-        if not message.endswith('\n'):
-            message += '\n'
+        message = top_level_content.strip()
+        message += '\n\n'
         for idx, option in enumerate(
             sorted(
                 top_level_message.top_level_options, key=lambda x: x.position
             )
         ):
-            message += '%d. %s\n' % (idx + 1, option.title)
+            message += '%d.    %s\n' % (idx + 1, option.title.strip())
         return message
 
     def has_option(self, option_number: int) -> bool:
@@ -151,14 +150,14 @@ class MessageReader(object):
         try:
             option: TopLevelOption = TopLevelOption.query.filter(
                 TopLevelOption.position == option_number - 1).one()
-            message = option.content
+            message = option.content.strip()
 
-            if not message.endswith('\n') and len(option.secondary_options) > 0:
-                message += '\n'
+            # if not message.endswith('\n') and len(option.secondary_options) > 0:
+            #     message += '\n'
 
-            for secondary_option in sorted(
-                    option.secondary_options, key=lambda o: o.position):
-                message += '%s\n' % secondary_option.content.strip()
+            # for secondary_option in sorted(
+            #         option.secondary_options, key=lambda o: o.position):
+            #     message += '%s\n' % secondary_option.content.strip()
             
             return message
         except NoResultFound:
