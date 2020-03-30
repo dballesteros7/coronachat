@@ -117,7 +117,16 @@ const App = () => {
   };
 
   let onPrefillMainHeaderClicked = () => {
-    updateTemplateHeaderInState(defaultTemplate.header);
+    // updateTemplateHeaderInState(defaulttemplate.header);
+    coronaChatAPI
+      .getDefaultTemplate()
+      .then(defaulttemplate => {
+        console.debug("Got default template from server", defaulttemplate);
+        setTemplate(defaulttemplate);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   let onMainHeaderChanged = (newText: string) => {

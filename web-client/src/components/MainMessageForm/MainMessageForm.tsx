@@ -45,7 +45,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
         showEdit={true}
         label={t("Message_header")}
         value={props.template.header}
-        prefillValue={defaultTemplate.header}
+        // prefillValue={defaultTemplate.header}
         rows={8}
         placeholder={t(
           "Write_here_a_custom_description_about_this_service_or_press_PREFILL_to_get_a_standard_message"
