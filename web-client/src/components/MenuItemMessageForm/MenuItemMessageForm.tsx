@@ -69,6 +69,8 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     // so when constructed props.menuItem is an empty object and so would remain
     // without this state update
     setMenuItem(JSON.parse(JSON.stringify(props.menuItem)));
+    setIsTitleInvalid(checkIfTitleIsInvalid(props.menuItem.title));
+    setIsContentInvalid(checkIfContentIsInvalid(props.menuItem.content));
   }, [props.menuItem])
 
   let onCloseMenuItemClicked = () => {
