@@ -28,7 +28,7 @@ class Organization(db.Model):
     __tablename__ = 'organizations'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    name = db.Column(db.Unicode(255))
 
     top_level_message_id = db.Column(
         db.Integer, db.ForeignKey('top_level_messages.id'))
@@ -43,7 +43,7 @@ class TopLevelMessage(db.Model):
     __tablename__ = 'top_level_messages'
 
     id = db.Column(db.Integer, primary_key=True)
-    header_content = db.Column(db.String)
+    header_content = db.Column(db.UnicodeText)
 
     organization = db.relationship(
         'Organization',
@@ -63,8 +63,8 @@ class TopLevelOption(db.Model):
     __tablename__ = 'top_level_options'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String)
-    content = db.Column(db.String)
+    title = db.Column(db.Unicode(255))
+    content = db.Column(db.UnicodeText)
     position = db.Column(db.Integer)
 
     top_level_message_id = db.Column(
@@ -86,7 +86,7 @@ class SecondaryOption(db.Model):
     __tablename__ = 'secondary_option'
 
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String)
+    content = db.Column(db.UnicodeText)
     position = db.Column(db.Integer)
 
     top_level_option_id = db.Column(
