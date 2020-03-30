@@ -188,7 +188,7 @@ const App = () => {
       <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="secondary" className={classes.title}>
-            Initial message
+            Portal de Información de COVID-19
           </Typography>
         </Toolbar>
       </AppBar>

@@ -103,37 +103,37 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Details
+            Opción del menú
           </Typography>
           <Button autoFocus disabled={isTitleInvalid || isContentInvalid} color="secondary" onClick={onSaveMenuItemClicked}>
-            save
+            Guardar
           </Button>
         </Toolbar>
       </AppBar>
       <div className="covid-container">
         {/* <List> */}
-          <h3 className="covid-title">Sub-message title</h3>
-          <TextField fullWidth error={isTitleInvalid} helperText="The title cannot be empty." 
-            placeholder="Write the text to show next to the menu item number" 
+          <h3 className="covid-title">Título de la opción (visible en el menú principal)</h3>
+          <TextField fullWidth error={isTitleInvalid} helperText="El título no puede estar vacío." 
+            placeholder="Escribe el texto que se ve en la opción del menu principal" 
             value={menuItem.title} variant="outlined" 
             onChange={e => onTitleChanged(e.target.value)}/>
           <Divider className="divider"/>
           <SmartTextArea 
             error={isContentInvalid}
-            helperText="The content cannot be empty." 
+            helperText="El contenido no puede estar vacío." 
             showPrefill={false}
             showEdit={false}
-            label='Main content'
+            label='Contenido'
             value={menuItem.content}
             rows={11}
-            placeholder='Write here the main content of the sub-message'
+            placeholder='Escriba aquí el contenido del mensaje enviado cuando se selecciona esta opción.'
             onPrefillClicked={onPrefillContentClicked}
             onChange={onContentChanged}
             onSaveClicked={onContentChanged}
           />
-          <Divider className="divider"/>
+          {/* <Divider className="divider"/>
           <h3 className="covid-title">Footer</h3>
-          <List component="nav">{footerListItems}</List>
+          <List component="nav">{footerListItems}</List> */}
         {/* </List> */}
       </div>
       {/* TODO(MB) there must be a better way to show a dialog/aler/toast (that may rarely be opened) programmatically 
@@ -144,18 +144,18 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Are you sure to discard your changes?"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"Tiene cambios no guardados"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              If you close you will lose any change that you may have made.
+              Si cierra esta vista, perderá los cambios no guardados. ¿Está seguro?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={onDiscardChangesClicked} color="primary">
-              Yes, discard and close
+              Sí, cerrar y descartar cambios
             </Button>
             <Button onClick={() => setIsDiscardChangesShowing(false)} color="primary" style={{fontWeight: 'bold'}} autoFocus>
-              No, continue editing
+              No, seguir editando
             </Button>
           </DialogActions>
         </Dialog>

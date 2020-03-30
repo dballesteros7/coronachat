@@ -57,16 +57,16 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
         <h3 className="covid-title">{props.label}</h3>
         <span className="action-button-group">
           {!isEditingEnabled && props.showEdit && <Button size="small" color="primary"
-            onClick={_ => setIsEditingEnabled(true)}>EDIT</Button>}
+            onClick={_ => setIsEditingEnabled(true)}>EDITAR</Button>}
           {isEditingEnabled && <IconButton edge="start" color="primary" 
                 onClick={() => {setIsEmojiPickerOpen(true)}} aria-label="close">
               <EmojiEmotionsOutlinedIcon />
             </IconButton>}
           {isEditingEnabled && isEmojiPickerOpen && <Picker onEmojiClick={() => {}}/>}
-          {isEditingEnabled && props.showPrefill && <Button size="small" color="primary"
-            onClick={_ => onPrefillClicked()}>PREFILL</Button>}
+          {/* {isEditingEnabled && props.showPrefill && <Button size="small" color="primary"
+            onClick={_ => onPrefillClicked()}>PREFILL</Button>} */}
           {isEditingEnabled && props.showEdit && <Button color="primary" size="small" 
-            className="save-button" onClick={_ => onSaveClicked()}>DONE</Button>}
+            className="save-button" onClick={_ => onSaveClicked()}>LISTO</Button>}
         </span>
       </span>
       <TextField

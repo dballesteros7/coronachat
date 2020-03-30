@@ -35,7 +35,7 @@ const MainMessageForm = (props: MainMessageFormProps) => {
       <SmartTextArea 
         showPrefill={true}
         showEdit={true}
-        label='Message header'
+        label='Encabezado'
         value={props.template.header}
         prefillValue={defaultTemplate.header}
         rows={8}
@@ -46,10 +46,10 @@ const MainMessageForm = (props: MainMessageFormProps) => {
       />
       <Divider className="divider"/>
       <span className="covid-title-box">
-        <h3 className="covid-title">Sub-message menu</h3>
+        <h3 className="covid-title">Opciones del menú</h3>
         <span className="action-button-group">
           <Button size="small" color="primary"
-            onClick={props.onAddMenuItemClicked}>ADD ITEM</Button>
+            onClick={props.onAddMenuItemClicked}>AGREGAR OPCION</Button>
         </span>
       </span>
       <List>
