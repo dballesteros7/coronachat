@@ -41,7 +41,7 @@ const Home = () => {
         <div id="chat-box">
           <div id="message-box-1" className="message-box">
             <MessagePreview bgColor="#F4F4F4" value="Hello. I am the mayor of a South American town. The people here use *WhatsApp* a lot and 
-              share many chains and fake news about COVID-19."/>
+              share many chains and fake news about COVID-19. 🦠"/>
           </div>
           <div id="message-box-2" className="message-box">
             <MessagePreview bgColor="#F4F4F4" value="They also have limited data plans and access to important
@@ -62,7 +62,7 @@ const Home = () => {
             <MessagePreview bgColor="#F4F4F4" value="Awesome! Thank you. Can they also get a notification with important updates?"/>
           </div>
           <div id="message-box-7" className="message-box our-messages">
-            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Not yet, but soon. We'll keep you posted. Try the app by clicking below and stay _healhty_!"/>
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Not yet, but soon. We'll keep you posted. Try the app by clicking below and stay _healhty_! 💪🏼"/>
           </div>
         </div>
       </div>
