@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './MenuItemMessageForm.scss';
 import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, TextField, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close'
+import DeleteIcon from '@material-ui/icons/Delete'
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { MenuItem } from '../../model/model';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
@@ -23,6 +24,12 @@ const useStyles = makeStyles((theme: Theme) =>
       flex: 1,
       color: 'white'
     },
+    deleteButton: {
+      marginTop: 30,
+      marginLeft: 0,
+      marginBottm: theme.spacing(1),
+      marginRight: theme.spacing(1)
+    }
   }),
 );
 
@@ -111,30 +118,36 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
         </Toolbar>
       </AppBar>
       <div className="covid-container">
-        {/* <List> */}
-          <h3 className="covid-title">Título de la opción (visible en el menú principal)</h3>
-          <TextField fullWidth error={isTitleInvalid} helperText="El título no puede estar vacío." 
-            placeholder="Escribe el texto que se ve en la opción del menu principal" 
-            value={menuItem.title} variant="outlined" 
-            onChange={e => onTitleChanged(e.target.value)}/>
-          <Divider className="divider"/>
-          <SmartTextArea 
-            error={isContentInvalid}
-            helperText="El contenido no puede estar vacío." 
-            showPrefill={false}
-            showEdit={false}
-            label='Contenido'
-            value={menuItem.content}
-            rows={11}
-            placeholder='Escriba aquí el contenido del mensaje enviado cuando se selecciona esta opción.'
-            onPrefillClicked={onPrefillContentClicked}
-            onChange={onContentChanged}
-            onSaveClicked={onContentChanged}
-          />
-          {/* <Divider className="divider"/>
-          <h3 className="covid-title">Footer</h3>
-          <List component="nav">{footerListItems}</List> */}
-        {/* </List> */}
+        <h3 className="covid-title">Título de la opción (visible en el menú principal)</h3>
+        <TextField fullWidth error={isTitleInvalid} helperText="El título no puede estar vacío." 
+          placeholder="Escribe el texto que se ve en la opción del menu principal" 
+          value={menuItem.title} variant="outlined" 
+          onChange={e => onTitleChanged(e.target.value)}/>
+        <Divider className="divider"/>
+        <SmartTextArea 
+          error={isContentInvalid}
+          helperText="El contenido no puede estar vacío." 
+          showPrefill={false}
+          showEdit={false}
+          label='Contenido'
+          value={menuItem.content}
+          rows={11}
+          placeholder='Escriba aquí el contenido del mensaje enviado cuando se selecciona esta opción.'
+          onPrefillClicked={onPrefillContentClicked}
+          onChange={onContentChanged}
+          onSaveClicked={onContentChanged}
+        />
+        {/* <Divider className="divider"/>
+        <h3 className="covid-title">Footer</h3>
+        <List component="nav">{footerListItems}</List> */}
+        <Button
+          variant="outlined"
+          color="primary"
+          className={classes.deleteButton}
+          startIcon={<DeleteIcon />}
+        >
+          Borrar esta opción
+        </Button>
       </div>
       {/* TODO(MB) there must be a better way to show a dialog/aler/toast (that may rarely be opened) programmatically 
           than keeping a variable in the state all the time*/}
