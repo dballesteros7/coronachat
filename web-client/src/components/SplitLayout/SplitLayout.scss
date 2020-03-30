@@ -1,0 +1,20 @@
+.SplitLayout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+
+  .main-pane {
+    flex: 2;
+  }
+
+  .optional-pane {
+    flex: 1;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .optional-pane {
+      display: none;
+    }
+  }
+
+}
