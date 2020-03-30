@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './App.css';
+import './MainMessage.css';
 import MainMessageForm from './components/MainMessageForm/MainMessageForm';
 import { defaultTemplate, defaultFooterItemBackToMenu } from './sampleData/defaultTemplate';
 import { Template, MenuItem } from './model/model';
@@ -54,7 +54,7 @@ const theme = createMuiTheme({
   },
 });
 
-const App = () => {
+const MainMessage = () => {
 
   const coronaChatAPI = new CoronaChatAPI();
 
@@ -200,7 +200,7 @@ const App = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <div className="App covid-container">
+      <div className="MainMessage covid-container">
         <MenuItemMessageForm 
           menuItem={getEditingMenuItemClone()}
           onCloseAndDiscardChanges={onCloseAndDiscardChanges}
@@ -217,4 +217,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default MainMessage;
