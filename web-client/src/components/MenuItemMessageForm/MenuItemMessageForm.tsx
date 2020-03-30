@@ -15,6 +15,14 @@ type MenuItemMessageFormProps = {
   isVisible: boolean
 }
 
+function checkIfTitleIsInvalid(title: string): boolean {
+  return title.length === 0;
+}
+
+function checkIfContentIsInvalid(content: string): boolean {
+  return content.length === 0;
+}
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
@@ -45,10 +53,13 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   const classes = useStyles();
 
   const [menuItem, setMenuItem] = useState(JSON.parse(JSON.stringify(props.menuItem)));
-  const [isTitleInvalid, setIsTitleInvalid] = useState(false);
-  const [isContentInvalid, setIsContentInvalid] = useState(false);
+  const [isTitleInvalid, setIsTitleInvalid] = useState(checkIfTitleIsInvalid(menuItem.title));
+  const [isContentInvalid, setIsContentInvalid] = useState(checkIfContentIsInvalid(menuItem.content));
   const [isDiscardChangesAlertShowing, setIsDiscardChangesAlertShowing] = useState(false);
   const [isDeleteItemAlertShowing, setIsDeleteItemAlertShowing] = useState(false);
+  // State used to avoid showing fields as wrong (red) when a new item open (of course empty)
+  const [isTitleErrorEnabled, setIsTitleErrorEnabled] = useState(props.menuItem.id > 0);
+  const [isContentErrorEnabled, setIsContentErrorEnabled] = useState(props.menuItem.id > 0);
 
   useEffect(() => {
     // TODO (MB) Ideally, we don't want to update the state if props.menuItem chages
@@ -93,14 +104,16 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     updatedMenuItem.content = newText;
     setMenuItem(updatedMenuItem);
-    setIsContentInvalid(newText.length === 0);
+    setIsContentInvalid(checkIfContentIsInvalid(newText));
+    setIsContentErrorEnabled(true);
   }
 
   let onTitleChanged = (newTitle: string) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     updatedMenuItem.title = newTitle;
     setMenuItem(updatedMenuItem);
-    setIsTitleInvalid(newTitle.length === 0);
+    setIsTitleInvalid(checkIfTitleIsInvalid(newTitle));
+    setIsTitleErrorEnabled(true);
   }
 
   let footerListItems = menuItem.footerItems.map((footerItem: string, idx: number) => {
@@ -132,13 +145,13 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
       </AppBar>
       <div className="covid-container">
         <h3 className="covid-title">Título de la opción (visible en el menú principal)</h3>
-        <TextField fullWidth error={isTitleInvalid} helperText="El título no puede estar vacío." 
+        <TextField fullWidth error={isTitleErrorEnabled && isTitleInvalid} helperText="El título no puede estar vacío." 
           placeholder="Escribe el texto que se ve en la opción del menu principal" 
           value={menuItem.title} variant="outlined" 
           onChange={e => onTitleChanged(e.target.value)}/>
         <Divider className="divider"/>
         <SmartTextArea 
-          error={isContentInvalid}
+          error={isContentErrorEnabled && isContentInvalid}
           helperText="El contenido no puede estar vacío." 
           showPrefill={false}
           showEdit={false}
