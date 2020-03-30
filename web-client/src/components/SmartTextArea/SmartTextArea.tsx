@@ -58,11 +58,11 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
         <span className="action-button-group">
           {!isEditingEnabled && props.showEdit && <Button size="small" color="primary"
             onClick={_ => setIsEditingEnabled(true)}>EDITAR</Button>}
-          {isEditingEnabled && <IconButton edge="start" color="primary" 
+          {isEditingEnabled && <IconButton edge="start" color="primary" size="small"
                 onClick={() => {setIsEmojiPickerOpen(true)}} aria-label="close">
               <EmojiEmotionsOutlinedIcon />
             </IconButton>}
-          {isEditingEnabled && isEmojiPickerOpen && <Picker onEmojiClick={() => {}}/>}
+          {isEditingEnabled && isEmojiPickerOpen && <Picker onEmojiClick={() => {setIsEmojiPickerOpen(false)}}/>}
           {isEditingEnabled && props.showPrefill && <Button size="small" color="primary"
             onClick={_ => onPrefillClicked()}>RELLENAR</Button>}
           {isEditingEnabled && props.showEdit && <Button color="primary" size="small" 
