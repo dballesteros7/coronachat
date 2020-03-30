@@ -16,7 +16,7 @@ type MainMessageFormProps = {
 
 const MainMessageForm = (props: MainMessageFormProps) => {
 
-  let menuListItems = props.template.menuItems.map((menuItem: MenuItem, idx: number) => {
+  let menuListItems = props.template?.menuItems.map((menuItem: MenuItem, idx: number) => {
     const itemText = (idx + 1) + '. ' + menuItem.title;
     const onItemClicked = () => props.onOpenMenuItem(menuItem);
     return (
