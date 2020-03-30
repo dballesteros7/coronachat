@@ -4,13 +4,7 @@ export const defaultFooterItemBackToMenu = 'Escriba 0 para ir al Menú';
 
 //TODO (MB) all its properties of this instance should be readonly
 export const defaultTemplate: Template = {
-  header: `Bienvenidos a la OMS
-
-    Obtenga información y orientación de la OMS sobre el brote de coronavirus COVID-19.
-    
-    ¿Qué le gustaría saber sobre coronavirus?
-    
-    Escriba el número (o emoji) para acceder a la información sobre estos temas:`,
+  header: `*Bienvenidos a la Alcald\u00eda de la Mesa de los Santos*\n\nObtenga informaci\u00f3n y orientaci\u00f3n de la _OMS_ sobre el brote de coronavirus _COVID-19_.\n\n\u00bfQu\u00e9 le gustar\u00eda saber sobre coronavirus?\n\nEscriba el n\u00famero para acceder a la informaci\u00f3n sobre estos temas:\n`,
   menuItems: [
     {
       id: 1,

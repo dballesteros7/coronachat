@@ -63,8 +63,8 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
               <EmojiEmotionsOutlinedIcon />
             </IconButton>}
           {isEditingEnabled && isEmojiPickerOpen && <Picker onEmojiClick={() => {}}/>}
-          {/* {isEditingEnabled && props.showPrefill && <Button size="small" color="primary"
-            onClick={_ => onPrefillClicked()}>PREFILL</Button>} */}
+          {isEditingEnabled && props.showPrefill && <Button size="small" color="primary"
+            onClick={_ => onPrefillClicked()}>PREFILL</Button>}
           {isEditingEnabled && props.showEdit && <Button color="primary" size="small" 
             className="save-button" onClick={_ => onSaveClicked()}>LISTO</Button>}
         </span>
