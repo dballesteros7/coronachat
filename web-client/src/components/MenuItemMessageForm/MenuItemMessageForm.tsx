@@ -29,7 +29,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 30,
       marginLeft: 0,
       marginBottm: theme.spacing(1),
-      marginRight: theme.spacing(1)
+      marginRight: theme.spacing(1),
+      borderColor: theme.palette.error.main,
+      color: theme.palette.error.main
     }
   }),
 );
@@ -153,7 +155,6 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
         <List component="nav">{footerListItems}</List> */}
         <Button
           variant="outlined"
-          color="primary"
           className={classes.deleteButton}
           startIcon={<DeleteIcon />}
           onClick={onDeleteItemAskForConfirmClicked}
