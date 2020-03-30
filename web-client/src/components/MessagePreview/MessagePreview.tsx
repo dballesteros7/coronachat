@@ -2,7 +2,6 @@ import React from 'react';
 import './MessagePreview.scss';
 
 function getHTMLValueFromWhatsappFormatting(text: string): string {
-
   if (!text) {
     return '';
   }
@@ -13,7 +12,6 @@ function getHTMLValueFromWhatsappFormatting(text: string): string {
     ["~", "s"],
     ["```", "code"]
   ];
-
   let e = text.replace(/&/g, "&").replace(/>/g, ">").replace(/</g, "&lt;").replace(/\n/g, "<br />");
   for (var n = 0; n < TAGS.length; n++) {
     var o = e.indexOf(TAGS[n][0]),
@@ -24,6 +22,22 @@ function getHTMLValueFromWhatsappFormatting(text: string): string {
       a = e.indexOf(TAGS[n][0], o + 1)
     }
   }
+
+
+  // TODO(MB) Can be improved to get closer to WA linkification (for ex. avoid linkify http://fdf (without a .))
+  // try whis one (https?|ftp):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)
+
+  // URLs starting with http://, https://, or ftp://
+  const replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+  e = e.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+  // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+  const replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+  e = e.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+  // Change email addresses to mailto:: links.
+  const replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+  e = e.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
 
   return e;
 }
