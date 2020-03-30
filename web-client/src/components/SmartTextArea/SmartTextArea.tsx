@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './SmartTextArea.scss';
-import { TextField, Button } from '@material-ui/core';
+import Picker from 'emoji-picker-react';
+import { TextField, Button, IconButton } from '@material-ui/core';
+import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
 
 type SmartTextAreaProps = {
   value: string,
@@ -20,6 +22,7 @@ type SmartTextAreaProps = {
 const SmartTextArea = (props: SmartTextAreaProps) => {
 
   const [isEditingEnabled, setIsEditingEnabled] = useState(!props.showEdit);
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [value, setValue]= useState(props.value);
 
   useEffect(() => {
@@ -32,6 +35,10 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
     }
     props.onPrefillClicked();
   };
+
+  const onEmojiClicked = () => {
+    setIsEmojiPickerOpen(false);
+  }
 
   const onChange = (text: string) => {
     setValue(text);
@@ -51,6 +58,11 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
         <span className="action-button-group">
           {!isEditingEnabled && props.showEdit && <Button size="small" color="primary"
             onClick={_ => setIsEditingEnabled(true)}>EDIT</Button>}
+          {isEditingEnabled && <IconButton edge="start" color="primary" 
+                onClick={() => {setIsEmojiPickerOpen(true)}} aria-label="close">
+              <EmojiEmotionsOutlinedIcon />
+            </IconButton>}
+          {isEditingEnabled && isEmojiPickerOpen && <Picker onEmojiClick={() => {}}/>}
           {isEditingEnabled && props.showPrefill && <Button size="small" color="primary"
             onClick={_ => onPrefillClicked()}>PREFILL</Button>}
           {isEditingEnabled && props.showEdit && <Button color="primary" size="small" 
