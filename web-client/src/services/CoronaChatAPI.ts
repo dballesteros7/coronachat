@@ -1,6 +1,7 @@
 import { Template } from "../model/model";
+import { CoronaChatAPIInterface } from './CoronaChatAPIInterface';
 
-export class CoronaChatAPI {
+export class CoronaChatAPI implements CoronaChatAPIInterface {
   
   private static readonly getTemplateURL = "https://app.coronainfochat.org/getTemplate";
   private static readonly updateTemplateURL = "https://app.coronainfochat.org/updateTemplate";

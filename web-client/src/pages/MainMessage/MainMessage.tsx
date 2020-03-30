@@ -8,6 +8,8 @@ import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, ThemeProv
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
+import { TrialCoronaChatAPI } from '../../services/TrialCoronaChatAPI';
+import { CoronaChatAPIInterface } from '../../services/CoronaChatAPIInterface';
 
 function getInitSelectedMenuItem(): MenuItem {
   // TODO(MB) could set initial value to null without compiler complaining
@@ -39,9 +41,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const MainMessage = () => {
+const MainMessage = (props: {isTrial?: boolean}) => {
 
-  const coronaChatAPI = new CoronaChatAPI();
+  let coronaChatAPI: CoronaChatAPIInterface;
+  if (props.isTrial) {
+    coronaChatAPI = new TrialCoronaChatAPI();
+  } else {
+    coronaChatAPI = new CoronaChatAPI();
+  }
 
   const classes = useStyles();
 

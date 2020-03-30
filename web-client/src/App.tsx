@@ -33,7 +33,7 @@ const App = () => {
             <Home />
           </Route>
           <Route path="/dashboard">
-            <MainMessage />
+            <MainMessage isTrial={true}/>
           </Route>
         </Switch>
       </ThemeProvider>
