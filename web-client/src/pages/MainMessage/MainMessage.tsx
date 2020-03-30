@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './MainMessage.css';
-import MainMessageForm from './components/MainMessageForm/MainMessageForm';
-import { defaultTemplate, defaultFooterItemBackToMenu } from './sampleData/defaultTemplate';
-import { Template, MenuItem } from './model/model';
-import MenuItemMessageForm from './components/MenuItemMessageForm/MenuItemMessageForm';
+import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
+import { defaultTemplate, defaultFooterItemBackToMenu } from '../../sampleData/defaultTemplate';
+import { Template, MenuItem } from '../../model/model';
+import MenuItemMessageForm from '../../components/MenuItemMessageForm/MenuItemMessageForm';
 import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, ThemeProvider, createMuiTheme } from '@material-ui/core';
-import { CoronaChatAPI } from './services/CoronaChatAPI';
-import MessagePreview from './components/MessagePreview/MessagePreview';
-import SplitLayout from './components/SplitLayout/SplitLayout';
+import { CoronaChatAPI } from '../../services/CoronaChatAPI';
+import MessagePreview from '../../components/MessagePreview/MessagePreview';
+import SplitLayout from '../../components/SplitLayout/SplitLayout';
 
 function getInitSelectedMenuItem(): MenuItem {
   // TODO(MB) could set initial value to null without compiler complaining

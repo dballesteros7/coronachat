@@ -1,5 +1,5 @@
 import './App.css';
-import MainMessage from './MainMessage';
+import MainMessage from './pages/MainMessage/MainMessage';
 import React from 'react';
 import {
   BrowserRouter as Router,
@@ -7,13 +7,14 @@ import {
   Route,
   Link
 } from 'react-router-dom';
+import Home from './pages/Home/Home';
 
 const App = () => {
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          {/* <Home /> */}
+          <Home />
         </Route>
         <Route path="/dashboard">
           <MainMessage />
