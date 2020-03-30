@@ -22,12 +22,22 @@
     font-size: smaller;
     max-width: 700px;
     padding: 20px 20px 45px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .message-box {
+      margin-bottom: 15px;
+      max-width: 580px;
+    }
+
+    .our-messages {
+      align-self: flex-end;
+    }
   }
 
-  .message-box {
-    margin-bottom: 15px;
-    max-width: 580px;
-  }
+  
 
   a {
     text-decoration: none;
