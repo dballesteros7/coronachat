@@ -1,40 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import './MenuItemMessageForm.scss';
-import { Dialog, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemText, Divider, makeStyles, Theme, createStyles, Slide, TextField, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close'
-import { TransitionProps } from '@material-ui/core/transitions/transition';
-import { MenuItem } from '../../model/model';
-import SmartTextArea from '../SmartTextArea/SmartTextArea';
+import React, { useState, useEffect } from "react";
+import "./MenuItemMessageForm.scss";
+import {
+  Dialog,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  makeStyles,
+  Theme,
+  createStyles,
+  Slide,
+  TextField,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import { TransitionProps } from "@material-ui/core/transitions/transition";
+import { MenuItem } from "../../model/model";
+import SmartTextArea from "../SmartTextArea/SmartTextArea";
+import { useTranslation } from "react-i18next";
 
 type MenuItemMessageFormProps = {
-  menuItem: MenuItem,
-  onCloseAndDiscardChanges: () => void,
-  onCloseAndSaveChanges: (menuItem: MenuItem) => void,
-  isVisible: boolean
-}
+  menuItem: MenuItem;
+  onCloseAndDiscardChanges: () => void;
+  onCloseAndSaveChanges: (menuItem: MenuItem) => void;
+  isVisible: boolean;
+};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
-      position: 'relative'
+      position: "relative"
     },
     title: {
       marginLeft: theme.spacing(2),
       flex: 1,
-      color: 'white'
-    },
-  }),
+      color: "white"
+    }
+  })
 );
 
-const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef<unknown, TransitionProps>(
+  function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  }
+);
 
 const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
-
+  const { t, i18n } = useTranslation();
   const classes = useStyles();
 
-  const [menuItem, setMenuItem] = useState(JSON.parse(JSON.stringify(props.menuItem)));
+  const [menuItem, setMenuItem] = useState(
+    JSON.parse(JSON.stringify(props.menuItem))
+  );
   const [isTitleInvalid, setIsTitleInvalid] = useState(false);
   const [isContentInvalid, setIsContentInvalid] = useState(false);
   const [isDiscardChangesShowing, setIsDiscardChangesShowing] = useState(false);
@@ -47,7 +72,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     // so when constructed props.menuItem is an empty object and so would remain
     // without this state update
     setMenuItem(JSON.parse(JSON.stringify(props.menuItem)));
-  }, [props.menuItem])
+  }, [props.menuItem]);
 
   let onCloseMenuItemClicked = () => {
     setIsDiscardChangesShowing(true);
@@ -56,7 +81,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   let onDiscardChangesClicked = () => {
     props.onCloseAndDiscardChanges();
     setIsDiscardChangesShowing(false);
-  }
+  };
 
   let onSaveMenuItemClicked = () => {
     props.onCloseAndSaveChanges(menuItem);
@@ -67,101 +92,131 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     // let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     // updatedMenuItem.content = defaultMenuItem?.content || '';
     // setMenuItem(updatedMenuItem);
-  }
+  };
 
   let onContentChanged = (newText: string) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     updatedMenuItem.content = newText;
     setMenuItem(updatedMenuItem);
     setIsContentInvalid(newText.length === 0);
-  }
+  };
 
   let onTitleChanged = (newTitle: string) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     updatedMenuItem.title = newTitle;
     setMenuItem(updatedMenuItem);
     setIsTitleInvalid(newTitle.length === 0);
-  }
+  };
 
-  let footerListItems = menuItem.footerItems.map((footerItem: string, idx: number) => {
-    return (
+  let footerListItems = menuItem.footerItems.map(
+    (footerItem: string, idx: number) => {
+      return (
         <ListItem key={idx} dense>
-          <ListItemText primary={footerItem}/>
+          <ListItemText primary={footerItem} />
         </ListItem>
       );
     }
   );
 
   return (
-    <Dialog fullScreen disableBackdropClick={true} disableEscapeKeyDown={true}
-      open={props.isVisible} className="MenuItemMessageForm" 
-      onClose={onCloseMenuItemClicked} TransitionComponent={Transition}>
+    <Dialog
+      fullScreen
+      disableBackdropClick={true}
+      disableEscapeKeyDown={true}
+      open={props.isVisible}
+      className="MenuItemMessageForm"
+      onClose={onCloseMenuItemClicked}
+      TransitionComponent={Transition}
+    >
       <AppBar className={classes.appBar}>
         <Toolbar>
-          <IconButton edge="start" color="secondary" 
-          onClick={onCloseMenuItemClicked} aria-label="close">
+          <IconButton
+            edge="start"
+            color="secondary"
+            onClick={onCloseMenuItemClicked}
+            aria-label="close"
+          >
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Details
+            {t("Details")}
           </Typography>
-          <Button autoFocus disabled={isTitleInvalid || isContentInvalid} color="secondary" onClick={onSaveMenuItemClicked}>
-            save
+          <Button
+            autoFocus
+            disabled={isTitleInvalid || isContentInvalid}
+            color="secondary"
+            onClick={onSaveMenuItemClicked}
+          >
+            {t("save")}
           </Button>
         </Toolbar>
       </AppBar>
       <div className="covid-container">
         {/* <List> */}
-          <h3 className="covid-title">Sub-message title</h3>
-          <TextField fullWidth error={isTitleInvalid} helperText="The title cannot be empty." 
-            placeholder="Write the text to show next to the menu item number" 
-            value={menuItem.title} variant="outlined" 
-            onChange={e => onTitleChanged(e.target.value)}/>
-          <Divider className="divider"/>
-          <SmartTextArea 
-            error={isContentInvalid}
-            helperText="The content cannot be empty." 
-            showPrefill={false}
-            showEdit={false}
-            label='Main content'
-            value={menuItem.content}
-            rows={11}
-            placeholder='Write here the main content of the sub-message'
-            onPrefillClicked={onPrefillContentClicked}
-            onChange={onContentChanged}
-            onSaveClicked={onContentChanged}
-          />
-          <Divider className="divider"/>
-          <h3 className="covid-title">Footer</h3>
-          <List component="nav">{footerListItems}</List>
+        <h3 className="covid-title">{t("Sub-message_title")}</h3>
+        <TextField
+          fullWidth
+          error={isTitleInvalid}
+          helperText={t("The_title_cannot_be_empty.")}
+          placeholder={t("Write_the_text_to_show_next_to_the_menu_item_number")}
+          value={menuItem.title}
+          variant="outlined"
+          onChange={e => onTitleChanged(e.target.value)}
+        />
+        <Divider className="divider" />
+        <SmartTextArea
+          error={isContentInvalid}
+          helperText={t("The_content_cannot_be_empty.")}
+          showPrefill={false}
+          showEdit={false}
+          label={t("Main_content")}
+          value={menuItem.content}
+          rows={11}
+          placeholder={t("Write_here_the_main_content_of_the_sub-message")}
+          onPrefillClicked={onPrefillContentClicked}
+          onChange={onContentChanged}
+          onSaveClicked={onContentChanged}
+        />
+        <Divider className="divider" />
+        <h3 className="covid-title">Footer</h3>
+        <List component="nav">{footerListItems}</List>
         {/* </List> */}
       </div>
       {/* TODO(MB) there must be a better way to show a dialog/aler/toast (that may rarely be opened) programmatically 
           than keeping a variable in the state all the time*/}
-      {isDiscardChangesShowing && 
+      {isDiscardChangesShowing && (
         <Dialog
           open={true}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Are you sure to discard your changes?"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">
+            {t("Are_you_sure_to_discard_your_changes?")}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              If you close you will lose any change that you may have made.
+              {t(
+                "If_you_close_you_will_lose_any_change_that_you_may_have_made."
+              )}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={onDiscardChangesClicked} color="primary">
-              Yes, discard and close
+              {t("Yes,_discard_and_close")}
             </Button>
-            <Button onClick={() => setIsDiscardChangesShowing(false)} color="primary" style={{fontWeight: 'bold'}} autoFocus>
-              No, continue editing
+            <Button
+              onClick={() => setIsDiscardChangesShowing(false)}
+              color="primary"
+              style={{ fontWeight: "bold" }}
+              autoFocus
+            >
+              {t("No,_continue_editing")}
             </Button>
           </DialogActions>
         </Dialog>
-      }
+      )}
     </Dialog>
-  )
+  );
 };
 
 export default MenuItemMessageForm;
