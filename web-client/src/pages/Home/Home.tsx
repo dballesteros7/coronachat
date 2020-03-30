@@ -72,16 +72,18 @@ const Home = () => {
             <MailOutlineIcon />
           </Fab>
         </a>
-        <a href="https://www.linkedin.com/in/diegoballesterosv/">
-          <Fab className={classes.contactsButton} size="small">
-            D
-          </Fab>
-        </a>
-        <a href="https://www.linkedin.com/in/maricabertarini/">
-          <Fab className={classes.contactsButton} size="small">
-            M
-          </Fab>
-        </a>
+        <span>
+          <a href="https://www.linkedin.com/in/diegoballesterosv/">
+            <Fab className={classes.contactsButton} size="small">
+              D
+            </Fab>
+          </a>
+          <a href="https://www.linkedin.com/in/maricabertarini/">
+            <Fab className={classes.contactsButton} size="small">
+              M
+            </Fab>
+          </a>
+        </span>
       </footer>
       <Link to="/dashboard">
         <Fab variant="extended" className={classes.fabButton} color="primary">
