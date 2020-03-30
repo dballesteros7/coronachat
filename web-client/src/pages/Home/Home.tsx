@@ -1,24 +1,33 @@
 import './Home.scss';
 import React from 'react';
 import logo from '../../assets/images/coronachat-logo.svg';
-import { Button, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core';
+import Fab from '@material-ui/core/Fab';
 import { Link } from 'react-router-dom';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    startButton: {
-      color: 'white',
-      display: 'table',
-      margin: 'auto'
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+      },
     },
+    fabButton: {
+      position: 'fixed',
+      bottom: 10,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      color: 'white'
+    }
   }),
 );
+
 const Home = () => {
   const classes = useStyles();
   
   return (
-    <div className="Home">
+    <div className={classes.root + " Home"}>
       <img id="logo" src={logo} alt="Coronainfochat"/>
       <h2 className="covid-title">Stop misinformation about COVID-19 and inform your people officially</h2>
 
@@ -50,10 +59,13 @@ const Home = () => {
         </div>
       </div>
       <Link to="/dashboard">
-        <Button className={classes.startButton} size="small" 
+        <Fab variant="extended" className={classes.fabButton} color="primary">
+          Try it in spanish
+        </Fab>
+        {/* <Button className={classes.startButton} size="small" 
           variant="contained" color="primary">
           Try it in spanish
-        </Button>
+        </Button> */}
       </Link>
     </div>
   );
