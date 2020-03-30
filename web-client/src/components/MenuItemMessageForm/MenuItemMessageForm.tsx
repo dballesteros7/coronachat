@@ -191,12 +191,12 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {t("Are_you_sure_to_discard_your_changes?")}
+            {t("Are_you_sure_to_discard_your_changes")}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               {t(
-                "If_you_close_you_will_lose_any_change_that_you_may_have_made."
+                "If_you_close_you_will_lose_any_change_that_you_may_have_made"
               )}
             </DialogContentText>
           </DialogContent>
