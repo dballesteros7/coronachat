@@ -2,9 +2,8 @@ import { Template } from "../model/model";
 
 export class CoronaChatAPI {
   
-  // private static readonly getTemplateURL = "http://cors-anywhere.herokuapp.com/http://7bb4d846.ngrok.io/getTemplate";
-  private static readonly getTemplateURL = "http://7bb4d846.ngrok.io/getTemplate";
-  private static readonly updateTemplateURL = "http://7bb4d846.ngrok.io/updateTemplate";
+  private static readonly getTemplateURL = "https://app.coronainfochat.org/getTemplate";
+  private static readonly updateTemplateURL = "https://app.coronainfochat.org/updateTemplate";
 
   getTemplate(): Promise<Template> {
     var url = new URL(CoronaChatAPI.getTemplateURL);
