@@ -20,3 +20,7 @@ $covid-margin: 20px;
   padding: $covid-margin;
   padding-top: 0;
 }
+
+html, body, #root {
+  height: 100%;;
+}

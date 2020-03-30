@@ -39,21 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      // Whatsapp top bar green
-      main: '#1EBEA5',
-    },
-    secondary: {
-      main: '#FFFFFF',
-    },
-    error: {
-      main: '#DE5347'
-    }
-  },
-});
-
 const MainMessage = () => {
 
   const coronaChatAPI = new CoronaChatAPI();
@@ -191,7 +176,7 @@ const MainMessage = () => {
   );
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       {/* TODO(MB) create a custom appbar reusable component and use it everywhere */}
       <AppBar className={classes.appBar}>
         <Toolbar>
@@ -213,7 +198,7 @@ const MainMessage = () => {
           optionalContent = {messagePreview}
         />
       </div>
-    </ThemeProvider>
+    </>
   );
 }
 
