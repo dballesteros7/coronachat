@@ -45,17 +45,17 @@ const Home = () => {
           <MessagePreview bgColor="#F4F4F4" value="I don't know how to configure one for the people here."/>
         </div>
         <div id="message-box-4" className="message-box our-messages">
-          <MessagePreview bgColor="#F8EA8C" value="Hello Mr Gonzales, we appreciate your initiative and would like to help you out."/>
+          <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Hello Mr Gonzales, we appreciate your initiative and would like to help you out."/>
         </div>
         <div id="message-box-5" className="message-box our-messages">
-          <MessagePreview bgColor="#F8EA8C" value="Our app _Coronainfochat_ creates the chatbot for you. You just need to feed it with the
+          <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Our app _Coronainfochat_ creates the chatbot for you. You just need to feed it with the
             content that the people of your town will read in the chat. It works with *Facebook Messenger* too."/>
         </div>
         <div id="message-box-6" className="message-box">
           <MessagePreview bgColor="#F4F4F4" value="Awesome! Thank you. Can they also get a notification with important updates?"/>
         </div>
         <div id="message-box-7" className="message-box our-messages">
-          <MessagePreview bgColor="#F8EA8C" value="Not yet, but soon. We'll keep you posted. Try the app by clicking below and stay _healhty_!"/>
+          <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Not yet, but soon. We'll keep you posted. Try the app by clicking below and stay _healhty_!"/>
         </div>
       </div>
       <Link to="/dashboard">

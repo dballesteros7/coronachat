@@ -1,6 +1,14 @@
 import React from 'react';
 import './MessagePreview.scss';
 
+type TrianglePosition = "left" | "right" | "none";
+
+type MessagePreviewProps = {
+  value: string, 
+  bgColor: string,
+  triangle?: TrianglePosition
+}
+
 function getHTMLValueFromWhatsappFormatting(text: string): string {
   if (!text) {
     return '';
@@ -42,16 +50,28 @@ function getHTMLValueFromWhatsappFormatting(text: string): string {
   return e;
 }
 
-function getMessagePreviewHTMLContent(whatsAppFormattedText: string, bgColor: string): string {
+function getMessagePreviewHTMLContent(whatsAppFormattedText: string, 
+                                      bgColor: string, 
+                                      trianglePosition: TrianglePosition): string {
   const htmlText = getHTMLValueFromWhatsappFormatting(whatsAppFormattedText);
-  return `${htmlText}<div style="border-right-color: ${bgColor}" class='bubble-triangle'></div>`;
+
+  if (trianglePosition === "left") {
+    const style = `border-right-color: ${bgColor}; left: 5px; border-left: 0; margin-left: -11px;`;
+    return `${htmlText}<div style="${style}" class='bubble-triangle'></div>`;
+  } else if (trianglePosition === "right") {
+    const style = `border-left-color: ${bgColor}; right: 5px; border-right: 0; margin-right: -11px;`;
+    return `${htmlText}<div style="${style}" class='bubble-triangle'></div>`;
+  } else {
+    return htmlText;
+  }
+
 }
 
-const MessagePreview = (props: {value: string, bgColor: string}) => {
+const MessagePreview = (props: MessagePreviewProps) => {
   return (
     <>
       <div className="MessagePreview" style={{ backgroundColor: props.bgColor }}
-        dangerouslySetInnerHTML={{__html: getMessagePreviewHTMLContent(props.value, props.bgColor)}}>
+        dangerouslySetInnerHTML={{__html: getMessagePreviewHTMLContent(props.value, props.bgColor, props.triangle ?? "left")}}>
       </div>
     </>
   )
