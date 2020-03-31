@@ -29,11 +29,11 @@ const App = () => {
     <Router>
       <ThemeProvider theme={theme}>
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
           <Route path="/dashboard">
             <MainMessage isTrial={true}/>
+          </Route>
+          <Route path="/">
+            <Home />
           </Route>
         </Switch>
       </ThemeProvider>
