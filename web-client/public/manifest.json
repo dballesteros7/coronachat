@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Coronainfochat",
+  "name": "We help any government or organisation to inform people via Whatsapp about COVID‑19.",
   "icons": [
     {
       "src": "favicon.ico",
