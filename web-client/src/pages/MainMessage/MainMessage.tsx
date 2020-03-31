@@ -217,9 +217,12 @@ const MainMessage = (props: {isTrial?: boolean}) => {
             optionalContent = {messagePreview}
           />
           <Drawer className={classes.drawer + " MsgPreviewDrawer"} anchor={'right'} open={isMsgPreviewDrawerOpen} onClose={() => {}}>
-            <Button autoFocus color="primary" onClick={() => setMsgPreviewDrawerOpen(false)}>
-              Primary
-            </Button>
+            <div className="drawer-content">
+              <Button autoFocus color="primary" onClick={() => setMsgPreviewDrawerOpen(false)}>
+                Primary
+              </Button>
+              {messagePreview}
+            </div>
           </Drawer>
         </div>
       </React.Fragment>

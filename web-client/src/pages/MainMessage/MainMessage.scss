@@ -5,6 +5,12 @@
   }
 }
 
-.MsgPreviewDrawer .MuiDrawer-paper {
-  width: 100%;
+.MsgPreviewDrawer {
+  .MuiDrawer-paper {
+    width: 100%;
+  }
+
+  .drawer-content {
+    padding: 20px;
+  }
 }
