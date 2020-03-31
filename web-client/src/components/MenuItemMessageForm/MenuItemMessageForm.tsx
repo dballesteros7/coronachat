@@ -26,7 +26,8 @@ function checkIfContentIsInvalid(content: string): boolean {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
-      position: 'relative'
+      position: 'relative',
+      padding: '3px 0'
     },
     title: {
       marginLeft: theme.spacing(2),

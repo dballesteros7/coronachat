@@ -30,13 +30,13 @@ const Home = () => {
   return (
     <div className={classes.root + " Home"}>
       <img id="logo" src={logo} alt="Coronainfochat"/>
-      <h2 className="covid-title">Stop misinformation about COVID-19 and inform your people officially</h2>
+      <h2 className="covid-title">Stop misinformation about COVID‑19 and inform your people officially</h2>
 
       <div id="full-width-container">
         <div id="chat-box">
           <div id="message-box-1" className="message-box">
             <MessagePreview bgColor="#F4F4F4" value="Hello. I am the mayor of a South American town. The people here use *WhatsApp* a lot and 
-              share many chains and fake news about COVID-19. 🦠"/>
+              share many chains and fake news about COVID‑19. 🦠"/>
           </div>
           <div id="message-box-2" className="message-box">
             <MessagePreview bgColor="#F4F4F4" value="They also have limited data plans and access websites is not always possible. I saw that WHO and India have some phone numbers that people can write to

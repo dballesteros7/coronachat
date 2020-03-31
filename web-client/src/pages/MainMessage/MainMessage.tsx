@@ -35,7 +35,8 @@ function getEmptyTemplate(): Template {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
-      position: 'relative'
+      position: 'relative',
+      padding: '3px 0'
     },
     title: {
       marginLeft: theme.spacing(2),
@@ -198,7 +199,7 @@ const MainMessage = (props: {isTrial?: boolean}) => {
       <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="secondary" className={classes.title}>
-            Portal de Información de COVID-19
+            Portal de Información de COVID‑19
           </Typography>
           <IconButton autoFocus id="preview-button" color="secondary" 
             onClick={() => setMsgPreviewDrawerOpen(true)}>

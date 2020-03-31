@@ -4,15 +4,15 @@ export const defaultFooterItemBackToMenu = 'Escriba 0 para ir al Menú';
 
 //TODO (MB) all its properties of this instance should be readonly
 export const defaultTemplate: Template = {
-  header: `*Bienvenidos a la Alcald\u00eda de la Mesa de los Santos*\n\nObtenga informaci\u00f3n y orientaci\u00f3n de la _OMS_ sobre el brote de coronavirus _COVID-19_.\n\n\u00bfQu\u00e9 le gustar\u00eda saber sobre coronavirus?\n\nEscriba el n\u00famero para acceder a la informaci\u00f3n sobre estos temas:\n`,
+  header: `*Bienvenidos a la Alcald\u00eda de la Mesa de los Santos*\n\nObtenga informaci\u00f3n y orientaci\u00f3n de la _OMS_ sobre el brote de coronavirus _COVID‑19_.\n\n\u00bfQu\u00e9 le gustar\u00eda saber sobre coronavirus?\n\nEscriba el n\u00famero para acceder a la informaci\u00f3n sobre estos temas:\n`,
   menuItems: [
     {
       id: 1,
       title: 'Últimas cifras',
       content: `Últimas cifras 🔢
 
-      Novedoso panel de control de situación del coronavirus (COVID-19)
-      Este tablero / mapa interactivo proporciona los últimos números globales y números por país de casos COVID-19 a diario. 
+      Novedoso panel de control de situación del coronavirus (COVID‑19)
+      Este tablero / mapa interactivo proporciona los últimos números globales y números por país de casos COVID‑19 a diario. 
       https://experience.arcgis.com/experience/685d0ace521648f8a5beeeee1b9125cd
       
       Distribución geográfica de la enfermedad por el coronavirus 2019-nCoV en las Américas
@@ -60,26 +60,26 @@ export const defaultTemplate: Template = {
 
       10. ¿Qué es un coronavirus?
 
-      11. ¿Cuáles son los síntomas del COVID-19?
+      11. ¿Cuáles son los síntomas del COVID‑19?
 
-      12. ¿Cómo se propaga el COVID-19?
+      12. ¿Cómo se propaga el COVID‑19?
 
-      13. ¿Es posible contagiarse de COVID-19 por contacto con heces, animales o mascotas?
+      13. ¿Es posible contagiarse de COVID‑19 por contacto con heces, animales o mascotas?
 
-      14. ¿Es posible contagiarse de COVID-19 por contacto con superficies infectadas o paquetes provenientes de un area infectada?
+      14. ¿Es posible contagiarse de COVID‑19 por contacto con superficies infectadas o paquetes provenientes de un area infectada?
 
       15. ¿Qué puedo hacer para protegerme y prevenir la propagación de la enfermedad?
-      16. ¿Qué debo hacer si he visitado un área donde COVID-19 se está propagando?
+      16. ¿Qué debo hacer si he visitado un área donde COVID‑19 se está propagando?
 
-      17. ¿Qué tratamientos hay disponibles para el COVID-19 (incluyendo medicamentos, vacunas, terapias)?
+      17. ¿Qué tratamientos hay disponibles para el COVID‑19 (incluyendo medicamentos, vacunas, terapias)?
 
       18. ¿Debo llevar mascarilla para protegerme?
 
       19. ¿Hay algo que deba evitar?
 
-      20. ¿Cómo puedo gestionar el estrés durante el COVID-19?
+      20. ¿Cómo puedo gestionar el estrés durante el COVID‑19?
 
-      21. ¿Cómo puedo ayudar a los niños a gestionar su estrés durante el COVID-19?
+      21. ¿Cómo puedo ayudar a los niños a gestionar su estrés durante el COVID‑19?
 `,
       footerItems: [
         'Escriba 0 para ir al Menú'
