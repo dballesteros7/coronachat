@@ -44,8 +44,7 @@ const Home = () => {
               share many chains and fake news about COVID-19. 🦠"/>
           </div>
           <div id="message-box-2" className="message-box">
-            <MessagePreview bgColor="#F4F4F4" value="They also have limited data plans and access to important
-              information is not always possible. I saw that WHO and India have some phone number that people can write to
+            <MessagePreview bgColor="#F4F4F4" value="They also have limited data plans and access websites is not always possible. I saw that WHO and India have some phone numbers that people can write to
               via Whatsapp and get *official information quickly* via message..."/>
           </div>
           <div id="message-box-3" className="message-box">
@@ -62,7 +61,13 @@ const Home = () => {
             <MessagePreview bgColor="#F4F4F4" value="Awesome! Thank you. Can they also get a notification with important updates?"/>
           </div>
           <div id="message-box-7" className="message-box our-messages">
-            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Not yet, but soon. We'll keep you posted. Try the app by clicking below and stay _healhty_! 💪🏼"/>
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Not yet, but soon. We'll keep you posted. Please try the app and stay _healthy_! 💪🏼"/>
+          </div>
+          <div className="message-box">
+            <MessagePreview bgColor="#F4F4F4" value="How much is this going to cost? The budget is tight 💰😐"/>
+          </div>
+          <div id="message-box-7" className="message-box our-messages">
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Nothing, it's *free* at the moment. Infrastructure costs may need to be covered later on. Feel free to contact us for any other question! 👇🏼"/>
           </div>
         </div>
       </div>
