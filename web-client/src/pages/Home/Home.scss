@@ -44,6 +44,22 @@
 
   footer {
     margin-bottom: 60px;
+
+    a:last-child .contact-button {
+      margin-right: 0;
+    }
+
+    .contact-button {
+      color: white;
+      background-color: #D7DFE8;
+      margin-right: 10px;
+
+      // TODO(MB) why & does not work but rule above with .contact-button instead does?
+      // a:last-child & {
+      //   margin-right: 0;
+      // }
+  
+    }
   }
 
   a {

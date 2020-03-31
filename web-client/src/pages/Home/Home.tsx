@@ -20,11 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
       left: '50%',
       transform: 'translateX(-50%)',
       color: 'white'
-    },
-    contactsButton: {
-      color: 'white',
-      backgroundColor: '#D7DFE8',
-      marginRight: 10
     }
   }),
 );
@@ -72,19 +67,19 @@ const Home = () => {
         </div>
       </div>
       <footer>
-        <a href="mailto:coronainfochat@gmail.com">
-          <Fab className={classes.contactsButton} size="small">
+        <a href="mailto:coronainfochat@gmail.com" target="_blank">
+          <Fab className="contact-button" size="small">
             <MailOutlineIcon />
           </Fab>
         </a>
         <span>
-          <a href="https://www.linkedin.com/in/diegoballesterosv/">
-            <Fab className={classes.contactsButton} size="small">
+          <a href="https://www.linkedin.com/in/diegoballesterosv/" target="_blank">
+            <Fab className="contact-button" size="small">
               D
             </Fab>
           </a>
-          <a href="https://www.linkedin.com/in/maricabertarini/">
-            <Fab className={classes.contactsButton} size="small">
+          <a href="https://www.linkedin.com/in/maricabertarini/" target="_blank">
+            <Fab className="contact-button" size="small">
               M
             </Fab>
           </a>
