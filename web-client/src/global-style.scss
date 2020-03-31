@@ -3,6 +3,7 @@ $covid-margin: 20px;
 .covid-title-box {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 
   .action-button-group {

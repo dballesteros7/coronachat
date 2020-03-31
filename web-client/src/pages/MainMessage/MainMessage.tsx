@@ -4,13 +4,15 @@ import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { defaultTemplate, defaultFooterItemBackToMenu } from '../../sampleData/defaultTemplate';
 import { Template, MenuItem } from '../../model/model';
 import MenuItemMessageForm from '../../components/MenuItemMessageForm/MenuItemMessageForm';
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, Button, IconButton } from '@material-ui/core';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
 import { TrialCoronaChatAPI } from '../../services/TrialCoronaChatAPI';
 import { CoronaChatAPIInterface } from '../../services/CoronaChatAPIInterface';
 import Drawer from '@material-ui/core/Drawer';
+import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 
 function getInitSelectedMenuItem(): MenuItem {
@@ -198,9 +200,10 @@ const MainMessage = (props: {isTrial?: boolean}) => {
           <Typography variant="h6" color="secondary" className={classes.title}>
             Portal de Información de COVID-19
           </Typography>
-          <Button autoFocus color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
-            Preview
-          </Button>
+          <IconButton autoFocus id="preview-button" color="secondary" 
+            onClick={() => setMsgPreviewDrawerOpen(true)}>
+            <VisibilityIcon></VisibilityIcon>
+          </IconButton>
         </Toolbar>
       </AppBar>
       <React.Fragment key={'RIGHT'}>
@@ -218,9 +221,13 @@ const MainMessage = (props: {isTrial?: boolean}) => {
           />
           <Drawer className={classes.drawer + " MsgPreviewDrawer"} anchor={'right'} open={isMsgPreviewDrawerOpen} onClose={() => {}}>
             <div className="drawer-content">
-              <Button autoFocus color="primary" onClick={() => setMsgPreviewDrawerOpen(false)}>
-                Primary
-              </Button>
+              <div className="covid-title-box">
+                <div className="covid-title">Vista preliminar del mensaje</div>
+                <IconButton autoFocus size="medium" aria-label="close" onClick={() => setMsgPreviewDrawerOpen(false)}>
+                  <CloseOutlinedIcon color="primary">
+                  </CloseOutlinedIcon>
+                </IconButton>
+              </div>
               {messagePreview}
             </div>
           </Drawer>

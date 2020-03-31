@@ -12,6 +12,7 @@
     max-width: 50%;
   }
 
+  // TODO(MB) define this breakpoint somewhere global avoid redefining
   @media only screen and (max-width: 768px) {
     .optional-pane {
       display: none;
