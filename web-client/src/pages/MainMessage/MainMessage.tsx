@@ -4,12 +4,14 @@ import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { defaultTemplate, defaultFooterItemBackToMenu } from '../../sampleData/defaultTemplate';
 import { Template, MenuItem } from '../../model/model';
 import MenuItemMessageForm from '../../components/MenuItemMessageForm/MenuItemMessageForm';
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, ThemeProvider, createMuiTheme } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
 import { TrialCoronaChatAPI } from '../../services/TrialCoronaChatAPI';
 import { CoronaChatAPIInterface } from '../../services/CoronaChatAPIInterface';
+import Drawer from '@material-ui/core/Drawer';
+
 
 function getInitSelectedMenuItem(): MenuItem {
   // TODO(MB) could set initial value to null without compiler complaining
@@ -38,6 +40,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flex: 1,
       color: 'white'
     },
+    drawer: {
+      // width: '100%',
+      // backgroundColor: 'red'
+    }
   }),
 );
 
@@ -51,6 +57,8 @@ const MainMessage = (props: {isTrial?: boolean}) => {
   }
 
   const classes = useStyles();
+
+  const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
 
   useEffect(() => {
     // TODO(MB) add some loading UI
@@ -155,11 +163,11 @@ const MainMessage = (props: {isTrial?: boolean}) => {
     setEditingMenuItem(getInitSelectedMenuItem());
   }
 
-  let getEditingMenuItemClone = (): MenuItem => {
+  const getEditingMenuItemClone = (): MenuItem => {
     return JSON.parse(JSON.stringify(editingMenuItem));
   }
 
-  let getMessagePreviewText = (): string => {
+  const getMessagePreviewText = (): string => {
     const menuText = templateRef.current.menuItems.reduce((titlesArray, item, idx) => 
       titlesArray.concat(`${idx + 1}. ${item.title}`), [] as string[]).join('\n');
     const text = templateRef.current.header + '\n' + menuText;
@@ -190,21 +198,31 @@ const MainMessage = (props: {isTrial?: boolean}) => {
           <Typography variant="h6" color="secondary" className={classes.title}>
             Portal de Información de COVID-19
           </Typography>
+          <Button autoFocus color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
+            Preview
+          </Button>
         </Toolbar>
       </AppBar>
-      <div className="MainMessage covid-container">
-        <MenuItemMessageForm 
-          menuItem={getEditingMenuItemClone()}
-          onCloseAndDiscardChanges={onCloseAndDiscardChanges}
-          onCloseAndSaveChanges={onCloseAndSaveChanges}
-          onDeleteMenuItem={(menuItem) => {onCloseAndSaveChanges(menuItem, true)}}
-          isVisible={isMenuItemDialogOpenRef.current}
-        />
-        <SplitLayout
-          mainContent = {mainForm}
-          optionalContent = {messagePreview}
-        />
-      </div>
+      <React.Fragment key={'RIGHT'}>
+        <div className="MainMessage covid-container">
+          <MenuItemMessageForm 
+            menuItem={getEditingMenuItemClone()}
+            onCloseAndDiscardChanges={onCloseAndDiscardChanges}
+            onCloseAndSaveChanges={onCloseAndSaveChanges}
+            onDeleteMenuItem={(menuItem) => {onCloseAndSaveChanges(menuItem, true)}}
+            isVisible={isMenuItemDialogOpenRef.current}
+          />
+          <SplitLayout
+            mainContent = {mainForm}
+            optionalContent = {messagePreview}
+          />
+          <Drawer className={classes.drawer + " MsgPreviewDrawer"} anchor={'right'} open={isMsgPreviewDrawerOpen} onClose={() => {}}>
+            <Button autoFocus color="primary" onClick={() => setMsgPreviewDrawerOpen(false)}>
+              Primary
+            </Button>
+          </Drawer>
+        </div>
+      </React.Fragment>
     </>
   );
 }
