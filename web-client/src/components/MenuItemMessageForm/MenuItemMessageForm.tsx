@@ -71,7 +71,7 @@ const Transition = React.forwardRef<unknown, TransitionProps>(
 );
 
 const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const classes = useStyles();
 
   const [menuItem, setMenuItem] = useState(

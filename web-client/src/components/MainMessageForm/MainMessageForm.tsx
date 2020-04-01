@@ -22,7 +22,7 @@ type MainMessageFormProps = {
 };
 
 const MainMessageForm = (props: MainMessageFormProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   let menuListItems = props.template?.menuItems.map(
     (menuItem: MenuItem, idx: number) => {
       const itemText = idx + 1 + ". " + menuItem.title;

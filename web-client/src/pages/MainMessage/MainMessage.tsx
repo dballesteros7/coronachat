@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const MainMessage = (props: { isTrial?: boolean }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   let coronaChatAPI: CoronaChatAPIInterface;
   if (props.isTrial) {
