@@ -1,0 +1,27 @@
+.MainMessage {
+  .msg-preview-box {
+    width: 100%;
+    padding-top: 35px;
+  }
+}
+
+// TODO(MB) define this breakpoint somewhere global avoid redefining
+@media only screen and (min-width: 769px) {
+  #preview-button {
+    display: none;
+  }
+}
+
+.MsgPreviewDrawer {
+  .MuiDrawer-paper {
+    width: 100%;
+  }
+
+  .drawer-content {
+    padding: 20px;
+  }
+
+  .covid-title-box {
+    margin-bottom: 10px;
+  }
+}

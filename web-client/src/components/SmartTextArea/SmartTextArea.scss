@@ -4,4 +4,9 @@
   .save-button {
     font-weight: bold;
   }
+
+  .emoji-picker-react {
+    position: absolute;
+    z-index: 1;
+  }
 }

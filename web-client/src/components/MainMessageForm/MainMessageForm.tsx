@@ -23,7 +23,7 @@ type MainMessageFormProps = {
 
 const MainMessageForm = (props: MainMessageFormProps) => {
   const { t, i18n } = useTranslation();
-  let menuListItems = props.template.menuItems.map(
+  let menuListItems = props.template?.menuItems.map(
     (menuItem: MenuItem, idx: number) => {
       const itemText = idx + 1 + ". " + menuItem.title;
       const onItemClicked = () => props.onOpenMenuItem(menuItem);
