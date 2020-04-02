@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      position: 'relative',
       '& > *': {
         margin: theme.spacing(1),
       },
@@ -26,6 +27,14 @@ const useStyles = makeStyles((theme: Theme) =>
       color: 'white',
       backgroundColor: '#D7DFE8',
       marginRight: 10,
+    },
+    langMenuButton: {
+      position: 'fixed',
+      top: 0,
+      right: 0,
+    },
+    langMenuItem: {
+      color: theme.palette.primary.main,
     },
   })
 );
@@ -58,7 +67,7 @@ const Home = () => {
   };
 
   const menuItems = Object.keys(Languages).map((language: string) => (
-    <MenuItem onClick={(_) => onLanguageItemClicked(Languages[language as Language])}>
+    <MenuItem className={classes.langMenuItem} onClick={(_) => onLanguageItemClicked(Languages[language as Language])}>
       {language.toUpperCase()}
     </MenuItem>
   ));
@@ -66,11 +75,16 @@ const Home = () => {
   return (
     <div className={classes.root + ' Home'}>
       <img id="logo" src={logo} alt="Coronainfochat" />
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={onLanguageButtonClicked}>
+      <Button
+        className={classes.langMenuButton}
+        aria-controls="simple-menu"
+        aria-haspopup="true"
+        color="primary"
+        onClick={onLanguageButtonClicked}
+      >
         {selectedLanguage}
       </Button>
       <Menu
-        id="language-menu"
         anchorEl={languageMenuAnchorEl}
         keepMounted
         open={Boolean(languageMenuAnchorEl)}
