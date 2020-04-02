@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import "./SmartTextArea.scss";
-import Picker from "emoji-picker-react";
-import { TextField, Button, IconButton } from "@material-ui/core";
-import EmojiEmotionsOutlinedIcon from "@material-ui/icons/EmojiEmotionsOutlined";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import './SmartTextArea.scss';
+import Picker from 'emoji-picker-react';
+import { TextField, Button, IconButton } from '@material-ui/core';
+import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
+import { useTranslation } from 'react-i18next';
 
 type SmartTextAreaProps = {
   value: string;
@@ -58,12 +58,8 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
         <h3 className="covid-title">{props.label}</h3>
         <span className="action-button-group">
           {!isEditingEnabled && props.showEdit && (
-            <Button
-              size="small"
-              color="primary"
-              onClick={_ => setIsEditingEnabled(true)}
-            >
-              {t("EDIT")}
+            <Button size="small" color="primary" onClick={(_) => setIsEditingEnabled(true)}>
+              {t('ACTIONS.EDIT')}
             </Button>
           )}
           {/* {isEditingEnabled && <IconButton edge="start" color="primary" size="small"
@@ -72,38 +68,29 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
             </IconButton>} */}
           {/* {isEditingEnabled && isEmojiPickerOpen && <Picker onEmojiClick={() => {setIsEmojiPickerOpen(false)}}/>} */}
           {isEditingEnabled && props.showPrefill && (
-            <Button
-              size="small"
-              color="primary"
-              onClick={_ => onPrefillClicked()}
-            >
-              {t("PREFILL")}
+            <Button size="small" color="primary" onClick={(_) => onPrefillClicked()}>
+              {t('ACTIONS.PREFILL')}
             </Button>
           )}
           {isEditingEnabled && props.showEdit && (
-            <Button
-              color="primary"
-              size="small"
-              className="save-button"
-              onClick={_ => onSaveClicked()}
-            >
-              {t("DONE")}
+            <Button color="primary" size="small" className="save-button" onClick={(_) => onSaveClicked()}>
+              {t('ACTIONS.DONE')}
             </Button>
           )}
         </span>
       </span>
       <TextField
         fullWidth
-        placeholder={isEditingEnabled ? props.placeholder : ""}
+        placeholder={isEditingEnabled ? props.placeholder : ''}
         className="text-field"
         multiline
         error={props.error}
-        helperText={props.helperText ?? ""}
+        helperText={props.helperText ?? ''}
         disabled={!isEditingEnabled}
         rows={props.rows}
         value={value}
         variant="outlined"
-        onChange={e => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
       />
     </div>
   );

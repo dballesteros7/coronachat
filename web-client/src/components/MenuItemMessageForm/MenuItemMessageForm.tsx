@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./MenuItemMessageForm.scss";
+import React, { useState, useEffect } from 'react';
+import './MenuItemMessageForm.scss';
 import {
   Dialog,
   AppBar,
@@ -18,14 +18,14 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { TransitionProps } from "@material-ui/core/transitions/transition";
-import { MenuItem } from "../../model/model";
-import SmartTextArea from "../SmartTextArea/SmartTextArea";
-import { useTranslation } from "react-i18next";
+  DialogActions,
+} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { TransitionProps } from '@material-ui/core/transitions/transition';
+import { MenuItem } from '../../model/model';
+import SmartTextArea from '../SmartTextArea/SmartTextArea';
+import { useTranslation } from 'react-i18next';
 
 type MenuItemMessageFormProps = {
   menuItem: MenuItem;
@@ -46,12 +46,12 @@ function checkIfContentIsInvalid(content: string): boolean {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
-      position: "relative"
+      position: 'relative',
     },
     title: {
       marginLeft: theme.spacing(2),
       flex: 1,
-      color: "white"
+      color: 'white',
     },
     deleteButton: {
       marginTop: 30,
@@ -59,44 +59,27 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottm: theme.spacing(1),
       marginRight: theme.spacing(1),
       borderColor: theme.palette.error.main,
-      color: theme.palette.error.main
-    }
+      color: theme.palette.error.main,
+    },
   })
 );
 
-const Transition = React.forwardRef<unknown, TransitionProps>(
-  function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  }
-);
+const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  const [menuItem, setMenuItem] = useState(
-    JSON.parse(JSON.stringify(props.menuItem))
-  );
-  const [isTitleInvalid, setIsTitleInvalid] = useState(
-    checkIfTitleIsInvalid(menuItem.title)
-  );
-  const [isContentInvalid, setIsContentInvalid] = useState(
-    checkIfContentIsInvalid(menuItem.content)
-  );
-  const [
-    isDiscardChangesAlertShowing,
-    setIsDiscardChangesAlertShowing
-  ] = useState(false);
-  const [isDeleteItemAlertShowing, setIsDeleteItemAlertShowing] = useState(
-    false
-  );
+  const [menuItem, setMenuItem] = useState(JSON.parse(JSON.stringify(props.menuItem)));
+  const [isTitleInvalid, setIsTitleInvalid] = useState(checkIfTitleIsInvalid(menuItem.title));
+  const [isContentInvalid, setIsContentInvalid] = useState(checkIfContentIsInvalid(menuItem.content));
+  const [isDiscardChangesAlertShowing, setIsDiscardChangesAlertShowing] = useState(false);
+  const [isDeleteItemAlertShowing, setIsDeleteItemAlertShowing] = useState(false);
   // State used to avoid showing fields as wrong (red) when a new item open (of course empty)
-  const [isTitleErrorEnabled, setIsTitleErrorEnabled] = useState(
-    props.menuItem.id > 0
-  );
-  const [isContentErrorEnabled, setIsContentErrorEnabled] = useState(
-    props.menuItem.id > 0
-  );
+  const [isTitleErrorEnabled, setIsTitleErrorEnabled] = useState(props.menuItem.id > 0);
+  const [isContentErrorEnabled, setIsContentErrorEnabled] = useState(props.menuItem.id > 0);
 
   useEffect(() => {
     // TODO (MB) Ideally, we don't want to update the state if props.menuItem chages
@@ -133,7 +116,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   };
 
   let onPrefillContentClicked = () => {
-    console.error("To be implemented!");
+    console.error('To be implemented!');
     // let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
     // updatedMenuItem.content = defaultMenuItem?.content || '';
     // setMenuItem(updatedMenuItem);
@@ -155,15 +138,13 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     setIsTitleErrorEnabled(true);
   };
 
-  let footerListItems = menuItem.footerItems.map(
-    (footerItem: string, idx: number) => {
-      return (
-        <ListItem key={idx} dense>
-          <ListItemText primary={footerItem} />
-        </ListItem>
-      );
-    }
-  );
+  let footerListItems = menuItem.footerItems.map((footerItem: string, idx: number) => {
+    return (
+      <ListItem key={idx} dense>
+        <ListItemText primary={footerItem} />
+      </ListItem>
+    );
+  });
 
   return (
     <Dialog
@@ -177,16 +158,11 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     >
       <AppBar className={classes.appBar}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            color="secondary"
-            onClick={onCloseMenuItemClicked}
-            aria-label="close"
-          >
+          <IconButton edge="start" color="secondary" onClick={onCloseMenuItemClicked} aria-label="close">
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            {t("Details")}
+            {t('MENU.OPTION')}
           </Typography>
           <Button
             autoFocus
@@ -194,32 +170,32 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
             color="secondary"
             onClick={onSaveMenuItemClicked}
           >
-            {t("save")}
+            {t('ACTIONS.SAVE')}
           </Button>
         </Toolbar>
       </AppBar>
       <div className="covid-container">
         {/* <List> */}
-        <h3 className="covid-title">{t("Sub-message_title")}</h3>
+        <h3 className="covid-title">{t('MENU.OPTION_TITLE')}</h3>
         <TextField
           fullWidth
           error={isTitleErrorEnabled && isTitleInvalid}
-          helperText={t("The_title_cannot_be_empty.")}
-          placeholder={t("Write_the_text_to_show_next_to_the_menu_item_number")}
+          helperText={t('TITLE_CANT_BE_EMPTY')}
+          placeholder={t('MENU.OPTION_TITLE_PLACEHOLDER')}
           value={menuItem.title}
           variant="outlined"
-          onChange={e => onTitleChanged(e.target.value)}
+          onChange={(e) => onTitleChanged(e.target.value)}
         />
         <Divider className="divider" />
         <SmartTextArea
           error={isContentErrorEnabled && isContentInvalid}
-          helperText={t("The_content_cannot_be_empty.")}
+          helperText={t('CONTENT_CANT_BE_EMPTY')}
           showPrefill={false}
           showEdit={false}
-          label={t("Main_content")}
+          label={t('CONTENT')}
           value={menuItem.content}
           rows={11}
-          placeholder={t("Write_here_the_main_content_of_the_sub-message")}
+          placeholder={t('MENU.OPTION_CONTENT_PLACEHOLDER')}
           onPrefillClicked={onPrefillContentClicked}
           onChange={onContentChanged}
           onSaveClicked={onContentChanged}
@@ -233,68 +209,51 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           startIcon={<DeleteIcon />}
           onClick={onDeleteItemAskForConfirmClicked}
         >
-          Borrar esta opción
+          {t('MENU.DELETE_OPTION')}
         </Button>
       </div>
       {/* TODO(MB) there must be a better way to show a dialog/aler/toast (that may rarely be opened) programmatically
           than keeping a variable in the state all the time*/}
       {isDiscardChangesAlertShowing && (
-        <Dialog
-          open={true}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {t("Are_you_sure_to_discard_your_changes")}
-          </DialogTitle>
+        <Dialog open={true} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+          <DialogTitle id="alert-dialog-title">{t('UNSAVED_CHANGES_DIALOG.TITLE')}</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {t(
-                "If_you_close_you_will_lose_any_change_that_you_may_have_made"
-              )}
-            </DialogContentText>
+            <DialogContentText id="alert-dialog-description">{t('UNSAVED_CHANGES_DIALOG.MESSAGE')}</DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={onDiscardChangesClicked} color="primary">
-              {t("Yes,_discard_and_close")}
+              {t('UNSAVED_CHANGES_DIALOG.YES_BUTTON')}
             </Button>
             <Button
               onClick={() => setIsDiscardChangesAlertShowing(false)}
               color="primary"
-              style={{ fontWeight: "bold" }}
+              style={{ fontWeight: 'bold' }}
               autoFocus
             >
-              {t("No,_continue_editing")}
+              {t('UNSAVED_CHANGES_DIALOG.NO_BUTTON')}
             </Button>
           </DialogActions>
         </Dialog>
       )}
       {isDeleteItemAlertShowing && (
-        <Dialog
-          open={true}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Borrar esta opción"}
-          </DialogTitle>
+        <Dialog open={true} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+          <DialogTitle id="alert-dialog-title">{t('MENU.DELETE_OPTION_DIALOG.TITLE')}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Si borra esta opción, se eliminará del menú principal y se perderá
-              su contenido. ¿Está seguro?
+              {t('MENU.DELETE_OPTION_DIALOG.MESSAGE')}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={onDeleteItemClicked} color="primary">
-              Sí, borrar la opción
+              {t('MENU.DELETE_OPTION_DIALOG.YES_BUTTON')}
             </Button>
             <Button
               onClick={() => setIsDeleteItemAlertShowing(false)}
               color="primary"
-              style={{ fontWeight: "bold" }}
+              style={{ fontWeight: 'bold' }}
               autoFocus
             >
-              No, seguir editando
+              {t('MENU.DELETE_OPTION_DIALOG.NO_BUTTON')}
             </Button>
           </DialogActions>
         </Dialog>

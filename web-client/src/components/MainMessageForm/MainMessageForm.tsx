@@ -1,16 +1,10 @@
-import React from "react";
-import "./MainMessageForm.scss";
-import { Template, MenuItem } from "../../model/model";
-import { defaultTemplate } from "../../sampleData/defaultTemplate";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  Button
-} from "@material-ui/core";
-import SmartTextArea from "../SmartTextArea/SmartTextArea";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import './MainMessageForm.scss';
+import { Template, MenuItem } from '../../model/model';
+import { defaultTemplate } from '../../sampleData/defaultTemplate';
+import { List, ListItem, ListItemText, Divider, Button } from '@material-ui/core';
+import SmartTextArea from '../SmartTextArea/SmartTextArea';
+import { useTranslation } from 'react-i18next';
 
 type MainMessageFormProps = {
   template: Template;
@@ -23,17 +17,15 @@ type MainMessageFormProps = {
 
 const MainMessageForm = (props: MainMessageFormProps) => {
   const { t } = useTranslation();
-  let menuListItems = props.template?.menuItems.map(
-    (menuItem: MenuItem, idx: number) => {
-      const itemText = idx + 1 + ". " + menuItem.title;
-      const onItemClicked = () => props.onOpenMenuItem(menuItem);
-      return (
-        <ListItem button key={idx} dense>
-          <ListItemText primary={itemText} onClick={onItemClicked} />
-        </ListItem>
-      );
-    }
-  );
+  let menuListItems = props.template?.menuItems.map((menuItem: MenuItem, idx: number) => {
+    const itemText = idx + 1 + '. ' + menuItem.title;
+    const onItemClicked = () => props.onOpenMenuItem(menuItem);
+    return (
+      <ListItem button key={idx} dense>
+        <ListItemText primary={itemText} onClick={onItemClicked} />
+      </ListItem>
+    );
+  });
 
   return (
     <div className="MainMessageForm">
@@ -43,27 +35,21 @@ const MainMessageForm = (props: MainMessageFormProps) => {
       <SmartTextArea
         showPrefill={true}
         showEdit={true}
-        label={t("Message_header")}
+        label={t('MSG_HEADER')}
         value={props.template.header}
         prefillValue={defaultTemplate.header}
         rows={8}
-        placeholder={t(
-          "Write_here_a_custom_description_about_this_service_or_press_PREFILL_to_get_a_standard_message"
-        )}
+        placeholder={t('MSG_HEADER_PLACEHOLDER')}
         onPrefillClicked={props.onPrefillMainHeaderClicked}
         onChange={props.onMainHeaderChanged}
         onSaveClicked={props.onSaveMainHeaderClicked}
       />
       <Divider className="divider" />
       <span className="covid-title-box">
-        <h3 className="covid-title">{t("Sub-message_menu")}</h3>
+        <h3 className="covid-title">{t('MENU.OPTIONS')}</h3>
         <span className="action-button-group">
-          <Button
-            size="small"
-            color="primary"
-            onClick={props.onAddMenuItemClicked}
-          >
-            {t("ADD_ITEM")}
+          <Button size="small" color="primary" onClick={props.onAddMenuItemClicked}>
+            {t('MENU.ADD_OPTION')}
           </Button>
         </span>
       </span>

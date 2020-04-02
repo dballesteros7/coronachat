@@ -1,26 +1,39 @@
 const translationEN = {
-  Initial_message: 'Initial message',
-  Message_header: 'Message Header',
-  Write_here_a_custom_description_about_this_service_or_press_PREFILL_to_get_a_standard_message:
+  DASHBOARD_TITLE: 'COVID-19 Information Portal',
+  MSG_HEADER: 'Message header',
+  MSG_HEADER_PLACEHOLDER:
     'Write here a custom description about this service or press PREFILL to get a standard message',
-  'Sub-message_menu': 'Sub-message menu',
-  ADD_ITEM: 'ADD ITEM',
-  Details: 'Details',
-  save: 'save',
-  'Sub-message_title': 'Sub-message title',
-  'The_title_cannot_be_empty.': 'The title cannot be empty.',
-  Write_the_text_to_show_next_to_the_menu_item_number: 'Write the text to show next to the menu item number',
-  'The_content_cannot_be_empty.': 'The content cannot be empty.',
-  Main_content: 'Main content',
-  'Write_here_the_main_content_of_the_sub-message': 'Write here the main content of the sub-message',
-  Are_you_sure_to_discard_your_changes: 'Are you sure to discard your changes?',
-  If_you_close_you_will_lose_any_change_that_you_may_have_made:
-    'If you close you will lose any change that you may have made.',
-  'Yes,_discard_and_close': 'Yes, discard and close',
-  'No,_continue_editing': 'No, continue editing',
-  EDIT: 'EDIT',
-  PREFILL: 'PREFILL',
-  DONE: 'DONE',
+  CONTENT: 'Content',
+  TITLE_CANT_BE_EMPTY: 'The title cannot be empty.',
+  CONTENT_CANT_BE_EMPTY: 'The content cannot be empty.',
+  UNSAVED_CHANGES_DIALOG: {
+    TITLE: 'There are unnsaved changes',
+    MESSAGE: 'If you close, you will lose any change that you may have made.',
+    YES_BUTTON: 'Yes, discard and close',
+    NO_BUTTON: 'No, continue editing',
+  },
+  ACTIONS: {
+    SAVE: 'Save',
+    EDIT: 'Edit',
+    PREFILL: 'Prefill',
+    DONE: 'Done',
+  },
+  MENU: {
+    OPTIONS: 'Menu options',
+    OPTION: 'Menu option',
+    ADD_OPTION: 'Add option',
+    OPTION_TITLE: 'Option title (visible in the main message)',
+    OPTION_TITLE_PLACEHOLDER: 'Write the text to show next to the menu item number.',
+    OPTION_CONTENT_PLACEHOLDER:
+      'Write here the content of the message that gets sent to users when they select this option.',
+    DELETE_OPTION: 'Delete this option',
+    DELETE_OPTION_DIALOG: {
+      TITLE: 'Delete menu option',
+      MESSAGE: `The option will be removed from the menu in the main message and the option content will be lost. Are you sure?`,
+      YES_BUTTON: 'Yes, delete this option',
+      NO_BUTTON: "Don't delete",
+    },
+  },
   HOME: {
     HEADER: 'Stop misinformation about COVID-19 and inform your people officially',
     CHAT: {
@@ -37,7 +50,7 @@ const translationEN = {
       MESSAGE_8: `How much is this going to cost? The budget is tight 💰😐`,
       MESSAGE_9: `Nothing, it's *free* at the moment. Infrastructure costs may need to be covered later on. Feel free to contact us for any other question! 👇🏼`,
     },
-    TRY_IT_BUTTON: `Try it in spanish`,
+    TRY_IT_BUTTON: `Try it now`,
   },
 };
 
