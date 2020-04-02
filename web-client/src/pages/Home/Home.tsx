@@ -1,12 +1,12 @@
-import './Home.scss';
-import React, { useState } from 'react';
-import logo from '../../assets/images/coronachat-logo.svg';
-import { makeStyles, Theme, createStyles, Menu, MenuItem, Button } from '@material-ui/core';
+import { Button, createStyles, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
-import { Link } from 'react-router-dom';
-import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import { on } from 'cluster';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import logo from '../../assets/images/coronachat-logo.svg';
+import MessagePreview from '../../components/MessagePreview/MessagePreview';
+import './Home.scss';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,15 +31,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 enum Languages {
-  EN = 'EN',
-  ES = 'ES',
+  en = 'en',
+  es = 'es',
 }
 
 export type Language = keyof typeof Languages;
 
 const Home = () => {
   const classes = useStyles();
-  const [selectedLanguage, setSelectedLanguage] = useState(Languages.EN);
+  const [t, i18n] = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState(Languages[(i18n.language as Language) ?? 'en']);
   const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const onLanguageButtonClicked = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,11 +53,14 @@ const Home = () => {
 
   const onLanguageItemClicked = (language: Language) => {
     setSelectedLanguage(Languages[language]);
+    i18n.changeLanguage(Languages[language]);
     setLanguageMenuAnchorEl(null);
   };
 
   const menuItems = Object.keys(Languages).map((language: string) => (
-    <MenuItem onClick={_ => onLanguageItemClicked(Languages[language as Language])}>{language}</MenuItem>
+    <MenuItem onClick={(_) => onLanguageItemClicked(Languages[language as Language])}>
+      {language.toUpperCase()}
+    </MenuItem>
   ));
 
   return (
@@ -75,7 +79,7 @@ const Home = () => {
         {menuItems}
       </Menu>
 
-      <h2 className="covid-title">Stop misinformation about COVID-19 and inform your people officially</h2>
+      <h2 className="covid-title">{t('HOME_HEADER')}</h2>
 
       <div id="full-width-container">
         <div id="chat-box">
