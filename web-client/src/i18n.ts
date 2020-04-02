@@ -4,6 +4,8 @@ import translationEN from './locales/en/translation';
 import translationES from './locales/es/translation';
 import translationIT from './locales/it/translation';
 
+export const languageKey = 'language';
+
 export enum Languages {
   en = 'en',
   es = 'es',
@@ -24,11 +26,12 @@ const resources = {
   },
 };
 
+const initLanguage = Languages[((localStorage.getItem(languageKey) ?? i18n.language) as Language) ?? 'en'];
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
-    lng: 'en',
+    lng: initLanguage,
   });
 
 export default i18n;

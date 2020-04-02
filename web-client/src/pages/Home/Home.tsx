@@ -7,7 +7,7 @@ import logo from '../../assets/images/coronachat-logo.svg';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import './Home.scss';
 import { useTranslation } from 'react-i18next';
-import { Language, Languages } from '../../i18n';
+import { Language, Languages, languageKey } from '../../i18n';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const Home = () => {
   const classes = useStyles();
   const [t, i18n] = useTranslation();
-  const [selectedLanguage, setSelectedLanguage] = useState(Languages[(i18n.language as Language) ?? 'en']);
+  const preSelectedLang = Languages[(i18n.language as Language) ?? 'en'];
+  const [selectedLanguage, setSelectedLanguage] = useState(preSelectedLang);
   const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const onLanguageButtonClicked = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -55,8 +56,10 @@ const Home = () => {
   };
 
   const onLanguageItemClicked = (language: Language) => {
-    setSelectedLanguage(Languages[language]);
-    i18n.changeLanguage(Languages[language]);
+    const selectedLanguage = Languages[language];
+    setSelectedLanguage(selectedLanguage);
+    localStorage.setItem(languageKey, selectedLanguage);
+    i18n.changeLanguage(selectedLanguage);
     setLanguageMenuAnchorEl(null);
   };
 
