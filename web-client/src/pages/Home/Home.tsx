@@ -79,64 +79,36 @@ const Home = () => {
         {menuItems}
       </Menu>
 
-      <h2 className="covid-title">{t('HOME_HEADER')}</h2>
+      <h2 className="covid-title">{t('HOME.HEADER')}</h2>
 
       <div id="full-width-container">
         <div id="chat-box">
           <div className="message-box">
-            <MessagePreview
-              bgColor="#F4F4F4"
-              value="Hello. I am the mayor of a South American town. The people here use *WhatsApp* a lot and 
-              share many chains and fake news about COVID-19. 🦠"
-            />
+            <MessagePreview bgColor="#F4F4F4" value={t('HOME.CHAT.MESSAGE_1')} />
           </div>
           <div className="message-box">
-            <MessagePreview
-              bgColor="#F4F4F4"
-              value="They also have limited data plans and access websites is not always possible. I saw that WHO and India have some phone numbers that people can write to
-              via Whatsapp and get *official information quickly* via message..."
-            />
+            <MessagePreview bgColor="#F4F4F4" value={t('HOME.CHAT.MESSAGE_2')} />
           </div>
           <div className="message-box">
-            <MessagePreview bgColor="#F4F4F4" value="I don't know how to configure one for the people here." />
+            <MessagePreview bgColor="#F4F4F4" value={t('HOME.CHAT.MESSAGE_3')} />
           </div>
           <div className="message-box our-messages">
-            <MessagePreview
-              bgColor="#F8EA8C"
-              triangle={'right'}
-              value="Hello Mr Gonzales, we appreciate your initiative and would like to help you out."
-            />
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value={t('HOME.CHAT.MESSAGE_4')} />
           </div>
           <div className="message-box our-messages">
-            <MessagePreview
-              bgColor="#F8EA8C"
-              triangle={'right'}
-              value="Our app _Coronainfochat_ creates the chatbot for you. You just need to feed it with the
-              content that the people of your town will read in the chat. It works with *Facebook Messenger* too."
-            />
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value={t('HOME.CHAT.MESSAGE_5')} />
           </div>
           <div className="message-box">
-            <MessagePreview
-              bgColor="#F4F4F4"
-              value="Awesome! Thank you. Can they also get a notification with important updates?"
-            />
+            <MessagePreview bgColor="#F4F4F4" value={t('HOME.CHAT.MESSAGE_6')} />
           </div>
           <div className="message-box our-messages">
-            <MessagePreview
-              bgColor="#F8EA8C"
-              triangle={'right'}
-              value="Not yet, but soon. We'll keep you posted. Please try the app and stay _healthy_! 💪🏼"
-            />
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value={t('HOME.CHAT.MESSAGE_7')} />
           </div>
           <div className="message-box">
-            <MessagePreview bgColor="#F4F4F4" value="How much is this going to cost? The budget is tight 💰😐" />
+            <MessagePreview bgColor="#F4F4F4" value={t('HOME.CHAT.MESSAGE_8')} />
           </div>
           <div className="message-box our-messages">
-            <MessagePreview
-              bgColor="#F8EA8C"
-              triangle={'right'}
-              value="Nothing, it's *free* at the moment. Infrastructure costs may need to be covered later on. Feel free to contact us for any other question! 👇🏼"
-            />
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value={t('HOME.CHAT.MESSAGE_9')} />
           </div>
         </div>
       </div>
@@ -161,7 +133,7 @@ const Home = () => {
       </footer>
       <Link to="/dashboard">
         <Fab variant="extended" className={classes.fabButton} color="primary">
-          Try it in spanish
+          {t('HOME.TRY_IT_BUTTON')}
         </Fab>
       </Link>
     </div>
