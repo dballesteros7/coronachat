@@ -71,7 +71,11 @@ const Home = () => {
 
   return (
     <div className={classes.root + ' Home'}>
-      <img id="logo" src={logo} alt="Coronainfochat" />
+      <div id="logo-container-container">
+        <div id="logo-container">
+          <img id="logo" src={logo} alt="Coronainfochat" />
+        </div>
+      </div>
       <Button
         className={classes.langMenuButton}
         aria-controls="simple-menu"
