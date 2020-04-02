@@ -7,6 +7,7 @@ import logo from '../../assets/images/coronachat-logo.svg';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import './Home.scss';
 import { useTranslation } from 'react-i18next';
+import { Language, Languages } from '../../i18n';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,13 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-enum Languages {
-  en = 'en',
-  es = 'es',
-}
-
-export type Language = keyof typeof Languages;
 
 const Home = () => {
   const classes = useStyles();

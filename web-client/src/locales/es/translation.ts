@@ -2,7 +2,7 @@ const translationES = {
   DASHBOARD_TITLE: 'Portal de Información de COVID-19',
   MSG_HEADER: 'Encabezado del mensaje',
   MSG_HEADER_PLACEHOLDER:
-    'Escriba aquí una descripción personalizada sobre este servicio o pulse RELLENAR para obtener un mensaje estándar.',
+    'Escriba aquí una descripción personalizada sobre este servicio o pulse "Rellenar" para obtener un mensaje estándar.',
   CONTENT: 'Content',
   TITLE_CANT_BE_EMPTY: 'El título no puede estar vacío.',
   CONTENT_CANT_BE_EMPTY: 'El contenido no puede estar vacío.',
@@ -19,7 +19,7 @@ const translationES = {
     DONE: 'Listo',
   },
   MENU: {
-    OPTIONS: 'Opciones del menú',
+    OPTIONS: 'Opciones del menú principal',
     OPTION: 'Opción del menú',
     ADD_OPTION: 'Agregar opción',
     OPTION_TITLE: 'Título de la opción (visible en el menú principal)',
