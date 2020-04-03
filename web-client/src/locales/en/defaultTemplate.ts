@@ -130,7 +130,7 @@ NB: This advice is current as of 18 March.
       footerItems: ['Reply 0 for Menu'],
     },
     {
-      id: 4,
+      id: 5,
       title: 'What are the containment measures implemented in Bucaramanga? ⚖️',
       content: `*What are the containment measures implemented in Bucaramanga?*
 
@@ -140,7 +140,7 @@ The mayor of Bucaramanga declared a state of public calamity in the city and ann
       footerItems: ['Reply 0 for Menu'],
     },
     {
-      id: 5,
+      id: 6,
       title: 'Latest numbers 📊',
       content: `*Latest numbers*
 
@@ -150,7 +150,7 @@ XXXX people are positive in Bucaramanga.`,
       footerItems: ['Reply 0 for Menu'],
     },
     {
-      id: 6,
+      id: 7,
       title: 'I feel lonely or worried 😔',
       content: `*I feel lonely or worried*
 
