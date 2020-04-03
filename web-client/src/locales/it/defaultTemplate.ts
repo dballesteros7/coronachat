@@ -2,7 +2,7 @@ import { Template } from '../../model/model';
 
 //TODO (MB) all its properties of this instance should be readonly
 export const defaultTemplateIT: Template = {
-  header: `*Benvenuto nella Coronainfochat* 🇨🇮
+  header: `*Benvenuto nella Coronainfochat* 🇮🇹
 
   Informazioni ufficiali riguardo al coronavirus del Comune di Ponzuno.
   
