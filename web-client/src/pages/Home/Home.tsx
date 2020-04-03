@@ -2,7 +2,7 @@ import { Button, createStyles, makeStyles, Menu, MenuItem, Theme } from '@materi
 import Fab from '@material-ui/core/Fab';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/coronachat-logo.svg';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import './Home.scss';
@@ -41,9 +41,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Home = () => {
+  const query = new URLSearchParams(useLocation().search);
+
   const classes = useStyles();
   const [t, i18n] = useTranslation();
-  const preSelectedLang = Languages[(i18n.language as Language) ?? 'en'];
+  var preSelectedLang = Languages[(i18n.language as Language) ?? 'en'];
+  const requestedLanguage = query.get('lang') as Language;
+
+  if (requestedLanguage) {
+    preSelectedLang = Languages[requestedLanguage];
+    i18n.changeLanguage(preSelectedLang);
+  }
+
   const [selectedLanguage, setSelectedLanguage] = useState(preSelectedLang);
   const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -154,4 +163,4 @@ const Home = () => {
     </div>
   );
 };
-export default Home;
+export default withRouter(Home);
