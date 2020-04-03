@@ -1,13 +1,14 @@
-import { Button, createStyles, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import React, { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/images/coronachat-logo.svg';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import './Home.scss';
 import { useTranslation } from 'react-i18next';
-import { Language, Languages, languageKey } from '../../i18n';
+import LanguageSelector from '../../components/LanguageSelector/LanguageSelector';
+import { Languages, Language } from '../../i18n';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,44 +41,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Home = () => {
+// TODO(MB) how do avoid all these same properties passing down the three?
+// HomeProps same as LanguageSelectorProps
+type HomeProps = {
+  selectedLanguage: Languages;
+  onLanguageSelected: (language: Language) => void;
+};
+
+const Home = (props: HomeProps) => {
   const classes = useStyles();
-
-  const [t, i18n] = useTranslation();
-  var preSelectedLang = Languages[(i18n.language as Language) ?? 'en'];
-  const [selectedLanguage, setSelectedLanguage] = useState(preSelectedLang);
-
-  if (preSelectedLang != selectedLanguage) {
-    // Needed because sequence of execution is Home -> LanguageWrapper -> Home
-    // in LanguageWRapper i18n gets may get changed based on search query in url
-    // then Home render runs again but useState does not set preSelectedLang to
-    // be the state because the state is existing (it's a re-render, not constructor time)
-    setSelectedLanguage(preSelectedLang);
-  }
-
-  const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const onLanguageButtonClicked = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setLanguageMenuAnchorEl(event.currentTarget);
-  };
-
-  const onLanguageMenuClosed = () => {
-    setLanguageMenuAnchorEl(null);
-  };
-
-  const onLanguageItemClicked = (language: Language) => {
-    const selectedLanguage = Languages[language];
-    setSelectedLanguage(selectedLanguage);
-    localStorage.setItem(languageKey, selectedLanguage);
-    i18n.changeLanguage(selectedLanguage);
-    setLanguageMenuAnchorEl(null);
-  };
-
-  const menuItems = Object.keys(Languages).map((language: string) => (
-    <MenuItem className={classes.langMenuItem} onClick={(_) => onLanguageItemClicked(Languages[language as Language])}>
-      {language.toUpperCase()}
-    </MenuItem>
-  ));
+  const [t] = useTranslation();
 
   return (
     <div className={classes.root + ' Home'}>
@@ -86,23 +59,10 @@ const Home = () => {
           <img id="logo" src={logo} alt="Coronainfochat" />
         </div>
       </div>
-      <Button
-        className={classes.langMenuButton}
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        color="primary"
-        onClick={onLanguageButtonClicked}
-      >
-        {selectedLanguage}
-      </Button>
-      <Menu
-        anchorEl={languageMenuAnchorEl}
-        keepMounted
-        open={Boolean(languageMenuAnchorEl)}
-        onClose={onLanguageMenuClosed}
-      >
-        {menuItems}
-      </Menu>
+      <LanguageSelector
+        selectedLanguage={props.selectedLanguage}
+        onLanguageSelected={props.onLanguageSelected}
+      ></LanguageSelector>
 
       <h2 className="covid-title">{t('HOME.HEADER')}</h2>
 
@@ -164,4 +124,4 @@ const Home = () => {
     </div>
   );
 };
-export default withRouter(Home);
+export default Home;

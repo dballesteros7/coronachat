@@ -1,6 +1,6 @@
 import MainMessage from './pages/MainMessage/MainMessage';
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import i18n, { Language, Languages, languageKey } from './i18n';
@@ -21,36 +21,44 @@ const theme = createMuiTheme({
   },
 });
 
-const LanguageWrapper = (props: any) => {
+const LanguageWrapper = () => {
   const query = new URLSearchParams(useLocation().search);
   const [_, i18n] = useTranslation();
+  const location = useLocation();
+  const history = useHistory();
 
-  useEffect(() => {
-    const requestedLanguage = query.get('lang') as Language;
-    if (requestedLanguage) {
-      const requestedLanguageValue = Languages[requestedLanguage];
-      i18n.changeLanguage(requestedLanguageValue);
-      localStorage.setItem(languageKey, requestedLanguageValue);
-    }
-  }, []);
+  let selectedLanguage = Languages[(i18n.language as Language) ?? 'en'];
+  const requestedLanguage = query.get('lang') as Language;
+  if (requestedLanguage && requestedLanguage != selectedLanguage) {
+    const selectedLanguage = Languages[requestedLanguage];
+    i18n.changeLanguage(selectedLanguage);
+    localStorage.setItem(languageKey, selectedLanguage);
+  }
 
-  return <>{props.children}</>;
+  const onLanguageSelected = (language: Language) => {
+    const newLanguage = Languages[language];
+    i18n.changeLanguage(newLanguage);
+    localStorage.setItem(languageKey, newLanguage);
+    history.push(location.pathname + '?lang=' + newLanguage);
+  };
+
+  return (
+    <Switch>
+      <Route path="/dashboard">
+        <MainMessage isTrial={true} />
+      </Route>
+      <Route path="/">
+        <Home selectedLanguage={selectedLanguage} onLanguageSelected={onLanguageSelected} />
+      </Route>
+    </Switch>
+  );
 };
 
 const App = () => {
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <LanguageWrapper>
-          <Switch>
-            <Route path="/dashboard">
-              <MainMessage isTrial={true} />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </LanguageWrapper>
+        <LanguageWrapper />
       </ThemeProvider>
     </Router>
   );
