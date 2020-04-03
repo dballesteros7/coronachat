@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './MainMessage.scss';
 import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
-import { defaultTemplate, defaultFooterItemBackToMenu } from '../../sampleData/defaultTemplate';
 import { Template, MenuItem } from '../../model/model';
 import MenuItemMessageForm from '../../components/MenuItemMessageForm/MenuItemMessageForm';
 import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, Button, IconButton } from '@material-ui/core';
@@ -14,16 +13,8 @@ import Drawer from '@material-ui/core/Drawer';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { useTranslation } from 'react-i18next';
-
-function getInitSelectedMenuItem(): MenuItem {
-  // TODO(MB) could set initial value to null without compiler complaining
-  return {
-    id: -1,
-    title: '',
-    footerItems: [defaultFooterItemBackToMenu],
-    content: '',
-  };
-}
+import { Language } from '../../i18n';
+import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
 
 function getEmptyTemplate(): Template {
   return {
@@ -50,11 +41,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const MainMessage = (props: { isTrial?: boolean }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   let coronaChatAPI: CoronaChatAPIInterface;
   if (props.isTrial) {
-    coronaChatAPI = new TrialCoronaChatAPI();
+    coronaChatAPI = new TrialCoronaChatAPI(i18n.language as Language);
   } else {
     coronaChatAPI = new CoronaChatAPI();
   }
@@ -93,6 +84,26 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     _setIsMenuItemDialogOpen(newValue);
   };
 
+  const getDefaultTemplate = (): Template => {
+    // TODO(MB) get this from defaultTemplate fetched from server with language as param instead
+    return getLocalDefaultTemplateForLanguage(i18n.language as Language);
+  };
+
+  const getDefaultFooterItemBackToMenu = (): string => {
+    // TODO(MB) get this from defaultTemplate fetched from server with language as param instead
+    return getDefaultTemplate().menuItems[0]?.footerItems[0] ?? '';
+  };
+
+  const getInitSelectedMenuItem = (): MenuItem => {
+    // TODO(MB) could set initial value to null without compiler complaining
+    return {
+      id: -1,
+      title: '',
+      footerItems: [getDefaultFooterItemBackToMenu()],
+      content: '',
+    };
+  };
+
   // TODO(MB) Does not make sense to store this menuItem
   // find a way to pass it to MenuItemMessageForm directly from 'openMenuItem' handler
   const initSelectedMenuItem = getInitSelectedMenuItem();
@@ -108,7 +119,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
   };
 
   let onPrefillMainHeaderClicked = () => {
-    updateTemplateHeaderInState(defaultTemplate.header);
+    updateTemplateHeaderInState(getDefaultTemplate().header);
   };
 
   let onMainHeaderChanged = (newText: string) => {
