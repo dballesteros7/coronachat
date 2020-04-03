@@ -1,8 +1,8 @@
-import MainMessage from './pages/MainMessage/MainMessage'
-import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Home from './pages/Home/Home'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+import MainMessage from './pages/MainMessage/MainMessage';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Home from './pages/Home/Home';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
 const theme = createMuiTheme({
   palette: {
@@ -17,7 +17,7 @@ const theme = createMuiTheme({
       main: '#DE5347',
     },
   },
-})
+});
 
 const App = () => {
   return (
@@ -33,6 +33,6 @@ const App = () => {
         </Switch>
       </ThemeProvider>
     </Router>
-  )
-}
-export default App
+  );
+};
+export default App;
