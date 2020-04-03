@@ -50,7 +50,7 @@ const LanguageWrapper = () => {
 
   return (
     <Switch>
-      <Route exact path="dashboard">
+      <Route exact path="/dashboard">
         <MainMessage isTrial={true} />
       </Route>
       <Route path="/">
