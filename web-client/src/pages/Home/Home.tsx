@@ -1,15 +1,18 @@
-import './Home.scss';
-import React from 'react';
-import logo from '../../assets/images/coronachat-logo.svg';
-import { makeStyles, Theme, createStyles } from '@material-ui/core';
+import { Button, createStyles, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../assets/images/coronachat-logo.svg';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
-import MailOutlineIcon from '@material-ui/icons/MailOutline'
+import './Home.scss';
+import { useTranslation } from 'react-i18next';
+import { Language, Languages, languageKey } from '../../i18n';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      position: 'relative',
       '& > *': {
         margin: theme.spacing(1),
       },
@@ -19,50 +22,108 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 10,
       left: '50%',
       transform: 'translateX(-50%)',
-      color: 'white'
-    }
-  }),
+      color: 'white',
+    },
+    contactsButton: {
+      color: 'white',
+      backgroundColor: '#D7DFE8',
+      marginRight: 10,
+    },
+    langMenuButton: {
+      position: 'fixed',
+      top: 0,
+      right: 0,
+    },
+    langMenuItem: {
+      color: theme.palette.primary.main,
+    },
+  })
 );
 
 const Home = () => {
   const classes = useStyles();
-  
+  const [t, i18n] = useTranslation();
+  const preSelectedLang = Languages[(i18n.language as Language) ?? 'en'];
+  const [selectedLanguage, setSelectedLanguage] = useState(preSelectedLang);
+  const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const onLanguageButtonClicked = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setLanguageMenuAnchorEl(event.currentTarget);
+  };
+
+  const onLanguageMenuClosed = () => {
+    setLanguageMenuAnchorEl(null);
+  };
+
+  const onLanguageItemClicked = (language: Language) => {
+    const selectedLanguage = Languages[language];
+    setSelectedLanguage(selectedLanguage);
+    localStorage.setItem(languageKey, selectedLanguage);
+    i18n.changeLanguage(selectedLanguage);
+    setLanguageMenuAnchorEl(null);
+  };
+
+  const menuItems = Object.keys(Languages).map((language: string) => (
+    <MenuItem className={classes.langMenuItem} onClick={(_) => onLanguageItemClicked(Languages[language as Language])}>
+      {language.toUpperCase()}
+    </MenuItem>
+  ));
+
   return (
-    <div className={classes.root + " Home"}>
-      <img id="logo" src={logo} alt="Coronainfochat"/>
-      <h2 className="covid-title">Stop misinformation about COVID‑19 and inform your people officially</h2>
+    <div className={classes.root + ' Home'}>
+      <div id="logo-container-container">
+        <div id="logo-container">
+          <img id="logo" src={logo} alt="Coronainfochat" />
+        </div>
+      </div>
+      <Button
+        className={classes.langMenuButton}
+        aria-controls="simple-menu"
+        aria-haspopup="true"
+        color="primary"
+        onClick={onLanguageButtonClicked}
+      >
+        {selectedLanguage}
+      </Button>
+      <Menu
+        anchorEl={languageMenuAnchorEl}
+        keepMounted
+        open={Boolean(languageMenuAnchorEl)}
+        onClose={onLanguageMenuClosed}
+      >
+        {menuItems}
+      </Menu>
+
+      <h2 className="covid-title">{t('HOME.HEADER')}</h2>
 
       <div id="full-width-container">
         <div id="chat-box">
-          <div id="message-box-1" className="message-box">
-            <MessagePreview bgColor="#F4F4F4" value="Hello. I am the mayor of a South American town. The people here use *WhatsApp* a lot and 
-              share many chains and fake news about COVID‑19. 🦠"/>
-          </div>
-          <div id="message-box-2" className="message-box">
-            <MessagePreview bgColor="#F4F4F4" value="They also have limited data plans and access websites is not always possible. I saw that WHO and India have some phone numbers that people can write to
-              via Whatsapp and get *official information quickly* via message..."/>
-          </div>
-          <div id="message-box-3" className="message-box">
-            <MessagePreview bgColor="#F4F4F4" value="I don't know how to configure one for the people here."/>
-          </div>
-          <div id="message-box-4" className="message-box our-messages">
-            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Hello Mr Gonzales, we appreciate your initiative and would like to help you out."/>
-          </div>
-          <div id="message-box-5" className="message-box our-messages">
-            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Our app _Coronainfochat_ creates the chatbot for you. You just need to feed it with the
-              content that the people of your town will read in the chat. It works with *Facebook Messenger* too."/>
-          </div>
-          <div id="message-box-6" className="message-box">
-            <MessagePreview bgColor="#F4F4F4" value="Awesome! Thank you. Can they also get a notification with important updates?"/>
-          </div>
-          <div id="message-box-7" className="message-box our-messages">
-            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Not yet, but soon. We'll keep you posted. Please try the app and stay _healthy_! 💪🏼"/>
+          <div className="message-box">
+            <MessagePreview bgColor="#F4F4F4" value={t('HOME.CHAT.MESSAGE_1')} />
           </div>
           <div className="message-box">
-            <MessagePreview bgColor="#F4F4F4" value="How much is this going to cost? The budget is tight 💰😐"/>
+            <MessagePreview bgColor="#F4F4F4" value={t('HOME.CHAT.MESSAGE_2')} />
           </div>
-          <div id="message-box-7" className="message-box our-messages">
-            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value="Nothing, it's *free* at the moment. Infrastructure costs may need to be covered later on. Feel free to contact us for any other question! 👇🏼"/>
+          <div className="message-box">
+            <MessagePreview bgColor="#F4F4F4" value={t('HOME.CHAT.MESSAGE_3')} />
+          </div>
+          <div className="message-box our-messages">
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value={t('HOME.CHAT.MESSAGE_4')} />
+          </div>
+          <div className="message-box our-messages">
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value={t('HOME.CHAT.MESSAGE_5')} />
+          </div>
+          <div className="message-box">
+            <MessagePreview bgColor="#F4F4F4" value={t('HOME.CHAT.MESSAGE_6')} />
+          </div>
+          <div className="message-box our-messages">
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value={t('HOME.CHAT.MESSAGE_7')} />
+          </div>
+          <div className="message-box">
+            <MessagePreview bgColor="#F4F4F4" value={t('HOME.CHAT.MESSAGE_8')} />
+          </div>
+          <div className="message-box our-messages">
+            <MessagePreview bgColor="#F8EA8C" triangle={'right'} value={t('HOME.CHAT.MESSAGE_9')} />
           </div>
         </div>
       </div>
@@ -87,7 +148,7 @@ const Home = () => {
       </footer>
       <Link to="/dashboard">
         <Fab variant="extended" className={classes.fabButton} color="primary">
-          Try it in spanish
+          {t('HOME.TRY_IT_BUTTON')}
         </Fab>
       </Link>
     </div>

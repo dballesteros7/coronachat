@@ -8,17 +8,37 @@
   flex-direction: column;
   align-items: center;
 
-  #logo {
+  #logo-container-container {
     width: 20%;
     max-height: 200px;
     min-width: 150px;
-    padding-top: 20px;
+
+    #logo-container {
+      position: relative;
+      // trick to avoid content below the image to shift down when image loads:
+      // when padding is %, it refers to width of containing element
+      // so logo-container height (set by its padding-bottom) is equal to
+      // 27.75% of containerWidth; 27.75 was computed as 100 * height/width of our logo (img src)
+      // (width and height in formula got from web inspector after having set width only originally)
+      padding-bottom: 27.75%;
+
+      #logo {
+        // real logo positioned absolutely inside its container (logo-container) to fill
+        // the container height (padding-bottom); if position not set, the padding-bottom would 
+        // be applied after the img but it shouldn't be
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
   }
 
   #full-width-container {
     width: 100%;
-    background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
-    background-blend-mode: normal,color-burn;
+    background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 50%, rgba(255, 255, 255, 0.02) 61%, rgba(0, 0, 0, 0.02) 73%), linear-gradient(33deg, rgba(255, 255, 255, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%);
+    background-blend-mode: normal, color-burn;
     display: flex;
     justify-content: center;
   }

@@ -1,60 +1,65 @@
 import React from 'react';
 import './MainMessageForm.scss';
 import { Template, MenuItem } from '../../model/model';
-import { defaultTemplate } from '../../sampleData/defaultTemplate';
 import { List, ListItem, ListItemText, Divider, Button } from '@material-ui/core';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
+import { useTranslation } from 'react-i18next';
+import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
+import i18n, { Language } from '../../i18n';
 
 type MainMessageFormProps = {
-  template: Template,
-  onMainHeaderChanged: (newText: string) => void,
-  onPrefillMainHeaderClicked: () => void,
-  onOpenMenuItem: (menuItem: MenuItem) => void,
-  onAddMenuItemClicked: () => void,
-  onSaveMainHeaderClicked: (text: string) => void
-}
+  template: Template;
+  onMainHeaderChanged: (newText: string) => void;
+  onPrefillMainHeaderClicked: () => void;
+  onOpenMenuItem: (menuItem: MenuItem) => void;
+  onAddMenuItemClicked: () => void;
+  onSaveMainHeaderClicked: (text: string) => void;
+};
 
 const MainMessageForm = (props: MainMessageFormProps) => {
-
+  const { t } = useTranslation();
   let menuListItems = props.template?.menuItems.map((menuItem: MenuItem, idx: number) => {
-    const itemText = (idx + 1) + '. ' + menuItem.title;
+    const itemText = idx + 1 + '. ' + menuItem.title;
     const onItemClicked = () => props.onOpenMenuItem(menuItem);
     return (
-        <ListItem button key={idx} dense>
-          <ListItemText primary={itemText} onClick={onItemClicked}/>
-        </ListItem>
-      );
-    }
-  );
+      <ListItem button key={idx} dense>
+        <ListItemText primary={itemText} onClick={onItemClicked} />
+      </ListItem>
+    );
+  });
+
+  const getDefaultTemplate = (): Template => {
+    // TODO(MB) get this from defaultTemplate fetched from server with language as param instead
+    return getLocalDefaultTemplateForLanguage(i18n.language as Language);
+  };
 
   return (
     <div className="MainMessageForm">
       {/* TODO(MB) is there a better way instead than passing same props up and down 
           in the components tree several times? (SmartTextArea -> MainMessageForm -> App) 
       */}
-      <SmartTextArea 
+      <SmartTextArea
         showPrefill={true}
         showEdit={true}
-        label='Encabezado'
+        label={t('MSG_HEADER')}
         value={props.template.header}
-        prefillValue={defaultTemplate.header}
+        prefillValue={getDefaultTemplate().header}
         rows={8}
-        placeholder='Write here a custom description about this service or press PREFILL to get a standard message'
+        placeholder={t('MSG_HEADER_PLACEHOLDER')}
         onPrefillClicked={props.onPrefillMainHeaderClicked}
         onChange={props.onMainHeaderChanged}
         onSaveClicked={props.onSaveMainHeaderClicked}
       />
-      <Divider className="divider"/>
+      <Divider className="divider" />
       <span className="covid-title-box">
-        <h3 className="covid-title">Opciones del menú</h3>
+        <h3 className="covid-title">{t('MENU.OPTIONS')}</h3>
         <span className="action-button-group">
-          <Button size="small" color="primary"
-            onClick={props.onAddMenuItemClicked}>AGREGAR OPCION</Button>
+          <Button size="small" color="primary" onClick={props.onAddMenuItemClicked}>
+            {t('MENU.ADD_OPTION')}
+          </Button>
         </span>
       </span>
-      <List>
-        {menuListItems}
-      </List>
+      <List>{menuListItems}</List>
     </div>
   );
 };
