@@ -12,7 +12,7 @@ export const defaultTemplateIT: Template = {
 
   Cosa vorresti sapere della situazione coronavirus?
 
-  Per interagire con me, scrivi 1, 2, 3, 4, 5, 6, o 7 e risolverò i tuoi dubbi 👇🏼`,
+  Per interagire con me, scrivi 1, 2, 3, 4, 5, 6, 7, 8, 9 o 10 e risolverò i tuoi dubbi 👇🏼`,
   menuItems: [
     {
       id: 1,
@@ -151,8 +151,8 @@ Scrivi 6 per vedere i numeri utili
     },
     {
       id: 9,
-      title: 'Mi sento solo e vorrei parlare con qualcuno 😔',
-      content: `*Mi sento solo oppure vorrei parlare con qualcuno*
+      title: 'Mi sento solo o molto preoccupato 😔',
+      content: `*Mi sento solo o molto preoccupato*
 
 Il Comune di Ponzuno mette a disposizione alcuni psicologi che ricevono tutti i giorni dalle ore 09 alle ore 18. Chiama il numero XXXX per prenotare un appuntamento.
 
@@ -165,7 +165,7 @@ Ci sono anche volontari che sono felici di ricevere la tua chiamata. Ti terranno
       title: 'Dove e quando fare la spesa 🛒',
       content: `*Dove e quando fare la spesa*
 
-Nel Comune di Ponzuno tutti gli alimentari e supermercati sono in servizio ma con orario limitato: sono aperti dal lunedi al sabato, dalle ore 7 alle ore 19.30.
+Nel Comune di Ponzuno tutti gli alimentari e supermercati sono in servizio ma con orario limitato: sono aperti dal lunedì al sabato, dalle ore 7 alle ore 19.30.
 
 Se hai compiuto 65 anni, avrai accesso prioritario e riservato al supermercato XXXX tra le ore 7 e le ore 9 tutti i giorni.
       `,

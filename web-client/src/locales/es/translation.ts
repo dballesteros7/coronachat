@@ -40,7 +40,7 @@ const translationES = {
       MESSAGE_2: `La gente de nuestra comunidad tiene planes de datos limitados y no siempre es posible acceder a sitios web. He visto que la OMS y el gobierno Indio tienen números telefónicos donde la gente puede escribir por WhatsApp para recibir *información oficial de manera rápida* con mensajes de texto...`,
       MESSAGE_3: `No sé cómo configurar algo así aquí`,
       MESSAGE_4: `Hola Sr. Gonzales, apreciamos su iniciativa y nos gustaría ayudarle.`,
-      MESSAGE_5: `Nuestra aplicación _Coronainfochat_ crea el chatbot por usted. Usted sólo necesita llenarlo con el contenido que las personas en su ciudad van a leer en el chat. También funciona con Facebook Messenger*.`,
+      MESSAGE_5: `Nuestra aplicación _Coronainfochat_ crea el chatbot por usted. Usted sólo necesita llenarlo con el contenido que las personas en su ciudad van a leer en el chat. También funciona con *Facebook Messenger*.`,
       MESSAGE_6: `Excelente! Muchas gracias. Ellos pueden recibir también una notificación con actualizaciones importantes?`,
       MESSAGE_7: `Todavía no, pero pronto. Lo mantendremos al tanto. Por favor pruebe la aplicación y mantengáse _sano_! 💪🏼`,
       MESSAGE_8: `Cuánto va a costar? El presupuesto está apretado 💰😐`,
