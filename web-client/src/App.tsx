@@ -1,8 +1,10 @@
 import MainMessage from './pages/MainMessage/MainMessage';
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import i18n, { Language, Languages, languageKey } from './i18n';
+import { useTranslation } from 'react-i18next';
 
 const theme = createMuiTheme({
   palette: {
@@ -19,18 +21,36 @@ const theme = createMuiTheme({
   },
 });
 
+const LanguageWrapper = (props: any) => {
+  const query = new URLSearchParams(useLocation().search);
+  const [_, i18n] = useTranslation();
+
+  useEffect(() => {
+    const requestedLanguage = query.get('lang') as Language;
+    if (requestedLanguage) {
+      const requestedLanguageValue = Languages[requestedLanguage];
+      i18n.changeLanguage(requestedLanguageValue);
+      localStorage.setItem(languageKey, requestedLanguageValue);
+    }
+  }, []);
+
+  return <>{props.children}</>;
+};
+
 const App = () => {
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <Switch>
-          <Route path="/dashboard">
-            <MainMessage isTrial={true} />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
+        <LanguageWrapper>
+          <Switch>
+            <Route path="/dashboard">
+              <MainMessage isTrial={true} />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </LanguageWrapper>
       </ThemeProvider>
     </Router>
   );
