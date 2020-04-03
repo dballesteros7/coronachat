@@ -29,22 +29,28 @@ const LanguageWrapper = () => {
 
   let selectedLanguage = Languages[(i18n.language as Language) ?? 'en'];
   const requestedLanguage = query.get('lang') as Language;
+
+  const setLanguage = (language: Languages) => {
+    i18n.changeLanguage(language);
+    localStorage.setItem(languageKey, language);
+  };
+
   if (requestedLanguage && requestedLanguage != selectedLanguage) {
-    const selectedLanguage = Languages[requestedLanguage];
-    i18n.changeLanguage(selectedLanguage);
-    localStorage.setItem(languageKey, selectedLanguage);
+    selectedLanguage = Languages[requestedLanguage];
+    setLanguage(selectedLanguage);
   }
 
   const onLanguageSelected = (language: Language) => {
-    const newLanguage = Languages[language];
-    i18n.changeLanguage(newLanguage);
-    localStorage.setItem(languageKey, newLanguage);
-    history.push(location.pathname + '?lang=' + newLanguage);
+    // TODO(MB) with selectedLanguage I'm technically keeping a state without using useState
+    // what are the risks?
+    selectedLanguage = Languages[language];
+    setLanguage(Languages[language]);
+    history.push(location.pathname + '?lang=' + language);
   };
 
   return (
     <Switch>
-      <Route path="/dashboard">
+      <Route exact path="/dashboard">
         <MainMessage isTrial={true} />
       </Route>
       <Route path="/">

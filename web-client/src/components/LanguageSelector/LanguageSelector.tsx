@@ -24,9 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const LanguageSelector = (props: LanguageSelectorProps) => {
   const classes = useStyles();
-  const [_, i18n] = useTranslation();
 
-  const [selectedLanguage, setSelectedLanguage] = useState(props.selectedLanguage);
   const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const onLanguageButtonClicked = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -38,9 +36,6 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
   };
 
   const onLanguageItemClicked = (language: Language) => {
-    const selectedLanguage = Languages[language];
-    setSelectedLanguage(selectedLanguage);
-
     // TODO (MB) look for a good solution to avoid
     // cannot change i18n here due to this error:
     // index.js:1 Warning: Cannot update a component (`LanguageSelector`) while rendering a different component (`LanguageWrapper`).
@@ -69,7 +64,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
         color="primary"
         onClick={onLanguageButtonClicked}
       >
-        {selectedLanguage}
+        {props.selectedLanguage}
       </Button>
       <Menu
         anchorEl={languageMenuAnchorEl}
