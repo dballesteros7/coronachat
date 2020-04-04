@@ -15,6 +15,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { useTranslation } from 'react-i18next';
 import { Language } from '../../i18n';
 import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
+import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
 
 function getEmptyTemplate(): Template {
   return {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
       position: 'relative',
-      padding: '3px 0'
+      padding: '3px 0',
     },
     title: {
       marginLeft: theme.spacing(2),
@@ -209,10 +210,20 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     />
   );
 
-  let messagePreview = (
+  const messagePreview = (
     <div className="msg-preview-box">
       <MessagePreview bgColor="#F4F4F4" value={getMessagePreviewText()} />
     </div>
+  );
+
+  const menuItemForm = (
+    <MenuItemMessageForm
+      menuItem={getEditingMenuItemClone()}
+      onDeleteMenuItem={(menuItem) => {
+        onCloseAndSaveChanges(menuItem, true);
+      }}
+      isVisible={true}
+    />
   );
 
   return (
@@ -230,15 +241,13 @@ const MainMessage = (props: { isTrial?: boolean }) => {
       </AppBar>
       <React.Fragment key={'RIGHT'}>
         <div className="MainMessage covid-container">
-          <MenuItemMessageForm
-            menuItem={getEditingMenuItemClone()}
-            onCloseAndDiscardChanges={onCloseAndDiscardChanges}
-            onCloseAndSaveChanges={onCloseAndSaveChanges}
-            onDeleteMenuItem={(menuItem) => {
-              onCloseAndSaveChanges(menuItem, true);
-            }}
-            isVisible={isMenuItemDialogOpenRef.current}
-          />
+          {isMenuItemDialogOpenRef.current && (
+            <MenuItemDetail
+              menuItemForm={menuItemForm}
+              onCloseAndDiscardChanges={onCloseAndDiscardChanges}
+              onCloseAndSaveChanges={onCloseAndSaveChanges}
+            />
+          )}
           <SplitLayout mainContent={mainForm} optionalContent={messagePreview} />
           <Drawer
             className={classes.drawer + ' MsgPreviewDrawer'}
