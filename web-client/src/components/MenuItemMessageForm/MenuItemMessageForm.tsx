@@ -2,10 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './MenuItemMessageForm.scss';
 import {
   Dialog,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
   Button,
   ListItem,
   ListItemText,
@@ -13,7 +9,6 @@ import {
   makeStyles,
   Theme,
   createStyles,
-  Slide,
   TextField,
   DialogTitle,
   DialogContent,
@@ -28,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 type MenuItemMessageFormProps = {
   menuItem: MenuItem;
   onDeleteMenuItem: (menuItem: MenuItem) => void;
+  onMenuItemUpdatedInForm: (updatedMenuItem: MenuItem) => void;
   isVisible: boolean;
 };
 
@@ -65,24 +61,24 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  const [isTitleInvalid, setIsTitleInvalid] = useState(checkIfTitleIsInvalid(menuItem.title));
-  const [isContentInvalid, setIsContentInvalid] = useState(checkIfContentIsInvalid(menuItem.content));
+  const [isTitleInvalid, setIsTitleInvalid] = useState(checkIfTitleIsInvalid(props.menuItem.title));
+  const [isContentInvalid, setIsContentInvalid] = useState(checkIfContentIsInvalid(props.menuItem.content));
   const [isDeleteItemAlertShowing, setIsDeleteItemAlertShowing] = useState(false);
   // State used to avoid showing fields as wrong (red) when a new item open (of course empty)
   const [isTitleErrorEnabled, setIsTitleErrorEnabled] = useState(props.menuItem.id > 0);
   const [isContentErrorEnabled, setIsContentErrorEnabled] = useState(props.menuItem.id > 0);
 
-  useEffect(() => {
-    // TODO (MB) Ideally, we don't want to update the state if props.menuItem chages
-    // to avoid changing info while the user is editing; so this approach is not
-    // good because it updates the state every time props.menuItem changes.
-    // It is needed because this component gets constructed way before it's rendered
-    // so when constructed props.menuItem is an empty object and so would remain
-    // without this state update
-    setMenuItem(JSON.parse(JSON.stringify(props.menuItem)));
-    setIsTitleInvalid(checkIfTitleIsInvalid(props.menuItem.title));
-    setIsContentInvalid(checkIfContentIsInvalid(props.menuItem.content));
-  }, [props.menuItem]);
+  // useEffect(() => {
+  //   // TODO (MB) Ideally, we don't want to update the state if props.menuItem chages
+  //   // to avoid changing info while the user is editing; so this approach is not
+  //   // good because it updates the state every time props.menuItem changes.
+  //   // It is needed because this component gets constructed way before it's rendered
+  //   // so when constructed props.menuItem is an empty object and so would remain
+  //   // without this state update
+  //   setMenuItem(JSON.parse(JSON.stringify(props.menuItem)));
+  //   setIsTitleInvalid(checkIfTitleIsInvalid(props.menuItem.title));
+  //   setIsContentInvalid(checkIfContentIsInvalid(props.menuItem.content));
+  // }, [props.menuItem]);
 
   const onDeleteItemAskForConfirmClicked = () => {
     setIsDeleteItemAlertShowing(true);
@@ -101,22 +97,22 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   };
 
   const onContentChanged = (newText: string) => {
-    let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
+    let updatedMenuItem = JSON.parse(JSON.stringify(props.menuItem));
     updatedMenuItem.content = newText;
-    setMenuItem(updatedMenuItem);
+    props.onMenuItemUpdatedInForm(updatedMenuItem);
     setIsContentInvalid(checkIfContentIsInvalid(newText));
     setIsContentErrorEnabled(true);
   };
 
   const onTitleChanged = (newTitle: string) => {
-    let updatedMenuItem = JSON.parse(JSON.stringify(menuItem));
+    let updatedMenuItem = JSON.parse(JSON.stringify(props.menuItem));
     updatedMenuItem.title = newTitle;
-    setMenuItem(updatedMenuItem);
+    props.onMenuItemUpdatedInForm(updatedMenuItem);
     setIsTitleInvalid(checkIfTitleIsInvalid(newTitle));
     setIsTitleErrorEnabled(true);
   };
 
-  const footerListItems = menuItem.footerItems.map((footerItem: string, idx: number) => {
+  const footerListItems = props.menuItem.footerItems.map((footerItem: string, idx: number) => {
     return (
       <ListItem key={idx} dense>
         <ListItemText primary={footerItem} />
@@ -134,7 +130,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           error={isTitleErrorEnabled && isTitleInvalid}
           helperText={t('TITLE_CANT_BE_EMPTY')}
           placeholder={t('MENU.OPTION_TITLE_PLACEHOLDER')}
-          value={menuItem.title}
+          value={props.menuItem.title}
           variant="outlined"
           onChange={(e) => onTitleChanged(e.target.value)}
         />
@@ -145,7 +141,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
           showPrefill={false}
           showEdit={false}
           label={t('CONTENT')}
-          value={menuItem.content}
+          value={props.menuItem.content}
           rows={11}
           placeholder={t('MENU.OPTION_CONTENT_PLACEHOLDER')}
           onPrefillClicked={onPrefillContentClicked}

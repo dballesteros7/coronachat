@@ -24,6 +24,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from 'react-i18next';
 import { TransitionProps } from '@material-ui/core/transitions/transition';
 import { MenuItem } from '../../model/model';
+import MenuItemMessageForm from '../../components/MenuItemMessageForm/MenuItemMessageForm';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,9 +49,10 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
 });
 
 type MenuItemDetailProps = {
-  menuItemForm: any;
+  menuItem: MenuItem;
   onCloseAndDiscardChanges: () => void;
   onCloseAndSaveChanges: (menuItem: MenuItem) => void;
+  onDeleteMenuItem: (menuItem: MenuItem) => void;
 };
 
 const MenuItemDetail = (props: MenuItemDetailProps) => {
@@ -70,7 +72,7 @@ const MenuItemDetail = (props: MenuItemDetailProps) => {
   };
 
   const onSaveMenuItemClicked = () => {
-    props.onCloseAndSaveChanges(props.menuItemForm.props.menuItem);
+    props.onCloseAndSaveChanges(menuItem);
   };
 
   const onDiscardChangesClicked = () => {
@@ -78,10 +80,23 @@ const MenuItemDetail = (props: MenuItemDetailProps) => {
     setIsDiscardChangesAlertShowing(false);
   };
 
+  const onMenuItemUpdatedInForm = (updatedMenuItem: MenuItem) => {
+    setMenuItem(updatedMenuItem);
+  };
+
   let messagePreview = (
     <div className="msg-preview-box">
-      <MessagePreview bgColor="#F4F4F4" value={props.menuItemForm.props.menuItem.content} />
+      <MessagePreview bgColor="#F4F4F4" value={menuItem.content} />
     </div>
+  );
+
+  const menuItemForm = (
+    <MenuItemMessageForm
+      menuItem={menuItem}
+      onDeleteMenuItem={props.onDeleteMenuItem}
+      onMenuItemUpdatedInForm={onMenuItemUpdatedInForm}
+      isVisible={true}
+    />
   );
 
   return (
@@ -115,7 +130,7 @@ const MenuItemDetail = (props: MenuItemDetailProps) => {
           </Toolbar>
         </AppBar>
         <div className="MenuItemDetail covid-container">
-          <SplitLayout mainContent={props.menuItemForm} optionalContent={messagePreview} />
+          <SplitLayout mainContent={menuItemForm} optionalContent={messagePreview} />
           <Drawer
             className={classes.drawer + ' MsgPreviewDrawer'}
             anchor={'right'}

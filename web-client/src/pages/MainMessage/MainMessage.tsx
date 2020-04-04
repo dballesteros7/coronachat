@@ -216,16 +216,6 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     </div>
   );
 
-  const menuItemForm = (
-    <MenuItemMessageForm
-      menuItem={getEditingMenuItemClone()}
-      onDeleteMenuItem={(menuItem) => {
-        onCloseAndSaveChanges(menuItem, true);
-      }}
-      isVisible={true}
-    />
-  );
-
   return (
     <>
       {/* TODO(MB) create a custom appbar reusable component and use it everywhere */}
@@ -243,7 +233,10 @@ const MainMessage = (props: { isTrial?: boolean }) => {
         <div className="MainMessage covid-container">
           {isMenuItemDialogOpenRef.current && (
             <MenuItemDetail
-              menuItemForm={menuItemForm}
+              menuItem={getEditingMenuItemClone()}
+              onDeleteMenuItem={(menuItem) => {
+                onCloseAndSaveChanges(menuItem, true);
+              }}
               onCloseAndDiscardChanges={onCloseAndDiscardChanges}
               onCloseAndSaveChanges={onCloseAndSaveChanges}
             />
