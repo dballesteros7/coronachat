@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './MainMessage.scss';
 import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { Template, MenuItem } from '../../model/model';
-import MenuItemMessageForm from '../../components/MenuItemMessageForm/MenuItemMessageForm';
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, Button, IconButton } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
@@ -15,6 +14,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { useTranslation } from 'react-i18next';
 import { Language } from '../../i18n';
 import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
+import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
 
 function getEmptyTemplate(): Template {
   return {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
       position: 'relative',
-      padding: '3px 0'
+      padding: '3px 0',
     },
     title: {
       marginLeft: theme.spacing(2),
@@ -209,7 +209,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     />
   );
 
-  let messagePreview = (
+  const messagePreview = (
     <div className="msg-preview-box">
       <MessagePreview bgColor="#F4F4F4" value={getMessagePreviewText()} />
     </div>
@@ -230,15 +230,16 @@ const MainMessage = (props: { isTrial?: boolean }) => {
       </AppBar>
       <React.Fragment key={'RIGHT'}>
         <div className="MainMessage covid-container">
-          <MenuItemMessageForm
-            menuItem={getEditingMenuItemClone()}
-            onCloseAndDiscardChanges={onCloseAndDiscardChanges}
-            onCloseAndSaveChanges={onCloseAndSaveChanges}
-            onDeleteMenuItem={(menuItem) => {
-              onCloseAndSaveChanges(menuItem, true);
-            }}
-            isVisible={isMenuItemDialogOpenRef.current}
-          />
+          {isMenuItemDialogOpenRef.current && (
+            <MenuItemDetail
+              menuItem={getEditingMenuItemClone()}
+              onDeleteMenuItem={(menuItem) => {
+                onCloseAndSaveChanges(menuItem, true);
+              }}
+              onCloseAndDiscardChanges={onCloseAndDiscardChanges}
+              onCloseAndSaveChanges={onCloseAndSaveChanges}
+            />
+          )}
           <SplitLayout mainContent={mainForm} optionalContent={messagePreview} />
           <Drawer
             className={classes.drawer + ' MsgPreviewDrawer'}

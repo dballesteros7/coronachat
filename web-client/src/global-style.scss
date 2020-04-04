@@ -1,5 +1,12 @@
 $covid-margin: 20px;
 
+// TODO(MB) define this breakpoint somewhere global avoid redefining
+@media only screen and (min-width: 769px) {
+  #preview-button {
+    display: none;
+  }
+}
+
 .covid-title-box {
   display: flex;
   flex-direction: row;
@@ -22,6 +29,9 @@ $covid-margin: 20px;
   padding-top: 0;
 }
 
-html, body, #root {
-  height: 100%;;
+html,
+body,
+#root {
+  height: 100%;
+  ;
 }

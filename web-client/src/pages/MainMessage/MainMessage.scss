@@ -5,13 +5,6 @@
   }
 }
 
-// TODO(MB) define this breakpoint somewhere global avoid redefining
-@media only screen and (min-width: 769px) {
-  #preview-button {
-    display: none;
-  }
-}
-
 .MsgPreviewDrawer {
   .MuiDrawer-paper {
     width: 100%;
