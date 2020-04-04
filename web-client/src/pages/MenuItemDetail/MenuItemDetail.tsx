@@ -24,7 +24,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from 'react-i18next';
 import { TransitionProps } from '@material-ui/core/transitions/transition';
-import { MenuItem } from '../../model/model';
+import { MenuItem, getIsTitleInvalid, getIsContentInvalid } from '../../model/model';
 import MenuItemMessageForm from '../../components/MenuItemMessageForm/MenuItemMessageForm';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -123,8 +123,7 @@ const MenuItemDetail = (props: MenuItemDetailProps) => {
             </IconButton>
             <Button
               autoFocus
-              // TODO(MB)
-              // disabled={isTitleInvalid || isContentInvalid}
+              disabled={getIsTitleInvalid(menuItem.title) || getIsContentInvalid(menuItem.content)}
               color="secondary"
               onClick={onSaveMenuItemClicked}
             >

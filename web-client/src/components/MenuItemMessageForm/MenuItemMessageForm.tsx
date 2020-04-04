@@ -16,7 +16,7 @@ import {
   DialogActions,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { MenuItem } from '../../model/model';
+import { MenuItem, getIsTitleInvalid, getIsContentInvalid } from '../../model/model';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
 import { useTranslation } from 'react-i18next';
 
@@ -26,14 +26,6 @@ type MenuItemMessageFormProps = {
   onMenuItemUpdatedInForm: (updatedMenuItem: MenuItem) => void;
   isVisible: boolean;
 };
-
-function checkIfTitleIsInvalid(title: string): boolean {
-  return title.length === 0;
-}
-
-function checkIfContentIsInvalid(content: string): boolean {
-  return content.length === 0;
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,8 +53,8 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  const [isTitleInvalid, setIsTitleInvalid] = useState(checkIfTitleIsInvalid(props.menuItem.title));
-  const [isContentInvalid, setIsContentInvalid] = useState(checkIfContentIsInvalid(props.menuItem.content));
+  const [isTitleInvalid, setIsTitleInvalid] = useState(getIsTitleInvalid(props.menuItem.title));
+  const [isContentInvalid, setIsContentInvalid] = useState(getIsContentInvalid(props.menuItem.content));
   const [isDeleteItemAlertShowing, setIsDeleteItemAlertShowing] = useState(false);
   // State used to avoid showing fields as wrong (red) when a new item open (of course empty)
   const [isTitleErrorEnabled, setIsTitleErrorEnabled] = useState(props.menuItem.id > 0);
@@ -100,7 +92,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(props.menuItem));
     updatedMenuItem.content = newText;
     props.onMenuItemUpdatedInForm(updatedMenuItem);
-    setIsContentInvalid(checkIfContentIsInvalid(newText));
+    setIsContentInvalid(getIsContentInvalid(newText));
     setIsContentErrorEnabled(true);
   };
 
@@ -108,7 +100,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(props.menuItem));
     updatedMenuItem.title = newTitle;
     props.onMenuItemUpdatedInForm(updatedMenuItem);
-    setIsTitleInvalid(checkIfTitleIsInvalid(newTitle));
+    setIsTitleInvalid(getIsTitleInvalid(newTitle));
     setIsTitleErrorEnabled(true);
   };
 
