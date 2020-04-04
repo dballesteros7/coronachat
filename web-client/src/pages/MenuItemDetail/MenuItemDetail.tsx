@@ -105,7 +105,6 @@ const MenuItemDetail = (props: MenuItemDetailProps) => {
       disableBackdropClick={true}
       disableEscapeKeyDown={true}
       open={true}
-      className="MenuItemMessageForm"
       onClose={onCloseMenuItemClicked}
       TransitionComponent={Transition}
     >

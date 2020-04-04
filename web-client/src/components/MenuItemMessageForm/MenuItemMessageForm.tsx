@@ -122,9 +122,11 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
 
   return (
     <>
-      <div className="covid-container">
+      <div className="MenuItemMessageForm covid-container">
         {/* <List> */}
-        <h3 className="covid-title">{t('MENU.OPTION_TITLE')}</h3>
+        <span className="covid-title-box">
+          <h3 className="covid-title">{t('MENU.OPTION_TITLE')}</h3>
+        </span>
         <TextField
           fullWidth
           error={isTitleErrorEnabled && isTitleInvalid}

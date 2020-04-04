@@ -1,5 +1,10 @@
 $covid-margin: 20px;
 
+.msg-preview-box {
+  width: 100%;
+  padding-top: 35px;
+}
+
 .covid-title-box {
   display: flex;
   flex-direction: row;
@@ -22,6 +27,9 @@ $covid-margin: 20px;
   padding-top: 0;
 }
 
-html, body, #root {
-  height: 100%;;
+html,
+body,
+#root {
+  height: 100%;
+  ;
 }
