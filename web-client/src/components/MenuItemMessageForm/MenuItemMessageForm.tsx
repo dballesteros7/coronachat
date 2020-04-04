@@ -53,8 +53,6 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  const [isTitleInvalid, setIsTitleInvalid] = useState(getIsTitleInvalid(props.menuItem.title));
-  const [isContentInvalid, setIsContentInvalid] = useState(getIsContentInvalid(props.menuItem.content));
   const [isDeleteItemAlertShowing, setIsDeleteItemAlertShowing] = useState(false);
   // State used to avoid showing fields as wrong (red) when a new item open (of course empty)
   const [isTitleErrorEnabled, setIsTitleErrorEnabled] = useState(props.menuItem.id > 0);
@@ -92,7 +90,6 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(props.menuItem));
     updatedMenuItem.content = newText;
     props.onMenuItemUpdatedInForm(updatedMenuItem);
-    setIsContentInvalid(getIsContentInvalid(newText));
     setIsContentErrorEnabled(true);
   };
 
@@ -100,7 +97,6 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     let updatedMenuItem = JSON.parse(JSON.stringify(props.menuItem));
     updatedMenuItem.title = newTitle;
     props.onMenuItemUpdatedInForm(updatedMenuItem);
-    setIsTitleInvalid(getIsTitleInvalid(newTitle));
     setIsTitleErrorEnabled(true);
   };
 
@@ -121,7 +117,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
         </span>
         <TextField
           fullWidth
-          error={isTitleErrorEnabled && isTitleInvalid}
+          error={isTitleErrorEnabled && getIsTitleInvalid(props.menuItem.title)}
           helperText={t('TITLE_CANT_BE_EMPTY')}
           placeholder={t('MENU.OPTION_TITLE_PLACEHOLDER')}
           value={props.menuItem.title}
@@ -130,7 +126,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
         />
         <Divider className="divider" />
         <SmartTextArea
-          error={isContentErrorEnabled && isContentInvalid}
+          error={isContentErrorEnabled && getIsContentInvalid(props.menuItem.content)}
           helperText={t('CONTENT_CANT_BE_EMPTY')}
           showPrefill={false}
           showEdit={false}
