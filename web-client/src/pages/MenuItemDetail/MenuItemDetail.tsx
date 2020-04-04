@@ -20,6 +20,7 @@ import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
 import Drawer from '@material-ui/core/Drawer';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from 'react-i18next';
 import { TransitionProps } from '@material-ui/core/transitions/transition';
@@ -117,6 +118,9 @@ const MenuItemDetail = (props: MenuItemDetailProps) => {
             <Typography variant="h6" className={classes.title}>
               {t('MENU.OPTION')}
             </Typography>
+            <IconButton autoFocus id="preview-button" color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
+              <VisibilityIcon></VisibilityIcon>
+            </IconButton>
             <Button
               autoFocus
               // TODO(MB)
