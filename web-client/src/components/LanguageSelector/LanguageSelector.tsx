@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'fixed',
       top: 0,
       right: 0,
+      zIndex: 10,
+    },
+    langMenu: {
+      zIndex: 10,
     },
     langMenuItem: {
       color: theme.palette.primary.main,
@@ -67,6 +71,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
         {props.selectedLanguage}
       </Button>
       <Menu
+        className={classes.langMenu}
         anchorEl={languageMenuAnchorEl}
         keepMounted
         open={Boolean(languageMenuAnchorEl)}
