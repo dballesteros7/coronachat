@@ -11,6 +11,7 @@ import { CoronaChatAPIInterface } from '../../services/CoronaChatAPIInterface';
 import Drawer from '@material-ui/core/Drawer';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from 'react-i18next';
 import { Language } from '../../i18n';
 import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
@@ -225,6 +226,9 @@ const MainMessage = (props: { isTrial?: boolean }) => {
           <Typography variant="h6" color="secondary" className={classes.title}>
             {t('DASHBOARD_TITLE')}
           </Typography>
+          <IconButton autoFocus color="secondary" onClick={() => setIsIntroStepperOpen(true)}>
+            <HelpOutlineIcon></HelpOutlineIcon>
+          </IconButton>
           <IconButton autoFocus id="preview-button" color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
             <VisibilityIcon></VisibilityIcon>
           </IconButton>
