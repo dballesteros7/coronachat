@@ -60,10 +60,16 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
         position="static"
         activeStep={activeStep}
         nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === 5}>
-            Next
-            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-          </Button>
+          activeStep < numberOfSteps - 1 ? (
+            <Button size="small" onClick={handleNext}>
+              {t('Next')}
+              {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+            </Button>
+          ) : (
+            <Button size="small" onClick={handleNext}>
+              {t('Start')}
+            </Button>
+          )
         }
         backButton={
           <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
