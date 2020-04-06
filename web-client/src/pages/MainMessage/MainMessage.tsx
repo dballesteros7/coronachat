@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './MainMessage.scss';
 import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { Template, MenuItem } from '../../model/model';
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton, Dialog } from '@material-ui/core';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { Language } from '../../i18n';
 import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
 import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
+import IntroStepper from '../../components/IntroStepper/IntroStepper';
 
 function getEmptyTemplate(): Template {
   return {
@@ -54,6 +55,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
   const classes = useStyles();
 
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
+  const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(true);
 
   useEffect(() => {
     // TODO(MB) add some loading UI
@@ -241,6 +243,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
             />
           )}
           <SplitLayout mainContent={mainForm} optionalContent={messagePreview} />
+          {isIntroStepperOpen && <IntroStepper onIntroFinished={() => setIsIntroStepperOpen(false)} />}
           <Drawer
             className={classes.drawer + ' MsgPreviewDrawer'}
             anchor={'right'}
