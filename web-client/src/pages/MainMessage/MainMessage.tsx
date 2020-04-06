@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const MainMessage = (props: { isTrial?: boolean }) => {
   const { t, i18n } = useTranslation();
+  const classes = useStyles();
+
+  const introStepsCompletedKey = 'introStepsCompleted';
 
   let coronaChatAPI: CoronaChatAPIInterface;
   if (props.isTrial) {
@@ -53,24 +56,8 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     coronaChatAPI = new CoronaChatAPI();
   }
 
-  const classes = useStyles();
-
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
-  const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(true);
-
-  useEffect(() => {
-    // TODO(MB) add some loading UI
-    coronaChatAPI
-      .getTemplate()
-      .then((template) => {
-        console.debug('Got template from server', template);
-        setTemplate(template);
-      })
-      .catch((error) => {
-        // TODO(MB) notify user
-        console.error(error);
-      });
-  }, []);
+  const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(false);
 
   // TODO(MB) is this really the simplest way that allows using setState inside
   // an event handler? see https://medium.com/geographit/accessing-react-state-in-event-listeners-with-usestate-and-useref-hooks-8cceee73c559
@@ -87,6 +74,22 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     isMenuItemDialogOpenRef.current = newValue;
     _setIsMenuItemDialogOpen(newValue);
   };
+
+  useEffect(() => {
+    // TODO(MB) add some loading UI
+    coronaChatAPI
+      .getTemplate()
+      .then((template) => {
+        console.debug('Got template from server', template);
+        setTemplate(template);
+      })
+      .catch((error) => {
+        // TODO(MB) notify user
+        console.error(error);
+      });
+
+    setIsIntroStepperOpen(localStorage.getItem(introStepsCompletedKey) !== 'true');
+  }, []);
 
   const getDefaultTemplate = (): Template => {
     // TODO(MB) get this from defaultTemplate fetched from server with language as param instead
@@ -201,6 +204,11 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     return text;
   };
 
+  const onIntroStepsCompleted = () => {
+    setIsIntroStepperOpen(false);
+    localStorage.setItem(introStepsCompletedKey, 'true');
+  };
+
   let mainForm = (
     <MainMessageForm
       template={templateRef.current}
@@ -247,7 +255,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
             />
           )}
           <SplitLayout mainContent={mainForm} optionalContent={messagePreview} />
-          {isIntroStepperOpen && <IntroStepper onIntroFinished={() => setIsIntroStepperOpen(false)} />}
+          {isIntroStepperOpen && <IntroStepper onIntroFinished={onIntroStepsCompleted} />}
           <Drawer
             className={classes.drawer + ' MsgPreviewDrawer'}
             anchor={'right'}
