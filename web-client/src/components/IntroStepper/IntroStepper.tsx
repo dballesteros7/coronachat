@@ -1,6 +1,6 @@
 import React from 'react';
 import './IntroStepper.scss';
-import { MobileStepper, Button, makeStyles, useTheme, Dialog } from '@material-ui/core';
+import { MobileStepper, Button, makeStyles, useTheme, Dialog, LinearProgress } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -12,10 +12,14 @@ const useStyles = makeStyles({
     width: '100%',
     height: '100%',
     border: 0,
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
   videoContainer: {
     width: '100%',
     height: '100%',
+    position: 'relative',
   },
   previewIcon: {
     width: 40,
@@ -80,6 +84,7 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
       />
       {activeStep === 0 && (
         <div className={classes.videoContainer}>
+          <LinearProgress />
           <iframe
             className={classes.introVideo}
             width="560"
