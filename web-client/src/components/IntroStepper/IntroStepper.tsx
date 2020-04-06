@@ -2,38 +2,35 @@ import React from 'react';
 import './IntroStepper.scss';
 import { MobileStepper, Button, makeStyles, useTheme, Dialog } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   introVideo: {
-    // width: '100%',
-    // height: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
     width: '100%',
     height: '100%',
     border: 0,
   },
   videoContainer: {
-    position: 'relative',
     width: '100%',
-    paddingBottom: '56.25%',
-    height: 0,
+    height: '100%',
   },
   previewIcon: {
     width: 40,
     height: 40,
   },
-  previewIntroContainer: {
-    padding: '30px 30%',
-    textAlign: 'center',
-  },
   previewIntroText: {
     textAlign: 'justify',
     textJustify: 'inter-word',
+  },
+  mainContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
   },
 });
 
@@ -42,7 +39,7 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const [t] = useTranslation();
-  const numberOfSteps = 2;
+  const numberOfSteps = 3;
 
   const handleNext = () => {
     if (activeStep === numberOfSteps - 1) {
@@ -81,20 +78,33 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
             className={classes.introVideo}
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/uEB5AP7zhcA"
+            src="https://www.youtube.com/embed/uEB5AP7zhcA?autoplay=1"
             allow="accelerometer; autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
           ></iframe>
         </div>
       )}
       {activeStep === 1 && (
-        <div className={classes.previewIntroContainer}>
+        <div className="PreviewIntroContainer">
           <div className="covid-container">
             <h3 className="covid-title">Message preview</h3>
           </div>
-          <VisibilityIcon color="primary" id="preview-icon"></VisibilityIcon>
+          <VisibilityIcon color="primary" className="IntroIcon"></VisibilityIcon>
           <p className={classes.previewIntroText}>
             {t(`Click this icon in the top bar of smaller screens to open the message preview. You will see how
             the message that you are editing will look like on WhatsApp.`)}
+          </p>
+        </div>
+      )}
+      {activeStep === 2 && (
+        <div className="PreviewIntroContainer">
+          <div className="covid-container">
+            <h3 className="covid-title">Help</h3>
+          </div>
+          <HelpOutlineIcon color="primary" className="IntroIcon"></HelpOutlineIcon>
+          <p className={classes.previewIntroText}>
+            {t(
+              `Click this icon in the top bar to go through these introduction steps once more. They will not be shown again automatically. `
+            )}
           </p>
         </div>
       )}

@@ -1,11 +1,23 @@
 .IntroStepper {
   .MuiDialog-paper {
     width: 95%;
-    max-width: 981px;
+    height: 70%;
+    max-width: 850px;
   }
 
-  #preview-icon.MuiSvgIcon-root {
+  .IntroIcon.MuiSvgIcon-root {
     width: 70px;
     height: 70px;
+  }
+
+  .PreviewIntroContainer {
+    padding: 30px 15%;
+    text-align: center;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .PreviewIntroContainer {
+      padding: 30px 25%;
+    }
   }
 }
