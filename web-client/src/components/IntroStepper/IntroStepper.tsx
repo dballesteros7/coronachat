@@ -66,19 +66,19 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
         nextButton={
           activeStep < numberOfSteps - 1 ? (
             <Button size="small" onClick={handleNext}>
-              {t('Next')}
+              {t('ACTIONS.NEXT')}
               {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
             </Button>
           ) : (
             <Button size="small" onClick={handleNext}>
-              {t('Start')}
+              {t('ACTIONS.DONE')}
             </Button>
           )
         }
         backButton={
           <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
             {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-            Back
+            {t('ACTIONS.BACK')}
           </Button>
         }
       />
@@ -97,26 +97,19 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
       {activeStep === 1 && (
         <div className="PreviewIntroContainer">
           <div className="covid-container">
-            <h3 className="covid-title">Message preview</h3>
+            <h3 className="covid-title">{t('INTRO.MESSAGE_PREVIEW')}</h3>
           </div>
           <VisibilityIcon color="primary" className="IntroIcon"></VisibilityIcon>
-          <p className={classes.previewIntroText}>
-            {t(`Click this icon in the top bar of smaller screens to open the message preview. You will see how
-            the message that you are editing will look like on WhatsApp.`)}
-          </p>
+          <p className={classes.previewIntroText}>{t('INTRO.MSG_PREVIEW_DESCRIPTION')}</p>
         </div>
       )}
       {activeStep === 2 && (
         <div className="PreviewIntroContainer">
           <div className="covid-container">
-            <h3 className="covid-title">Help</h3>
+            <h3 className="covid-title">{t('ACTIONS.HELP')}</h3>
           </div>
           <HelpOutlineIcon color="primary" className="IntroIcon"></HelpOutlineIcon>
-          <p className={classes.previewIntroText}>
-            {t(
-              `Click this icon in the top bar to go through these introduction steps once more. They will not be shown again automatically. `
-            )}
-          </p>
+          <p className={classes.previewIntroText}>{t('INTRO.HELP_DESCRIPTION')}</p>
         </div>
       )}
     </Dialog>
