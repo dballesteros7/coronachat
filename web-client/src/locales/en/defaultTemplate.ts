@@ -4,13 +4,13 @@ import { Template } from '../../model/model';
 export const defaultTemplateEN: Template = {
   header: `*Welcome to Coronainfochat* 🇨🇴
 
-  Official information about coronavirus in Bucaramanga.
-  
-  You can find more information about coronavirus provided by Instituto Nacional de Salud here: https://www.ins.gov.co/Noticias/Paginas/Coronavirus.aspx
+Official information about coronavirus in Bucaramanga.
 
-  *What would you like to know about coronavirus?*
-  
-  Reply with a number at any time to get the latest information on the topic: 👇🏼`,
+You can find more information about coronavirus provided by Instituto Nacional de Salud here: https://www.ins.gov.co
+
+*What would you like to know about coronavirus?*
+
+Reply with a number at any time to get the latest information on the topic: 👇🏼`,
   menuItems: [
     {
       id: 1,

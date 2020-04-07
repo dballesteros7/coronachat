@@ -4,15 +4,15 @@ import { Template } from '../../model/model';
 export const defaultTemplateIT: Template = {
   header: `*Benvenuto nella Coronainfochat* 🇮🇹
 
-  Informazioni ufficiali riguardo al coronavirus del Comune di Ponzuno.
-  
-  Per maggiori informazioni sul coronavirus, visita la pagina web del Ministero della Salute: http://www.salute.gov.it/nuovocoronavirus
-  
-  *Rimani a casa ed esci solo se strettamente necessario.*
+Informazioni ufficiali riguardo al coronavirus del Comune di Ponzuno.
 
-  Cosa vorresti sapere della situazione coronavirus?
+Per maggiori informazioni sul coronavirus, visita la pagina web del Ministero della Salute: http://www.salute.gov.it/nuovocoronavirus
 
-  Per interagire con me, scrivi 1, 2, 3, 4, 5, 6, 7, 8, 9 o 10 e risolverò i tuoi dubbi 👇🏼`,
+*Rimani a casa ed esci solo se strettamente necessario.*
+
+Cosa vorresti sapere della situazione coronavirus?
+
+Per interagire con me, scrivi 1, 2, 3, 4, 5, 6, 7, 8, 9 o 10 e risolverò i tuoi dubbi 👇🏼`,
   menuItems: [
     {
       id: 1,
