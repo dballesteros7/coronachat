@@ -44,6 +44,8 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [t] = useTranslation();
   const numberOfSteps = 3;
+  // TODO(MB) get proper url by language when all videos are ready
+  const introVideoUrl = 'https://www.youtube.com/embed/uEB5AP7zhcA';
 
   const handleNext = () => {
     if (activeStep === numberOfSteps - 1) {
@@ -89,7 +91,7 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
             className={classes.introVideo}
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/uEB5AP7zhcA?autoplay=1"
+            src={introVideoUrl + '?autoplay=1'}
             allow="accelerometer; autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
           ></iframe>
         </div>
