@@ -54,7 +54,11 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
   };
 
   const menuItems = Object.keys(Languages).map((language: string) => (
-    <MenuItem className={classes.langMenuItem} onClick={(_) => onLanguageItemClicked(Languages[language as Language])}>
+    <MenuItem
+      className={classes.langMenuItem}
+      key={language}
+      onClick={(_) => onLanguageItemClicked(Languages[language as Language])}
+    >
       {language.toUpperCase()}
     </MenuItem>
   ));
