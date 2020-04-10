@@ -17,6 +17,9 @@ const translationES = {
     EDIT: 'Editar',
     PREFILL: 'Rellenar',
     DONE: 'Listo',
+    BACK: 'Atrás',
+    NEXT: 'Seguir',
+    HELP: 'Ayuda',
   },
   MENU: {
     OPTIONS: 'Opciones del menú principal',
@@ -28,7 +31,7 @@ const translationES = {
     DELETE_OPTION: 'Borrar esta opción',
     DELETE_OPTION_DIALOG: {
       TITLE: 'Borrar esta opción',
-      MESSAGE: `Si borra esta opción, se eliminará del menú principal y se perderá su contenido. ¿Está seguro?`,
+      MESSAGE: `Si borras esta opción, se eliminará del menú principal y se perderá su contenido. ¿Está seguro?`,
       YES_BUTTON: 'Sí, borrar la opción',
       NO_BUTTON: 'No borrarla',
     },
@@ -42,11 +45,16 @@ const translationES = {
       MESSAGE_4: `Hola Sr. Gonzales, apreciamos su iniciativa y nos gustaría ayudarle.`,
       MESSAGE_5: `Nuestra aplicación _Coronainfochat_ crea el chatbot por usted. Usted sólo necesita llenarlo con el contenido que las personas en su ciudad van a leer en el chat. También funciona con *Facebook Messenger*.`,
       MESSAGE_6: `Excelente! Muchas gracias. Ellos pueden recibir también una notificación con actualizaciones importantes?`,
-      MESSAGE_7: `Todavía no, pero pronto. Lo mantendremos al tanto. Por favor pruebe la aplicación y mantengáse _sano_! 💪🏼`,
+      MESSAGE_7: `Todavía no, pero pronto. Lo mantendremos al tanto. Por favor pruebe la aplicación y manténgase _sano_! 💪🏼`,
       MESSAGE_8: `Cuánto va a costar? El presupuesto está apretado 💰😐`,
       MESSAGE_9: `Nada, es *gratis* por ahora. Puede que tenga que cubrir los costos de infraestructura en el futuro. No dude en contactarnos con cualquier pregunta! 👇🏼`,
     },
     TRY_IT_BUTTON: `Pruébelo ahora`,
+  },
+  INTRO: {
+    MESSAGE_PREVIEW: 'Vista previa del mensaje',
+    MSG_PREVIEW_DESCRIPTION: `Haga clic en este icono en la barra superior de las pantallas más pequeñas para abrir la vista previa del mensaje. Podrás ver cómo el mensaje que estás editando se verá como en WhatsApp.`,
+    HELP_DESCRIPTION: `Haga clic en este icono en la barra superior para volver a estos pasos de introducción. No se mostrarán de nuevo automáticamente.`,
   },
 };
 

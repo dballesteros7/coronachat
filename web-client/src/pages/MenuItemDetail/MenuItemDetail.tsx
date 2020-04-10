@@ -141,7 +141,7 @@ const MenuItemDetail = (props: MenuItemDetailProps) => {
           >
             <div className="drawer-content">
               <div className="covid-title-box">
-                <div className="covid-title">Vista preliminar del mensaje</div>
+                <div className="covid-title">{t('INTRO.MESSAGE_PREVIEW')}</div>
                 <IconButton autoFocus size="medium" aria-label="close" onClick={() => setMsgPreviewDrawerOpen(false)}>
                   <CloseOutlinedIcon color="primary"></CloseOutlinedIcon>
                 </IconButton>
