@@ -1,5 +1,5 @@
 import MainMessage from './pages/MainMessage/MainMessage';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { BrowserRouter as Router, Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
@@ -26,7 +26,7 @@ export const LanguageContext = React.createContext({
   onLanguageSelected: (_: Language) => {},
 });
 
-const LanguageWrapper = () => {
+const LanguageWrapper = (props: { children: ReactNode }) => {
   const query = new URLSearchParams(useLocation().search);
   const [_, i18n] = useTranslation();
   const location = useLocation();
@@ -53,14 +53,7 @@ const LanguageWrapper = () => {
 
   return (
     <LanguageContext.Provider value={{ selectedLanguage: selectedLanguage, onLanguageSelected: onLanguageSelected }}>
-      <Switch>
-        <Route exact path="/dashboard">
-          <MainMessage isTrial={true} />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
+      {props.children}
     </LanguageContext.Provider>
   );
 };
@@ -69,7 +62,16 @@ const App = () => {
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <LanguageWrapper />
+        <LanguageWrapper>
+          <Switch>
+            <Route exact path="/dashboard">
+              <MainMessage isTrial={true} />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </LanguageWrapper>
       </ThemeProvider>
     </Router>
   );
