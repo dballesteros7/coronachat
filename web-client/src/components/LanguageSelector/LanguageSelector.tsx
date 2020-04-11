@@ -35,14 +35,12 @@ const LanguageSelector = () => {
   };
 
   const onLanguageItemClicked = (language: Language) => {
-    // TODO (MB) look for a good solution to avoid
+    // TODO (MB) why do I get the following error if I set i18n from here?
     // cannot change i18n here due to this error:
     // index.js:1 Warning: Cannot update a component (`LanguageSelector`) while rendering a different component (`LanguageWrapper`).
     // To locate the bad setState() call inside `LanguageWrapper`, follow the stack trace as described in https://fb.me/setstate-in-render
     // i18n.changeLanguage(selectedLanguage);
     // localStorage.setItem(languageKey, selectedLanguage);
-    // temp solution handle lang selection event outside (ugly, passed N times
-    // if this is the Nth nested component, as well as the selectedLanguage props which is input here)
     onLanguageSelected(language);
 
     setLanguageMenuAnchorEl(null);
