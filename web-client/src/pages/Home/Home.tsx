@@ -41,14 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-// TODO(MB) how do avoid all these same properties passing down the three?
-// HomeProps same as LanguageSelectorProps
-type HomeProps = {
-  selectedLanguage: Languages;
-  onLanguageSelected: (language: Language) => void;
-};
-
-const Home = (props: HomeProps) => {
+const Home = () => {
   const classes = useStyles();
   const [t] = useTranslation();
 
@@ -59,10 +52,7 @@ const Home = (props: HomeProps) => {
           <img id="logo" src={logo} alt="Coronainfochat" />
         </div>
       </div>
-      <LanguageSelector
-        selectedLanguage={props.selectedLanguage}
-        onLanguageSelected={props.onLanguageSelected}
-      ></LanguageSelector>
+      <LanguageSelector></LanguageSelector>
 
       <h2 className="covid-title">{t('HOME.HEADER')}</h2>
 
