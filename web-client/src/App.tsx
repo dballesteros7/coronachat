@@ -1,9 +1,9 @@
 import MainMessage from './pages/MainMessage/MainMessage';
-import React, { useEffect } from 'react';
+import React, { ReactNode } from 'react';
 import { BrowserRouter as Router, Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import i18n, { Language, Languages, languageKey } from './i18n';
+import { Language, Languages, languageKey } from './i18n';
 import { useTranslation } from 'react-i18next';
 
 const theme = createMuiTheme({
@@ -21,7 +21,12 @@ const theme = createMuiTheme({
   },
 });
 
-const LanguageWrapper = () => {
+export const LanguageContext = React.createContext({
+  selectedLanguage: Languages.en,
+  onLanguageSelected: (_: Language) => {},
+});
+
+const LanguageWrapper = (props: { children: ReactNode }) => {
   const query = new URLSearchParams(useLocation().search);
   const [_, i18n] = useTranslation();
   const location = useLocation();
@@ -41,22 +46,15 @@ const LanguageWrapper = () => {
   }
 
   const onLanguageSelected = (language: Language) => {
-    // TODO(MB) with selectedLanguage I'm technically keeping a state without using useState
-    // what are the risks?
     selectedLanguage = Languages[language];
     setLanguage(Languages[language]);
     history.push(location.pathname + '?lang=' + language);
   };
 
   return (
-    <Switch>
-      <Route exact path="/dashboard">
-        <MainMessage isTrial={true} />
-      </Route>
-      <Route path="/">
-        <Home selectedLanguage={selectedLanguage} onLanguageSelected={onLanguageSelected} />
-      </Route>
-    </Switch>
+    <LanguageContext.Provider value={{ selectedLanguage: selectedLanguage, onLanguageSelected: onLanguageSelected }}>
+      {props.children}
+    </LanguageContext.Provider>
   );
 };
 
@@ -64,7 +62,16 @@ const App = () => {
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <LanguageWrapper />
+        <LanguageWrapper>
+          <Switch>
+            <Route exact path="/dashboard">
+              <MainMessage isTrial={true} />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </LanguageWrapper>
       </ThemeProvider>
     </Router>
   );

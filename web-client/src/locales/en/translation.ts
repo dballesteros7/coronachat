@@ -2,12 +2,12 @@ const translationEN = {
   DASHBOARD_TITLE: 'COVID-19 Information Portal',
   MSG_HEADER: 'Message header',
   MSG_HEADER_PLACEHOLDER:
-    'Write here a custom description about this service or press "prefill" to get a standard message',
+    'Write here a custom description about this service or press "Fill in" to get a standard message',
   CONTENT: 'Content',
   TITLE_CANT_BE_EMPTY: 'The title cannot be empty.',
   CONTENT_CANT_BE_EMPTY: 'The content cannot be empty.',
   UNSAVED_CHANGES_DIALOG: {
-    TITLE: 'There are unnsaved changes',
+    TITLE: 'There are unsaved changes',
     MESSAGE: 'If you close, you will lose any change that you may have made.',
     YES_BUTTON: 'Yes, discard and close',
     NO_BUTTON: 'No, continue editing',
@@ -15,8 +15,11 @@ const translationEN = {
   ACTIONS: {
     SAVE: 'Save',
     EDIT: 'Edit',
-    PREFILL: 'Prefill',
+    PREFILL: 'Fill in',
     DONE: 'Done',
+    BACK: 'Back',
+    NEXT: 'Next',
+    HELP: 'Help',
   },
   MENU: {
     OPTIONS: 'Main menu options',
@@ -25,7 +28,7 @@ const translationEN = {
     OPTION_TITLE: 'Option title (visible in the main menu)',
     OPTION_TITLE_PLACEHOLDER: 'Write the text to show next to the menu item number.',
     OPTION_CONTENT_PLACEHOLDER:
-      'Write here the content of the message that gets sent to people when they select this option.',
+      'Write the content of the message that gets sent to people when they select this option.',
     DELETE_OPTION: 'Delete this option',
     DELETE_OPTION_DIALOG: {
       TITLE: 'Delete menu option',
@@ -51,6 +54,12 @@ const translationEN = {
       MESSAGE_9: `Nothing, it's *free* at the moment. Infrastructure costs may need to be covered later on. Feel free to contact us for any other question! 👇🏼`,
     },
     TRY_IT_BUTTON: `Try it now`,
+  },
+  INTRO: {
+    MESSAGE_PREVIEW: 'Message preview',
+    MSG_PREVIEW_DESCRIPTION: `Click this icon in the top bar of smaller screens to open the message preview. You will see how
+    the message that you are editing will look like on WhatsApp.`,
+    HELP_DESCRIPTION: `Click this icon in the top bar to go through these introduction steps once more. They will not be shown again automatically.`,
   },
 };
 

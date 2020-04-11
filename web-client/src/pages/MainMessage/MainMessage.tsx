@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './MainMessage.scss';
 import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { Template, MenuItem } from '../../model/model';
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton, Dialog } from '@material-ui/core';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
@@ -11,10 +11,12 @@ import { CoronaChatAPIInterface } from '../../services/CoronaChatAPIInterface';
 import Drawer from '@material-ui/core/Drawer';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from 'react-i18next';
 import { Language } from '../../i18n';
 import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
 import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
+import IntroStepper from '../../components/IntroStepper/IntroStepper';
 
 function getEmptyTemplate(): Template {
   return {
@@ -43,6 +45,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const MainMessage = (props: { isTrial?: boolean }) => {
   const { t, i18n } = useTranslation();
+  const classes = useStyles();
+
+  const introStepsCompletedKey = 'introStepsCompleted';
 
   let coronaChatAPI: CoronaChatAPIInterface;
   if (props.isTrial) {
@@ -51,23 +56,8 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     coronaChatAPI = new CoronaChatAPI();
   }
 
-  const classes = useStyles();
-
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
-
-  useEffect(() => {
-    // TODO(MB) add some loading UI
-    coronaChatAPI
-      .getTemplate()
-      .then((template) => {
-        console.debug('Got template from server', template);
-        setTemplate(template);
-      })
-      .catch((error) => {
-        // TODO(MB) notify user
-        console.error(error);
-      });
-  }, []);
+  const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(false);
 
   // TODO(MB) is this really the simplest way that allows using setState inside
   // an event handler? see https://medium.com/geographit/accessing-react-state-in-event-listeners-with-usestate-and-useref-hooks-8cceee73c559
@@ -84,6 +74,22 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     isMenuItemDialogOpenRef.current = newValue;
     _setIsMenuItemDialogOpen(newValue);
   };
+
+  useEffect(() => {
+    // TODO(MB) add some loading UI
+    coronaChatAPI
+      .getTemplate()
+      .then((template) => {
+        console.debug('Got template from server', template);
+        setTemplate(template);
+      })
+      .catch((error) => {
+        // TODO(MB) notify user
+        console.error(error);
+      });
+
+    setIsIntroStepperOpen(localStorage.getItem(introStepsCompletedKey) !== 'true');
+  }, []);
 
   const getDefaultTemplate = (): Template => {
     // TODO(MB) get this from defaultTemplate fetched from server with language as param instead
@@ -198,6 +204,11 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     return text;
   };
 
+  const onIntroStepsCompleted = () => {
+    setIsIntroStepperOpen(false);
+    localStorage.setItem(introStepsCompletedKey, 'true');
+  };
+
   let mainForm = (
     <MainMessageForm
       template={templateRef.current}
@@ -223,6 +234,9 @@ const MainMessage = (props: { isTrial?: boolean }) => {
           <Typography variant="h6" color="secondary" className={classes.title}>
             {t('DASHBOARD_TITLE')}
           </Typography>
+          <IconButton autoFocus color="secondary" onClick={() => setIsIntroStepperOpen(true)}>
+            <HelpOutlineIcon></HelpOutlineIcon>
+          </IconButton>
           <IconButton autoFocus id="preview-button" color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
             <VisibilityIcon></VisibilityIcon>
           </IconButton>
@@ -241,6 +255,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
             />
           )}
           <SplitLayout mainContent={mainForm} optionalContent={messagePreview} />
+          {isIntroStepperOpen && <IntroStepper onIntroFinished={onIntroStepsCompleted} />}
           <Drawer
             className={classes.drawer + ' MsgPreviewDrawer'}
             anchor={'right'}
@@ -249,7 +264,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
           >
             <div className="drawer-content">
               <div className="covid-title-box">
-                <div className="covid-title">Vista preliminar del mensaje</div>
+                <div className="covid-title">{t('INTRO.MESSAGE_PREVIEW')}</div>
                 <IconButton autoFocus size="medium" aria-label="close" onClick={() => setMsgPreviewDrawerOpen(false)}>
                   <CloseOutlinedIcon color="primary"></CloseOutlinedIcon>
                 </IconButton>
