@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './IntroStepper.scss';
 import { MobileStepper, Button, makeStyles, useTheme, Dialog, LinearProgress } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -6,6 +6,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { useTranslation } from 'react-i18next';
+import { LanguageContext, Languages } from '../../i18n';
 
 const useStyles = makeStyles({
   introVideo: {
@@ -44,8 +45,17 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [t] = useTranslation();
   const numberOfSteps = 3;
-  // TODO(MB) get proper url by language when all videos are ready
-  const introVideoUrl = 'https://www.youtube.com/embed/uEB5AP7zhcA';
+
+  let introVideoUrl = 'https://www.youtube.com/embed/z62eFKWJGIU';
+  const { selectedLanguage, onLanguageSelected } = useContext(LanguageContext);
+  switch (selectedLanguage) {
+    case Languages.it:
+      introVideoUrl = 'https://www.youtube.com/embed/oY3kbpHRVm8';
+      break;
+    case Languages.es:
+      introVideoUrl = 'https://www.youtube.com/embed/U_qX7IeCPZM';
+      break;
+  }
 
   const handleNext = () => {
     if (activeStep === numberOfSteps - 1) {
