@@ -18,7 +18,7 @@ import { MenuItem, getIsTitleInvalid, getIsContentInvalid } from '../../model/mo
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
 import { useTranslation } from 'react-i18next';
 
-type MenuItemMessageFormProps = {
+export type MenuItemMessageFormProps = {
   menuItem: MenuItem;
   onDeleteMenuItem: (menuItem: MenuItem) => void;
   onMenuItemUpdatedInForm: (updatedMenuItem: MenuItem) => void;

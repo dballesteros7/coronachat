@@ -5,7 +5,7 @@ import { List, ListItem, ListItemText, Divider, Button } from '@material-ui/core
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
 import { useTranslation } from 'react-i18next';
 
-type MainMessageFormProps = {
+export type MainMessageFormProps = {
   template: Template;
   onMainHeaderChanged: (newText: string) => void;
   onPrefillMainHeaderClicked: () => void;

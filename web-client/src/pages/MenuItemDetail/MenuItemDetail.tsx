@@ -49,7 +49,7 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-type MenuItemDetailProps = {
+export type MenuItemDetailProps = {
   menuItem: MenuItem;
   onCloseAndDiscardChanges: () => void;
   onCloseAndSaveChanges: (menuItem: MenuItem) => void;

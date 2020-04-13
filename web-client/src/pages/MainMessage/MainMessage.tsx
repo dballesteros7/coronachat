@@ -17,7 +17,7 @@ import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
 import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
 import IntroStepper from '../../components/IntroStepper/IntroStepper';
 
-function getEmptyTemplate(): Template {
+export function getEmptyTemplate(): Template {
   return {
     header: '',
     menuItems: [],
@@ -112,7 +112,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     return defaultTemplate.menuItems[0]?.footerItems[0] ?? '';
   };
 
-  const getInitSelectedMenuItem = (): MenuItem => {
+  const getEmptyDefaultMenuItem = (): MenuItem => {
     // TODO(MB) could set initial value to null without compiler complaining
     return {
       id: -1,
@@ -124,7 +124,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
 
   // TODO(MB) Does not make sense to store this menuItem
   // find a way to pass it to MenuItemMessageForm directly from 'openMenuItem' handler
-  const initSelectedMenuItem = getInitSelectedMenuItem();
+  const initSelectedMenuItem = getEmptyDefaultMenuItem();
   const [editingMenuItem, setEditingMenuItem] = useState(initSelectedMenuItem);
 
   const [newMenuItemLatestLocalIdx, setNewMenuItemLatestLocalIdx] = useState(-1);
@@ -162,7 +162,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
   };
 
   let onAddMenuItemClicked = () => {
-    let emptyMenuItem = getInitSelectedMenuItem();
+    let emptyMenuItem = getEmptyDefaultMenuItem();
     const newIdx = newMenuItemLatestLocalIdx - 1;
     emptyMenuItem.id = newIdx;
     setEditingMenuItem(emptyMenuItem);
@@ -172,7 +172,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
 
   let onCloseAndDiscardChanges = () => {
     setIsMenuItemDialogOpen(false);
-    setEditingMenuItem(getInitSelectedMenuItem());
+    setEditingMenuItem(getEmptyDefaultMenuItem());
   };
 
   let onCloseAndSaveChanges = (menuItem: MenuItem, deleteItem: boolean = false) => {
@@ -200,7 +200,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
         console.error('Update template server request failed with error', error);
       });
     setTemplate(updatedTemplate);
-    setEditingMenuItem(getInitSelectedMenuItem());
+    setEditingMenuItem(getEmptyDefaultMenuItem());
   };
 
   const getEditingMenuItemClone = (): MenuItem => {
