@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './SmartTextArea.scss';
-import Picker from 'emoji-picker-react';
-import { TextField, Button, IconButton } from '@material-ui/core';
-import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
+// import Picker from 'emoji-picker-react';
+import { TextField, Button } from '@material-ui/core';
+// import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
 import { useTranslation } from 'react-i18next';
 
 type SmartTextAreaProps = {
@@ -22,7 +22,7 @@ type SmartTextAreaProps = {
 const SmartTextArea = (props: SmartTextAreaProps) => {
   const { t } = useTranslation();
   const [isEditingEnabled, setIsEditingEnabled] = useState(!props.showEdit);
-  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+  // const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [value, setValue] = useState(props.value);
 
   useEffect(() => {
@@ -33,9 +33,9 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
     props.onPrefillClicked();
   };
 
-  const onEmojiClicked = () => {
-    setIsEmojiPickerOpen(false);
-  };
+  // const onEmojiClicked = () => {
+  //   setIsEmojiPickerOpen(false);
+  // };
 
   const onChange = (text: string) => {
     setValue(text);

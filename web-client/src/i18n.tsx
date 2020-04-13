@@ -43,7 +43,7 @@ export const LanguageContext = React.createContext({
 
 export const LanguageWrapper = (props: { children: ReactNode }) => {
   const query = new URLSearchParams(useLocation().search);
-  const [_, i18n] = useTranslation();
+  const { i18n } = useTranslation();
   const location = useLocation();
   const history = useHistory();
 
@@ -55,7 +55,7 @@ export const LanguageWrapper = (props: { children: ReactNode }) => {
     localStorage.setItem(languageKey, language);
   };
 
-  if (requestedLanguage && requestedLanguage != selectedLanguage) {
+  if (requestedLanguage && requestedLanguage !== selectedLanguage) {
     selectedLanguage = Languages[requestedLanguage];
     setLanguage(selectedLanguage);
   }

@@ -8,7 +8,6 @@ import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import './Home.scss';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../../components/LanguageSelector/LanguageSelector';
-import { Languages, Language } from '../../i18n';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,18 +87,18 @@ const Home = () => {
         </div>
       </div>
       <footer>
-        <a href="mailto:coronainfochat@gmail.com" target="_blank">
+        <a href="mailto:coronainfochat@gmail.com" target="_blank" rel="noopener noreferrer">
           <Fab className="contact-button" size="small">
             <MailOutlineIcon />
           </Fab>
         </a>
         <span>
-          <a href="https://www.linkedin.com/in/diegoballesterosv/" target="_blank">
+          <a href="https://www.linkedin.com/in/diegoballesterosv/" target="_blank" rel="noopener noreferrer">
             <Fab className="contact-button" size="small">
               D
             </Fab>
           </a>
-          <a href="https://www.linkedin.com/in/maricabertarini/" target="_blank">
+          <a href="https://www.linkedin.com/in/maricabertarini/" target="_blank" rel="noopener noreferrer">
             <Fab className="contact-button" size="small">
               M
             </Fab>

@@ -2,12 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import './MainMessage.scss';
 import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { Template, MenuItem } from '../../model/model';
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton, Dialog } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
 import { TrialCoronaChatAPI } from '../../services/TrialCoronaChatAPI';
-import { CoronaChatAPIInterface } from '../../services/CoronaChatAPIInterface';
 import Drawer from '@material-ui/core/Drawer';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -43,21 +42,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const introStepsCompletedKey = 'introStepsCompleted';
+
 const MainMessage = (props: { isTrial?: boolean }) => {
   const { t, i18n } = useTranslation();
   const classes = useStyles();
 
-  const introStepsCompletedKey = 'introStepsCompleted';
-
-  let coronaChatAPI: CoronaChatAPIInterface;
-  if (props.isTrial) {
-    coronaChatAPI = new TrialCoronaChatAPI(i18n.language as Language);
-  } else {
-    coronaChatAPI = new CoronaChatAPI();
-  }
-
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
   const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(false);
+  const [coronaChatAPI] = useState(
+    props.isTrial ? new TrialCoronaChatAPI(i18n.language as Language) : new CoronaChatAPI()
+  );
 
   // TODO(MB) is this really the simplest way that allows using setState inside
   // an event handler? see https://medium.com/geographit/accessing-react-state-in-event-listeners-with-usestate-and-useref-hooks-8cceee73c559
@@ -103,7 +98,15 @@ const MainMessage = (props: { isTrial?: boolean }) => {
       });
 
     setIsIntroStepperOpen(localStorage.getItem(introStepsCompletedKey) !== 'true');
-  }, []);
+    // TODO(MB) if I leave the useEffect dependencies array empty (to run code only on didMount), I get this warning:
+    // React Hook useEffect has a missing dependency: 'coronaChatAPI'. Either include it or remove the dependency array
+    // I did not find a way to get rid of the warning other than including the coronaChatAPI; see
+    // https://github.com/facebook/react/issues/15865
+    // It's anyway risky should coronaChatAPI change in the future, because thenn the get request would be called again
+    // and the template from the server set in the state while the user may be editing. A solution could be to have
+    // a view model to separate the editing template from the one in the state that would even allow a "undo" functionality
+    // to discard editing changes
+  }, [coronaChatAPI]);
 
   const getDefaultFooterItemBackToMenu = (): string => {
     return defaultTemplate.menuItems[0]?.footerItems[0] ?? '';

@@ -47,7 +47,7 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
   const numberOfSteps = 3;
 
   let introVideoUrl = 'https://www.youtube.com/embed/z62eFKWJGIU';
-  const { selectedLanguage, onLanguageSelected } = useContext(LanguageContext);
+  const { selectedLanguage } = useContext(LanguageContext);
   switch (selectedLanguage) {
     case Languages.it:
       introVideoUrl = 'https://www.youtube.com/embed/oY3kbpHRVm8';
@@ -98,6 +98,7 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
         <div className={classes.videoContainer}>
           <LinearProgress />
           <iframe
+            title="Intro video"
             className={classes.introVideo}
             width="560"
             height="315"

@@ -4,8 +4,6 @@ import { Template, MenuItem } from '../../model/model';
 import { List, ListItem, ListItemText, Divider, Button } from '@material-ui/core';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
 import { useTranslation } from 'react-i18next';
-import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
-import i18n, { Language } from '../../i18n';
 
 type MainMessageFormProps = {
   template: Template;
