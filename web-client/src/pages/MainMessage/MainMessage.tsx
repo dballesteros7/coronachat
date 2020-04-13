@@ -86,6 +86,17 @@ const MainMessage = (props: { isTrial?: boolean }) => {
       .catch((error) => {
         // TODO(MB) notify user
         console.error(error);
+      })
+      .finally(() => {
+        coronaChatAPI
+          .getDefaultTemplate()
+          .then((defaultTemplate) => {
+            console.debug('Got default template from server', defaultTemplate);
+          })
+          .catch((error) => {
+            // TODO(MB) notify user
+            console.error(error);
+          });
       });
 
     setIsIntroStepperOpen(localStorage.getItem(introStepsCompletedKey) !== 'true');
