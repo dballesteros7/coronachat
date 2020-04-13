@@ -68,6 +68,8 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     _setTemplate(newTemplate);
   };
 
+  const [defaultTemplate, setDefaultTemplate] = useState(getLocalDefaultTemplateForLanguage(i18n.language as Language));
+
   const [_isMenuItemDialogOpen, _setIsMenuItemDialogOpen] = useState(false);
   var isMenuItemDialogOpenRef = useRef(_isMenuItemDialogOpen);
   const setIsMenuItemDialogOpen = (newValue: boolean) => {
@@ -92,6 +94,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
           .getDefaultTemplate()
           .then((defaultTemplate) => {
             console.debug('Got default template from server', defaultTemplate);
+            setDefaultTemplate(defaultTemplate);
           })
           .catch((error) => {
             // TODO(MB) notify user
@@ -102,14 +105,8 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     setIsIntroStepperOpen(localStorage.getItem(introStepsCompletedKey) !== 'true');
   }, []);
 
-  const getDefaultTemplate = (): Template => {
-    // TODO(MB) get this from defaultTemplate fetched from server with language as param instead
-    return getLocalDefaultTemplateForLanguage(i18n.language as Language);
-  };
-
   const getDefaultFooterItemBackToMenu = (): string => {
-    // TODO(MB) get this from defaultTemplate fetched from server with language as param instead
-    return getDefaultTemplate().menuItems[0]?.footerItems[0] ?? '';
+    return defaultTemplate.menuItems[0]?.footerItems[0] ?? '';
   };
 
   const getInitSelectedMenuItem = (): MenuItem => {
@@ -137,7 +134,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
   };
 
   let onPrefillMainHeaderClicked = () => {
-    updateTemplateHeaderInState(getDefaultTemplate().header);
+    updateTemplateHeaderInState(defaultTemplate.header);
   };
 
   let onMainHeaderChanged = (newText: string) => {
