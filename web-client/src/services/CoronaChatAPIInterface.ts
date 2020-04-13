@@ -1,6 +1,7 @@
-import { Template } from "../model/model";
+import { Template } from '../model/model';
 
 export interface CoronaChatAPIInterface {
-  getTemplate(): Promise<Template>
-  updateTemplate(template: Template): Promise<void>
+  getTemplate(): Promise<Template>;
+  getDefaultTemplate(): Promise<Template>;
+  updateTemplate(template: Template): Promise<void>;
 }

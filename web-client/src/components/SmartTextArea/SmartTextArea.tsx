@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 
 type SmartTextAreaProps = {
   value: string;
-  prefillValue?: string;
   rows: number;
   label: string;
   showEdit: boolean;
@@ -31,9 +30,6 @@ const SmartTextArea = (props: SmartTextAreaProps) => {
   }, [props.value]);
 
   const onPrefillClicked = () => {
-    if (props.prefillValue) {
-      setValue(props.prefillValue);
-    }
     props.onPrefillClicked();
   };
 

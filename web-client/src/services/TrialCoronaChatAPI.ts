@@ -12,15 +12,15 @@ export class TrialCoronaChatAPI implements CoronaChatAPIInterface {
     this.selectedLanguage = language;
   }
 
-  private static readonly getTemplateURL = 'https://app.coronainfochat.org/getTemplate';
-
   getTemplate(): Promise<Template> {
-    var url = new URL(TrialCoronaChatAPI.getTemplateURL);
-
-    const promise = new Promise<Template>((resolve, reject) => {
+    const promise = new Promise<Template>((resolve, _) => {
       resolve(getLocalDefaultTemplateForLanguage(this.selectedLanguage));
     });
     return promise;
+  }
+
+  getDefaultTemplate(): Promise<Template> {
+    return this.getTemplate();
   }
 
   updateTemplate(_: Template): Promise<void> {
