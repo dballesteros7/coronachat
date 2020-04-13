@@ -110,7 +110,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
 
   return (
     <>
-      <div className="MenuItemMessageForm covid-container">
+      <div className="MenuItemMessageForm">
         {/* <List> */}
         <span className="covid-title-box">
           <h3 className="covid-title">{t('MENU.OPTION_TITLE')}</h3>
