@@ -39,8 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
       color: 'white',
     },
     drawer: {
-      // width: '100%',
-      // backgroundColor: 'red'
     },
   })
 );
@@ -60,11 +58,7 @@ const MenuItemDetail = (props: MenuItemDetailProps) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  // TODO menu item goes here because is shared between form (editing) and preview read only
-  // otherwise the preview can't be live
-  // form has to communicated out actions like delete, edit of each field
   const [menuItem, setMenuItem] = useState(JSON.parse(JSON.stringify(props.menuItem)));
-
   const [isDiscardChangesAlertShowing, setIsDiscardChangesAlertShowing] = useState(false);
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
 
