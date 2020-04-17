@@ -50,7 +50,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
 
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
   const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(false);
-  const [coronaChatAPI] = useState(
+  const coronaChatAPI = useRef(
     props.isTrial ? new TrialCoronaChatAPI(i18n.language as Language) : new CoronaChatAPI()
   );
 
@@ -74,7 +74,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
 
   useEffect(() => {
     // TODO(MB) add some loading UI
-    coronaChatAPI
+    coronaChatAPI.current
       .getTemplate()
       .then((template) => {
         console.debug('Got template from server', template);
@@ -85,7 +85,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
         console.error(error);
       })
       .finally(() => {
-        coronaChatAPI
+        coronaChatAPI.current
           .getDefaultTemplate()
           .then((defaultTemplate) => {
             console.debug('Got default template from server', defaultTemplate);
@@ -98,15 +98,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
       });
 
     setIsIntroStepperOpen(localStorage.getItem(introStepsCompletedKey) !== 'true');
-    // TODO(MB) if I leave the useEffect dependencies array empty (to run code only on didMount), I get this warning:
-    // React Hook useEffect has a missing dependency: 'coronaChatAPI'. Either include it or remove the dependency array
-    // I did not find a way to get rid of the warning other than including the coronaChatAPI; see
-    // https://github.com/facebook/react/issues/15865
-    // It's anyway risky should coronaChatAPI change in the future, because thenn the get request would be called again
-    // and the template from the server set in the state while the user may be editing. A solution could be to have
-    // a view model to separate the editing template from the one in the state that would even allow a "undo" functionality
-    // to discard editing changes
-  }, [coronaChatAPI]);
+  }, []);
 
   const getDefaultFooterItemBackToMenu = (): string => {
     return defaultTemplate.menuItems[0]?.footerItems[0] ?? '';
@@ -145,7 +137,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
   };
 
   let onSaveMainHeaderClicked = (_: string) => {
-    coronaChatAPI
+    coronaChatAPI.current
       .updateTemplate(templateRef.current)
       .then(() => {
         console.debug('Template updated successfully');
@@ -190,7 +182,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
       // when post of single menu item is ready
       updatedTemplate.menuItems.push(menuItem);
     }
-    coronaChatAPI
+    coronaChatAPI.current
       .updateTemplate(updatedTemplate)
       .then(() => {
         console.debug('Template updated successfully');
