@@ -127,7 +127,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
   const initSelectedMenuItem = getEmptyDefaultMenuItem();
   const [editingMenuItem, setEditingMenuItem] = useState(initSelectedMenuItem);
 
-  const [newMenuItemLatestLocalIdx, setNewMenuItemLatestLocalIdx] = useState(-1);
+  const newMenuItemLatestLocalIdx = useRef(-1);
 
   let updateTemplateHeaderInState = (headerText: string) => {
     // TODO(MB) check deep copy
@@ -163,11 +163,11 @@ const MainMessage = (props: { isTrial?: boolean }) => {
 
   let onAddMenuItemClicked = () => {
     let emptyMenuItem = getEmptyDefaultMenuItem();
-    const newIdx = newMenuItemLatestLocalIdx - 1;
+    const newIdx = newMenuItemLatestLocalIdx.current - 1;
     emptyMenuItem.id = newIdx;
     setEditingMenuItem(emptyMenuItem);
     setIsMenuItemDialogOpen(true);
-    setNewMenuItemLatestLocalIdx(newIdx);
+    newMenuItemLatestLocalIdx.current = newIdx;
   };
 
   let onCloseAndDiscardChanges = () => {
