@@ -1,7 +1,6 @@
-import { Template } from '../../model/model';
+import { ReadOnlyTemplate } from '../../model/model';
 
-//TODO (MB) all its properties of this instance should be readonly
-export const defaultTemplateIT: Template = {
+export const defaultTemplateIT: ReadOnlyTemplate = {
   header: `*Benvenuto nella Coronainfochat* 🇮🇹
 
 Informazioni ufficiali riguardo al coronavirus del Comune di Ponzuno.

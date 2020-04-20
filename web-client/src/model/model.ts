@@ -3,6 +3,10 @@ export interface Template {
   menuItems: MenuItem[];
 }
 
+export type ReadOnlyTemplate = {
+  readonly [K in keyof Template]: Template[K];
+}
+
 export function getIsTitleInvalid(title: string): boolean {
   return title.length === 0;
 }
