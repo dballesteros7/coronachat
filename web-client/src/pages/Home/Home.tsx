@@ -1,4 +1,4 @@
-import { createStyles, makeStyles, Theme, Button, Dialog, IconButton } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Button } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import React, { useState } from 'react';

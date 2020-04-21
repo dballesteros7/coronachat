@@ -21,7 +21,6 @@ const translationEN = {
     NEXT: 'Next',
     HELP: 'Help',
     CANCEL: 'Cancel',
-    LOG_IN: 'Log in',
   },
   LOGIN: {
     TITLE: 'Login',
@@ -29,6 +28,7 @@ const translationEN = {
     USERNAME_CANT_BE_EMPTY: 'Username cannot be empty.',
     PASSWORD: 'Password',
     PASSWORD_CANT_BE_EMPTY: 'Password cannot be empty.',
+    LOG_IN: 'Log in',
   },
   MENU: {
     OPTIONS: 'Main menu options',

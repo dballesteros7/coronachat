@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.scss';
-import { Dialog, IconButton, TextField, DialogActions, Button } from '@material-ui/core';
-import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+import { Dialog, TextField, DialogActions, Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
 type LoginDialogProps = {
@@ -10,38 +9,54 @@ type LoginDialogProps = {
 
 const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
+  const [username, setUsername] = useState('');
+  const [isUsernameErrorEnabled, setUsernameErrorEnabled] = useState(false);
+  const [password, setPassword] = useState('');
+  const [isPasswordErrorEnabled, setPasswordErrorEnabled] = useState(false);
 
   const onLoginClicked = () => {};
+  const onUsernameChanged = (newValue: string) => {
+    setUsername(newValue);
+    setUsernameErrorEnabled(true);
+  };
+  const onPasswordChanged = (newValue: string) => {
+    setPassword(newValue);
+    setPasswordErrorEnabled(true);
+  };
+
   return (
-    <Dialog onClose={props.onLoginClose} aria-labelledby="simple-dialog-title" open={true}>
+    <Dialog className="Login" onClose={props.onLoginClose} aria-labelledby="simple-dialog-title" open={true}>
       <div className="covid-container">
         <span className="covid-title-box">
           <h3 className="covid-title">{t('LOGIN.USERNAME')}</h3>
         </span>
-        <TextField
-          fullWidth
-          // error={isUsernameErrorEnabled && getIsTitleInvalid(props.menuItem.title)}
-          error={false}
-          helperText={t('LOGIN.USERNAME_CANT_BE_EMPTY')}
-          placeholder={t('LOGIN.USERNAME')}
-          value={''}
-          variant="outlined"
-          // onChange={(e) => onTitleChanged(e.target.value)}
-        />
+        <div className={isUsernameErrorEnabled && !username ? 'ErrorField' : ''}>
+          <TextField
+            fullWidth
+            error={isUsernameErrorEnabled && !username}
+            helperText={t('LOGIN.USERNAME_CANT_BE_EMPTY')}
+            placeholder={t('LOGIN.USERNAME')}
+            value={username}
+            variant="outlined"
+            onChange={(e) => onUsernameChanged(e.target.value)}
+          />
+        </div>
 
         <span className="covid-title-box">
           <h3 className="covid-title">{t('LOGIN.PASSWORD')}</h3>
         </span>
-        <TextField
-          fullWidth
-          // error={isUsernameErrorEnabled && getIsTitleInvalid(props.menuItem.title)}
-          error={false}
-          helperText={t('LOGIN.PASSWORD_CANT_BE_EMPTY')}
-          placeholder={t('LOGIN.PASSWORD')}
-          value={''}
-          variant="outlined"
-          // onChange={(e) => onTitleChanged(e.target.value)}
-        />
+        <div className={isPasswordErrorEnabled && !password ? 'ErrorField' : ''}>
+          <TextField
+            fullWidth
+            error={isPasswordErrorEnabled && !password}
+            helperText={t('LOGIN.PASSWORD_CANT_BE_EMPTY')}
+            placeholder={t('LOGIN.PASSWORD')}
+            value={password}
+            variant="outlined"
+            type="password"
+            onChange={(e) => onPasswordChanged(e.target.value)}
+          />
+        </div>
       </div>
       <DialogActions>
         <Button onClick={props.onLoginClose} color="primary">

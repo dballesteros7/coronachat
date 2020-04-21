@@ -1,1 +1,20 @@
-.Login {}
+.Login {
+  .covid-title {
+    margin-top: 2px;
+  }
+
+  .covid-container {
+    padding-top: 20px;
+    padding-bottom: 0;
+  }
+
+  .MuiFormHelperText-root {
+    visibility: hidden;
+  }
+
+  .ErrorField {
+    .MuiFormHelperText-root {
+      visibility: visible;
+    }
+  }
+}
