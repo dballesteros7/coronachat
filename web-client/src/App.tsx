@@ -23,24 +23,18 @@ const theme = createMuiTheme({
 
 export const UserContext = React.createContext({ user: { id: '', authToken: '' }, setUser: (_: User) => {} });
 
-const useUserInLocalStorage = () => {
-  const key = 'user';
-  const initState = () => {
-    const emptyUser = { id: '', authToken: '' };
-    return JSON.parse(window.localStorage.getItem(key) || JSON.stringify(emptyUser));
+const useLocalStorage = <T,>(key: string, defaultState: T): [T, (newValue: T) => void] => {
+  const initState = () => JSON.parse(window.localStorage.getItem(key) || JSON.stringify(defaultState)) as T;
+  const [storageValue, setStorageInState] = useState(initState);
+  const setStorageValue = (newValue: T) => {
+    setStorageInState(newValue);
+    window.localStorage.setItem(key, JSON.stringify(newValue));
   };
-  const [user, setUser] = useState(initState);
-  const storeUser = (newUser: User) => {
-    setUser(newUser);
-    window.localStorage.setItem(key, JSON.stringify(newUser));
-  };
-  // TODO(MB) why do I need this as const to make types work?
-  return [user, storeUser] as const;
+  return [storageValue, setStorageValue];
 };
 
 const App = () => {
-  const [user, setUser] = useUserInLocalStorage();
-
+  let [user, setUser] = useLocalStorage('user', { id: '', authToken: '' });
   return (
     <Router>
       <UserContext.Provider value={{ user: user, setUser: setUser }}>

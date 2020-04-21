@@ -29,7 +29,7 @@ type LoginDialogProps = {
 const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
   const classes = useStyles();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const [username, setUsername] = useState('');
   const [isUsernameErrorEnabled, setUsernameErrorEnabled] = useState(false);
