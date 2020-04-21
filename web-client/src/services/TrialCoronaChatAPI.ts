@@ -1,4 +1,4 @@
-import { Template } from '../model/model';
+import { Template, User } from '../model/model';
 import { CoronaChatAPIInterface } from './CoronaChatAPIInterface';
 import { Language } from '../i18n';
 import { getLocalDefaultTemplateForLanguage } from '../utils/logic-utils';
@@ -26,5 +26,11 @@ export class TrialCoronaChatAPI implements CoronaChatAPIInterface {
   updateTemplate(_: Template): Promise<void> {
     // Do nothing
     return Promise.resolve();
+  }
+
+  login(username: string, password: string): Promise<User> {
+    return new Promise<User>((_, reject) => {
+      reject('You cannot log into the trial version!');
+    });
   }
 }

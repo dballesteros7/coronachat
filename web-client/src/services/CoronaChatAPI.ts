@@ -1,4 +1,4 @@
-import { Template } from '../model/model';
+import { Template, User } from '../model/model';
 import { CoronaChatAPIInterface } from './CoronaChatAPIInterface';
 
 export class CoronaChatAPI implements CoronaChatAPIInterface {
@@ -81,5 +81,17 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
         );
     });
     return promise;
+  }
+
+  login(username: string, password: string): Promise<User> {
+    // TODO(MB) perform request to server when ready
+    return new Promise<User>((resolve, reject) => {
+      setTimeout(() => {
+        resolve({
+          id: 'dummy-org-id',
+          authToken: 'dummy-token',
+        });
+      }, 2_000);
+    });
   }
 }

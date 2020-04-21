@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './Login.scss';
-import { Dialog, TextField, DialogActions, Button } from '@material-ui/core';
+import { Dialog, TextField, DialogActions, Button, LinearProgress } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 
 type LoginDialogProps = {
   onLoginClose: () => void;
@@ -9,12 +10,28 @@ type LoginDialogProps = {
 
 const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
+
   const [username, setUsername] = useState('');
   const [isUsernameErrorEnabled, setUsernameErrorEnabled] = useState(false);
   const [password, setPassword] = useState('');
   const [isPasswordErrorEnabled, setPasswordErrorEnabled] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const onLoginClicked = () => {};
+  const coronaChatAPI = useRef(new CoronaChatAPI());
+
+  const onLoginClicked = () => {
+    setIsLoggingIn(true);
+    coronaChatAPI.current
+      .login(username, password)
+      .then((user) => {
+        console.debug('Login successful', user);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => setIsLoggingIn(false));
+  };
+
   const onUsernameChanged = (newValue: string) => {
     setUsername(newValue);
     setUsernameErrorEnabled(true);
@@ -26,6 +43,7 @@ const Login = (props: LoginDialogProps) => {
 
   return (
     <Dialog className="Login" onClose={props.onLoginClose} aria-labelledby="simple-dialog-title" open={true}>
+      {isLoggingIn && <LinearProgress />}
       <div className="covid-container">
         <span className="covid-title-box">
           <h3 className="covid-title">{t('LOGIN.USERNAME')}</h3>
@@ -62,7 +80,13 @@ const Login = (props: LoginDialogProps) => {
         <Button onClick={props.onLoginClose} color="primary">
           {t('ACTIONS.CANCEL')}
         </Button>
-        <Button onClick={onLoginClicked} color="primary" style={{ fontWeight: 'bold' }} autoFocus>
+        <Button
+          onClick={onLoginClicked}
+          disabled={!username || !password}
+          color="primary"
+          style={{ fontWeight: 'bold' }}
+          autoFocus
+        >
           {t('LOGIN.LOG_IN')}
         </Button>
       </DialogActions>
