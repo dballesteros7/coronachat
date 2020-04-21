@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import './Login.scss';
 import {
   Dialog,
@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
+import { UserContext } from '../../App';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,6 +29,7 @@ type LoginDialogProps = {
 const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
   const classes = useStyles();
+  const { user, setUser } = useContext(UserContext);
 
   const [username, setUsername] = useState('');
   const [isUsernameErrorEnabled, setUsernameErrorEnabled] = useState(false);
@@ -44,6 +46,7 @@ const Login = (props: LoginDialogProps) => {
       .login(username, password)
       .then((user) => {
         console.debug('Login successful', user);
+        setUser(user);
       })
       .catch((error) => {
         console.error(error);
