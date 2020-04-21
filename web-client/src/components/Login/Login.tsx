@@ -1,8 +1,25 @@
 import React, { useState, useRef } from 'react';
 import './Login.scss';
-import { Dialog, TextField, DialogActions, Button, LinearProgress } from '@material-ui/core';
+import {
+  Dialog,
+  TextField,
+  DialogActions,
+  Button,
+  LinearProgress,
+  makeStyles,
+  Theme,
+  createStyles,
+} from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    errorMessage: {
+      color: theme.palette.error.main,
+    },
+  })
+);
 
 type LoginDialogProps = {
   onLoginClose: () => void;
@@ -10,12 +27,14 @@ type LoginDialogProps = {
 
 const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
+  const classes = useStyles();
 
   const [username, setUsername] = useState('');
   const [isUsernameErrorEnabled, setUsernameErrorEnabled] = useState(false);
   const [password, setPassword] = useState('');
   const [isPasswordErrorEnabled, setPasswordErrorEnabled] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
 
   const coronaChatAPI = useRef(new CoronaChatAPI());
 
@@ -28,6 +47,7 @@ const Login = (props: LoginDialogProps) => {
       })
       .catch((error) => {
         console.error(error);
+        setErrorMessage(error);
       })
       .finally(() => setIsLoggingIn(false));
   };
@@ -75,6 +95,7 @@ const Login = (props: LoginDialogProps) => {
             onChange={(e) => onPasswordChanged(e.target.value)}
           />
         </div>
+        {errorMessage && <div className={classes.errorMessage}>{errorMessage}</div>}
       </div>
       <DialogActions>
         <Button onClick={props.onLoginClose} color="primary">
