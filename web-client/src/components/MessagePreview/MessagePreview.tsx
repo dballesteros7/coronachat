@@ -81,7 +81,7 @@ const MessagePreview = (props: MessagePreviewProps) => {
     <>
       <div
         className="MessagePreview"
-        style={{ backgroundColor: props.bgColor }}
+        style={{ backgroundColor: props.bgColor, borderColor: 'red', border: 1 }}
         dangerouslySetInnerHTML={{
           __html: getMessagePreviewHTMLContent(props.value, props.bgColor, props.triangle ?? 'left'),
         }}

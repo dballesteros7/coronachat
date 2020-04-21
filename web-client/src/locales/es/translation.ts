@@ -20,6 +20,15 @@ const translationES = {
     BACK: 'Atrás',
     NEXT: 'Seguir',
     HELP: 'Ayuda',
+    CANCEL: 'Cancelar',
+  },
+  LOGIN: {
+    TITLE: 'Login',
+    USERNAME: 'Usuario',
+    USERNAME_CANT_BE_EMPTY: 'El usuario no puede estar vacío.',
+    PASSWORD: 'Contraseña',
+    PASSWORD_CANT_BE_EMPTY: 'La contraseña no puede estar vacía.',
+    LOG_IN: 'Entra',
   },
   MENU: {
     OPTIONS: 'Opciones del menú principal',

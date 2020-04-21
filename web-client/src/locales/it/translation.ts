@@ -19,6 +19,15 @@ const translationIT = {
     BACK: 'Indietro',
     NEXT: 'Avanti',
     HELP: 'Aiuto',
+    CANCEL: 'Annulla',
+  },
+  LOGIN: {
+    TITLE: 'Login',
+    USERNAME: 'Nome utente',
+    USERNAME_CANT_BE_EMPTY: 'Lo username non può essere vuoto.',
+    PASSWORD: 'Password',
+    PASSWORD_CANT_BE_EMPTY: 'La password non può essere vuota.',
+    LOG_IN: 'Entra',
   },
   MENU: {
     OPTIONS: 'Opzioni del menù principale',
