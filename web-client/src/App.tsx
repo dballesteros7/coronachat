@@ -5,6 +5,7 @@ import Home from './pages/Home/Home';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { LanguageWrapper } from './i18n';
 import { User } from './model/model';
+import DashboardAuthCheck from './components/DashboardAuthCheck/DashboardAuthCheck';
 
 const theme = createMuiTheme({
   palette: {
@@ -42,7 +43,7 @@ const App = () => {
           <LanguageWrapper>
             <Switch>
               <Route exact path="/dashboard">
-                <MainMessage />
+                <DashboardAuthCheck />
               </Route>
               <Route path="/">
                 <Home />
