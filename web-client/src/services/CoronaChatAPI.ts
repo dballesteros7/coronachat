@@ -6,9 +6,27 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
   private static readonly getDefaultTemplateURL = 'https://app.coronainfochat.org/getDefaultTemplate';
   private static readonly updateTemplateURL = 'https://app.coronainfochat.org/updateTemplate';
 
+  private authHeader: string;
+
+  private static getAuthHeaderFromToken(authToken: string): string {
+    return 'Bearer ' + authToken;
+  }
+
+  constructor(authToken: string) {
+    this.authHeader = CoronaChatAPI.getAuthHeaderFromToken(authToken);
+  }
+
+  setAuthToken(authToken: string) {
+    this.authHeader = CoronaChatAPI.getAuthHeaderFromToken(authToken);
+  }
+
   private getTemplateFromURL(url: URL): Promise<Template> {
     const promise = new Promise<Template>((resolve, reject) => {
-      fetch(url.href)
+      fetch(url.href, {
+        headers: new Headers({
+          Authorization: this.authHeader,
+        }),
+      })
         .then((res) => {
           return res.json();
         })
@@ -54,6 +72,7 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: this.authHeader,
         },
         body: JSON.stringify(template),
       })

@@ -15,6 +15,7 @@ import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 import { UserContext, Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
 import { DashboardState } from '../../pages/MainMessage/MainMessage';
+import { User } from '../../model/model';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,13 +42,13 @@ const Login = (props: LoginDialogProps) => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
 
-  const coronaChatAPI = useRef(new CoronaChatAPI());
+  const coronaChatAPI = useRef(new CoronaChatAPI(''));
 
   const onLoginClicked = () => {
     setIsLoggingIn(true);
     coronaChatAPI.current
       .login(username, password)
-      .then((user) => {
+      .then((user: User) => {
         console.debug('Login successful', user);
         setUser(user);
         const dashboardState: DashboardState = {

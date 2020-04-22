@@ -54,14 +54,10 @@ const MainMessage = (props: { isTrial: boolean }) => {
   const { t, i18n } = useTranslation();
   const classes = useStyles();
   const history = useHistory();
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
   const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(false);
-
-  const coronaChatAPI = useRef(
-    props.isTrial ?? true ? new TrialCoronaChatAPI(i18n.language as Language) : new CoronaChatAPI()
-  );
 
   // TODO(MB) is this really the simplest way that allows using setState inside
   // an event handler? see https://medium.com/geographit/accessing-react-state-in-event-listeners-with-usestate-and-useref-hooks-8cceee73c559
@@ -80,6 +76,16 @@ const MainMessage = (props: { isTrial: boolean }) => {
     isMenuItemDialogOpenRef.current = newValue;
     _setIsMenuItemDialogOpen(newValue);
   };
+
+  let coronaChatAPI = useRef(
+    props.isTrial ?? true ? new TrialCoronaChatAPI(i18n.language as Language) : new CoronaChatAPI(user.authToken)
+  );
+
+  useEffect(() => {
+    if (coronaChatAPI.current instanceof CoronaChatAPI) {
+      (coronaChatAPI.current as CoronaChatAPI).setAuthToken(user.authToken);
+    }
+  }, [user]);
 
   useEffect(() => {
     // TODO(MB) add some loading UI
