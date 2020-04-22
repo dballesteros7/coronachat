@@ -1,4 +1,3 @@
-import MainMessage from './pages/MainMessage/MainMessage';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
@@ -22,6 +21,11 @@ const theme = createMuiTheme({
   },
 });
 
+export enum Routes {
+  Root = '/',
+  Dashboard = '/dashboard',
+}
+
 export const UserContext = React.createContext({ user: { id: '', authToken: '' }, setUser: (_?: User) => {} });
 
 const useLocalStorage = <T,>(key: string, defaultState: T): [T, (newValue?: T) => void] => {
@@ -42,10 +46,10 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <LanguageWrapper>
             <Switch>
-              <Route exact path="/dashboard">
+              <Route exact path={Routes.Dashboard}>
                 <DashboardAuthCheck />
               </Route>
-              <Route path="/">
+              <Route path={Routes.Root}>
                 <Home />
               </Route>
             </Switch>

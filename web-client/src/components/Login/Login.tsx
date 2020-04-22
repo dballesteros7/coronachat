@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
-import { UserContext } from '../../App';
+import { UserContext, Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
 import { DashboardState } from '../../pages/MainMessage/MainMessage';
 
@@ -57,7 +57,7 @@ const Login = (props: LoginDialogProps) => {
         // if user history was: home -> trial -> home -> login -> dashboard) and user pressed back
         // it would endup from their dashboard to the trial one and this could be confusing
         history.go(-history.length);
-        history.replace('/dashboard', dashboardState);
+        history.replace(Routes.Dashboard, dashboardState);
       })
       .catch((error) => {
         console.error(error);

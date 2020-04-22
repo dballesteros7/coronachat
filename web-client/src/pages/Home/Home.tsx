@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../../components/LanguageSelector/LanguageSelector';
 import Login from '../../components/Login/Login';
 import { isUserLoggedIn } from '../../lib/utils';
-import { UserContext } from '../../App';
+import { UserContext, Routes } from '../../App';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,7 +56,7 @@ const Home = () => {
   };
 
   return isUserLoggedIn(user) ? (
-    <Redirect to={{ pathname: '/dashboard', state: { isTrial: false } }}></Redirect>
+    <Redirect to={{ pathname: Routes.Dashboard, state: { isTrial: false } }}></Redirect>
   ) : (
     <>
       <div className={classes.root + ' Home'}>
@@ -129,7 +129,7 @@ const Home = () => {
             </a>
           </span>
         </footer>
-        <Link to={{ pathname: '/dashboard', state: { isTrial: true } }}>
+        <Link to={{ pathname: Routes.Dashboard, state: { isTrial: true } }}>
           <Fab variant="extended" className={classes.fabButton} color="primary">
             {t('HOME.TRY_IT_BUTTON')}
           </Fab>
