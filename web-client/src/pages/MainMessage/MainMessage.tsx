@@ -16,6 +16,7 @@ import { Language } from '../../i18n';
 import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
 import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
 import IntroStepper from '../../components/IntroStepper/IntroStepper';
+import { useLocation } from 'react-router-dom';
 
 export function getEmptyTemplate(): Template {
   return {
@@ -44,14 +45,27 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const introStepsCompletedKey = 'introStepsCompleted';
 
-const MainMessage = (props: { isTrial?: boolean }) => {
+export type DashboardState = {
+  isTrial: boolean;
+};
+
+const MainMessage = () => {
   const { t, i18n } = useTranslation();
   const classes = useStyles();
+  const location = useLocation();
 
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
   const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(false);
+
+  console.debug('is trial', (location.state as DashboardState)?.isTrial ?? true);
+
   const coronaChatAPI = useRef(
-    props.isTrial ? new TrialCoronaChatAPI(i18n.language as Language) : new CoronaChatAPI()
+    // TODO(MB) this is not very readable; const isTrial = (location.state as DashboardState)?.isTrial ?? true
+    // would be better, but looks like I cannot assign an init function to useRef to compute initial value
+    // if I define isTrial outside useRef, the check in its definition is performed at every render.
+    (location.state as DashboardState)?.isTrial ?? true
+      ? new TrialCoronaChatAPI(i18n.language as Language)
+      : new CoronaChatAPI()
   );
 
   // TODO(MB) is this really the simplest way that allows using setState inside

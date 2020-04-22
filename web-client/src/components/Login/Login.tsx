@@ -13,6 +13,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 import { UserContext } from '../../App';
+import { useHistory } from 'react-router-dom';
+import { DashboardState } from '../../pages/MainMessage/MainMessage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,6 +32,7 @@ const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
   const classes = useStyles();
   const { setUser } = useContext(UserContext);
+  const history = useHistory();
 
   const [username, setUsername] = useState('');
   const [isUsernameErrorEnabled, setUsernameErrorEnabled] = useState(false);
@@ -47,6 +50,14 @@ const Login = (props: LoginDialogProps) => {
       .then((user) => {
         console.debug('Login successful', user);
         setUser(user);
+        const dashboardState: DashboardState = {
+          isTrial: false,
+        };
+        // Clear the history when loggin in:
+        // if user history was: home -> trial -> home -> login -> dashboard) and user pressed back
+        // it would endup from their dashboard to the trial one and this could be confusing
+        history.go(-history.length);
+        history.replace('/dashboard', dashboardState);
       })
       .catch((error) => {
         console.error(error);

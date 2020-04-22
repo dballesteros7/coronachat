@@ -42,7 +42,7 @@ const App = () => {
           <LanguageWrapper>
             <Switch>
               <Route exact path="/dashboard">
-                <MainMessage isTrial={true} />
+                <MainMessage />
               </Route>
               <Route path="/">
                 <Home />

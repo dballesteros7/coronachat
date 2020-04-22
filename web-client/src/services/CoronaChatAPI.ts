@@ -91,7 +91,7 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
           id: 'dummy-org-id',
           authToken: 'dummy-token',
         });
-      }, 2_000);
+      }, 1_000);
     });
   }
 }

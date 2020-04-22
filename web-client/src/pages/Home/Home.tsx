@@ -124,7 +124,7 @@ const Home = () => {
             </a>
           </span>
         </footer>
-        <Link to="/dashboard">
+        <Link to={{ pathname: '/dashboard', state: { isTrial: true } }}>
           <Fab variant="extended" className={classes.fabButton} color="primary">
             {t('HOME.TRY_IT_BUTTON')}
           </Fab>
