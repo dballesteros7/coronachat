@@ -44,7 +44,7 @@ const Login = (props: LoginDialogProps) => {
 
   const coronaChatAPI = useRef(new CoronaChatAPI(''));
 
-  const onLoginClicked = () => {
+  const performLogin = () => {
     setIsLoggingIn(true);
     coronaChatAPI.current
       .login(username, password)
@@ -74,6 +74,11 @@ const Login = (props: LoginDialogProps) => {
   const onPasswordChanged = (newValue: string) => {
     setPassword(newValue);
     setPasswordErrorEnabled(true);
+  };
+  const onKeyPressedOnPasswordField = (key: string) => {
+    if (key === 'Enter') {
+      performLogin();
+    }
   };
 
   return (
@@ -108,6 +113,7 @@ const Login = (props: LoginDialogProps) => {
             variant="outlined"
             type="password"
             onChange={(e) => onPasswordChanged(e.target.value)}
+            onKeyPress={(e) => onKeyPressedOnPasswordField(e.key)}
           />
         </div>
         {errorMessage && <div className={classes.errorMessage}>{errorMessage}</div>}
@@ -117,7 +123,7 @@ const Login = (props: LoginDialogProps) => {
           {t('ACTIONS.CANCEL')}
         </Button>
         <Button
-          onClick={onLoginClicked}
+          onClick={performLogin}
           disabled={!username || !password}
           color="primary"
           style={{ fontWeight: 'bold' }}
