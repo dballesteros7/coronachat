@@ -21,6 +21,7 @@ const translationES = {
     NEXT: 'Seguir',
     HELP: 'Ayuda',
     CANCEL: 'Cancelar',
+    LOGOUT: 'Logout',
   },
   LOGIN: {
     TITLE: 'Login',

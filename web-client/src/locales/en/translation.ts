@@ -21,6 +21,7 @@ const translationEN = {
     NEXT: 'Next',
     HELP: 'Help',
     CANCEL: 'Cancel',
+    LOGOUT: 'Logout',
   },
   LOGIN: {
     TITLE: 'Login',

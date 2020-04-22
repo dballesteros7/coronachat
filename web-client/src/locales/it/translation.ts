@@ -20,6 +20,7 @@ const translationIT = {
     NEXT: 'Avanti',
     HELP: 'Aiuto',
     CANCEL: 'Annulla',
+    LOGOUT: 'Logout',
   },
   LOGIN: {
     TITLE: 'Login',

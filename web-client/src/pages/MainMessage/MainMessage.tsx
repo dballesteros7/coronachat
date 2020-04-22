@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import './MainMessage.scss';
 import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { Template, MenuItem } from '../../model/model';
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton, Button } from '@material-ui/core';
 import { CoronaChatAPI } from '../../services/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
@@ -16,7 +16,8 @@ import { Language } from '../../i18n';
 import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
 import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
 import IntroStepper from '../../components/IntroStepper/IntroStepper';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+import { UserContext } from '../../App';
 
 export function getEmptyTemplate(): Template {
   return {
@@ -53,11 +54,11 @@ const MainMessage = () => {
   const { t, i18n } = useTranslation();
   const classes = useStyles();
   const location = useLocation();
+  const history = useHistory();
+  const { setUser } = useContext(UserContext);
 
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
   const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(false);
-
-  console.debug('is trial', (location.state as DashboardState)?.isTrial ?? true);
 
   const coronaChatAPI = useRef(
     // TODO(MB) this is not very readable; const isTrial = (location.state as DashboardState)?.isTrial ?? true
@@ -226,6 +227,11 @@ const MainMessage = () => {
     localStorage.setItem(introStepsCompletedKey, 'true');
   };
 
+  const onLogoutClicked = () => {
+    setUser(undefined);
+    history.replace('/');
+  };
+
   let mainForm = (
     <MainMessageForm
       template={templateRef.current}
@@ -257,6 +263,9 @@ const MainMessage = () => {
           <IconButton autoFocus id="preview-button" color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
             <VisibilityIcon></VisibilityIcon>
           </IconButton>
+          <Button color="secondary" onClick={onLogoutClicked}>
+            {t('ACTIONS.LOGOUT')}
+          </Button>
         </Toolbar>
       </AppBar>
       <React.Fragment key={'RIGHT'}>
