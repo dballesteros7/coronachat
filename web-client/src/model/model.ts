@@ -1,3 +1,5 @@
+import { UserContext } from '../App';
+
 export interface Template {
   header: string;
   menuItems: MenuItem[];

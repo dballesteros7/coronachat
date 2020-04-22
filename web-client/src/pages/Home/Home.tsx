@@ -1,14 +1,16 @@
 import { createStyles, makeStyles, Theme, Button } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import logo from '../../assets/images/coronachat-logo.svg';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import './Home.scss';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../../components/LanguageSelector/LanguageSelector';
 import Login from '../../components/Login/Login';
+import { isUserLoggedIn } from '../../lib/utils';
+import { UserContext } from '../../App';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,13 +48,16 @@ const Home = () => {
   const classes = useStyles();
   const [t] = useTranslation();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  const { user } = useContext(UserContext);
 
   const onLoginButtonClicked = () => {
     console.debug('Open login dialog');
     setIsLoginDialogOpen(true);
   };
 
-  return (
+  return isUserLoggedIn(user) ? (
+    <Redirect to={{ pathname: '/dashboard', state: { isTrial: false } }}></Redirect>
+  ) : (
     <>
       <div className={classes.root + ' Home'}>
         <div id="logo-container-container">
