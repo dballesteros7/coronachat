@@ -51,7 +51,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
   const { t, i18n } = useTranslation();
   const classes = useStyles();
   const history = useHistory();
-  const { user, setUser } = useContext(UserContext);
+  const { user, onLogout } = useContext(UserContext);
   const { handleAppError } = useContext(ErrorHandlingContext);
 
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
@@ -218,7 +218,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
   };
 
   const onLogoutClicked = () => {
-    setUser(undefined);
+    onLogout();
     history.replace('/');
   };
 

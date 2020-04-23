@@ -1,7 +1,11 @@
 import React, { ReactNode, useState } from 'react';
 import { User } from '../../model/model';
 
-export const UserContext = React.createContext({ user: { id: '', authToken: '' }, setUser: (_?: User) => {} });
+export const UserContext = React.createContext({
+  user: { id: '', authToken: '' },
+  onLogin: (_: User) => {},
+  onLogout: () => {},
+});
 
 const useLocalStorage = <T,>(key: string, defaultState: T): [T, (newValue?: T) => void] => {
   const initState = () => JSON.parse(window.localStorage.getItem(key) || JSON.stringify(defaultState)) as T;
@@ -16,7 +20,18 @@ const useLocalStorage = <T,>(key: string, defaultState: T): [T, (newValue?: T) =
 const UserProvider = (props: { children: ReactNode }) => {
   let [user, setUser] = useLocalStorage('user', { id: '', authToken: '' });
 
-  return <UserContext.Provider value={{ user: user, setUser: setUser }}>{props.children}</UserContext.Provider>;
+  const onLogin = (user: User) => {
+    setUser(user);
+  };
+  const onLogout = () => {
+    setUser(undefined);
+  };
+
+  return (
+    <UserContext.Provider value={{ user: user, onLogin: onLogin, onLogout: onLogout }}>
+      {props.children}
+    </UserContext.Provider>
+  );
 };
 
 export default UserProvider;

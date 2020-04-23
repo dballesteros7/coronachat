@@ -33,7 +33,7 @@ type LoginDialogProps = {
 const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
   const classes = useStyles();
-  const { setUser } = useContext(UserContext);
+  const { onLogin } = useContext(UserContext);
   const { handleAppError } = useContext(ErrorHandlingContext);
   const history = useHistory();
 
@@ -52,7 +52,7 @@ const Login = (props: LoginDialogProps) => {
       .login(username, password)
       .then((user: User) => {
         console.debug('Login successful', user);
-        setUser(user);
+        onLogin(user);
         // Clear the history when loggin in:
         // if user history was: home -> trial -> home -> login -> dashboard) and user pressed back
         // it would endup from their dashboard to the trial one and this could be confusing
