@@ -1,16 +1,14 @@
 import React, { useContext } from 'react';
 import './DashboardAuthCheck.scss';
-import MainMessage, { DashboardState } from '../../pages/MainMessage/MainMessage';
-import { Redirect, useLocation } from 'react-router-dom';
+import MainMessage from '../../pages/MainMessage/MainMessage';
+import { Redirect } from 'react-router-dom';
 import { UserContext, Routes } from '../../App';
 import { isUserLoggedIn } from '../../lib/utils';
 
 const DashboardAuthCheck = () => {
   const { user } = useContext(UserContext);
-  const location = useLocation();
-  const isTrial = (location.state as DashboardState)?.isTrial ?? false;
 
-  return !isTrial && !isUserLoggedIn(user) ? <Redirect to={Routes.Root}></Redirect> : <MainMessage isTrial={isTrial} />;
+  return !isUserLoggedIn(user) ? <Redirect to={Routes.Root}></Redirect> : <MainMessage isTrial={false} />;
 };
 
 export default DashboardAuthCheck;

@@ -56,7 +56,7 @@ const Home = () => {
   };
 
   return isUserLoggedIn(user) ? (
-    <Redirect to={{ pathname: Routes.Dashboard, state: { isTrial: false } }}></Redirect>
+    <Redirect to={Routes.Dashboard}></Redirect>
   ) : (
     <>
       <div className={classes.root + ' Home'}>
@@ -129,7 +129,7 @@ const Home = () => {
             </a>
           </span>
         </footer>
-        <Link to={{ pathname: Routes.Dashboard, state: { isTrial: true } }}>
+        <Link to={Routes.DashboardTrial}>
           <Fab variant="extended" className={classes.fabButton} color="primary">
             {t('HOME.TRY_IT_BUTTON')}
           </Fab>

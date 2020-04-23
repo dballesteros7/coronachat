@@ -11,10 +11,9 @@ import {
   createStyles,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { CoronaChatAPI } from '../../services/CoronaChatAPI';
+import { CoronaChatAPI } from '../../api/CoronaChatAPI';
 import { UserContext, Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
-import { DashboardState } from '../../pages/MainMessage/MainMessage';
 import { User } from '../../model/model';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,14 +50,11 @@ const Login = (props: LoginDialogProps) => {
       .then((user: User) => {
         console.debug('Login successful', user);
         setUser(user);
-        const dashboardState: DashboardState = {
-          isTrial: false,
-        };
         // Clear the history when loggin in:
         // if user history was: home -> trial -> home -> login -> dashboard) and user pressed back
         // it would endup from their dashboard to the trial one and this could be confusing
         history.go(-history.length);
-        history.replace(Routes.Dashboard, dashboardState);
+        history.replace(Routes.Dashboard);
       })
       .catch((error) => {
         console.error(error);

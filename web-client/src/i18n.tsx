@@ -41,7 +41,7 @@ export const LanguageContext = React.createContext({
   onLanguageSelected: (_: Language) => {},
 });
 
-export const LanguageWrapper = (props: { children: ReactNode }) => {
+export const LanguageProvider = (props: { children: ReactNode }) => {
   const query = new URLSearchParams(useLocation().search);
   const { i18n } = useTranslation();
   const location = useLocation();

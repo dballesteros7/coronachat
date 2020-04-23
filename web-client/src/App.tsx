@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import { LanguageWrapper } from './i18n';
+import { LanguageProvider } from './i18n';
 import { User } from './model/model';
 import DashboardAuthCheck from './components/DashboardAuthCheck/DashboardAuthCheck';
+import MainMessage from './pages/MainMessage/MainMessage';
 
 const theme = createMuiTheme({
   palette: {
@@ -24,6 +25,7 @@ const theme = createMuiTheme({
 export enum Routes {
   Root = '/',
   Dashboard = '/dashboard',
+  DashboardTrial = '/dashboard/trial',
 }
 
 export const UserContext = React.createContext({ user: { id: '', authToken: '' }, setUser: (_?: User) => {} });
@@ -44,8 +46,11 @@ const App = () => {
     <Router>
       <UserContext.Provider value={{ user: user, setUser: setUser }}>
         <ThemeProvider theme={theme}>
-          <LanguageWrapper>
+          <LanguageProvider>
             <Switch>
+              <Route exact path={Routes.DashboardTrial}>
+                <MainMessage isTrial={true} />
+              </Route>
               <Route exact path={Routes.Dashboard}>
                 <DashboardAuthCheck />
               </Route>
@@ -53,7 +58,7 @@ const App = () => {
                 <Home />
               </Route>
             </Switch>
-          </LanguageWrapper>
+          </LanguageProvider>
         </ThemeProvider>
       </UserContext.Provider>
     </Router>

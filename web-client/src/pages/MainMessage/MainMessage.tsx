@@ -3,10 +3,10 @@ import './MainMessage.scss';
 import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { Template, MenuItem } from '../../model/model';
 import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton, Button } from '@material-ui/core';
-import { CoronaChatAPI } from '../../services/CoronaChatAPI';
+import { CoronaChatAPI } from '../../api/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
-import { TrialCoronaChatAPI } from '../../services/TrialCoronaChatAPI';
+import { TrialCoronaChatAPI } from '../../api/TrialCoronaChatAPI';
 import Drawer from '@material-ui/core/Drawer';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -45,10 +45,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const introStepsCompletedKey = 'introStepsCompleted';
-
-export type DashboardState = {
-  isTrial: boolean;
-};
 
 const MainMessage = (props: { isTrial: boolean }) => {
   const { t, i18n } = useTranslation();
