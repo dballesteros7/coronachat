@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import './LanguageSelector.scss';
-import { Languages, Language, LanguageContext } from '../../i18n';
+import { Languages, Language } from '../../i18n';
 import { Button, Menu, makeStyles, Theme, createStyles, MenuItem } from '@material-ui/core';
+import { LanguageContext } from '../../providers/LanguageProvider/LanguageProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

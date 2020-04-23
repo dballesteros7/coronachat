@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import { LanguageProvider } from './i18n';
 import { User } from './model/model';
 import DashboardAuthCheck from './components/DashboardAuthCheck/DashboardAuthCheck';
 import MainMessage from './pages/MainMessage/MainMessage';
+import LanguageProvider from './providers/LanguageProvider/LanguageProvider';
 
 const theme = createMuiTheme({
   palette: {
