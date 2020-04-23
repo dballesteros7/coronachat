@@ -15,6 +15,7 @@ import { CoronaChatAPI } from '../../api/CoronaChatAPI';
 import { UserContext, Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
 import { User } from '../../model/model';
+import { ErrorHandlingContext } from '../../providers/ErrorHandlingProvider/ErrorHandlingProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +33,7 @@ const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
   const classes = useStyles();
   const { setUser } = useContext(UserContext);
+  const { handleAppError } = useContext(ErrorHandlingContext);
   const history = useHistory();
 
   const [username, setUsername] = useState('');
@@ -41,7 +43,7 @@ const Login = (props: LoginDialogProps) => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
 
-  const coronaChatAPI = useRef(new CoronaChatAPI(''));
+  const coronaChatAPI = useRef(new CoronaChatAPI('', handleAppError));
 
   const performLogin = () => {
     setIsLoggingIn(true);

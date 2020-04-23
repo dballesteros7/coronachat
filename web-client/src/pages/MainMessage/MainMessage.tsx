@@ -18,6 +18,7 @@ import IntroStepper from '../../components/IntroStepper/IntroStepper';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../App';
 import { getLocalDefaultTemplateForLanguage } from '../../lib/utils';
+import { ErrorHandlingContext } from '../../providers/ErrorHandlingProvider/ErrorHandlingProvider';
 
 export function getEmptyTemplate(): Template {
   return {
@@ -51,6 +52,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
   const classes = useStyles();
   const history = useHistory();
   const { user, setUser } = useContext(UserContext);
+  const { handleAppError } = useContext(ErrorHandlingContext);
 
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
   const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(false);
@@ -74,7 +76,9 @@ const MainMessage = (props: { isTrial: boolean }) => {
   };
 
   let coronaChatAPI = useRef(
-    props.isTrial ?? true ? new TrialCoronaChatAPI(i18n.language as Language) : new CoronaChatAPI(user.authToken)
+    props.isTrial ?? true
+      ? new TrialCoronaChatAPI(i18n.language as Language)
+      : new CoronaChatAPI(user.authToken, handleAppError)
   );
 
   useEffect(() => {

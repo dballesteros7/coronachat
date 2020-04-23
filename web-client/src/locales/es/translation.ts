@@ -6,6 +6,10 @@ const translationES = {
   CONTENT: 'Contenido',
   TITLE_CANT_BE_EMPTY: 'El título no puede estar vacío.',
   CONTENT_CANT_BE_EMPTY: 'El contenido no puede estar vacío.',
+  ERRORS: {
+    GET_TEMPLATE_ERROR: 'Se produjo un error al cargar el contenido del mensaje. Por favor, refresque la página.',
+    UPDATE_TEMPLATE_ERROR: 'Se produjo un error al guardar los cambios. Por favor, intente guardarlos de nuevo.',
+  },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'Tiene cambios no guardados',
     MESSAGE: 'Si cierra esta vista, perderá los cambios no guardados. ¿Está seguro?',

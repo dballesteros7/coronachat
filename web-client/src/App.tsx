@@ -6,6 +6,8 @@ import { User } from './model/model';
 import DashboardAuthCheck from './components/DashboardAuthCheck/DashboardAuthCheck';
 import MainMessage from './pages/MainMessage/MainMessage';
 import LanguageProvider from './providers/LanguageProvider/LanguageProvider';
+import ErrorHandlingProvider from './providers/ErrorHandlingProvider/ErrorHandlingProvider';
+import ErrorNotification from './components/ErrorNotification/ErrorNotification';
 
 const theme = createMuiTheme({
   palette: {
@@ -44,23 +46,26 @@ const App = () => {
   let [user, setUser] = useLocalStorage('user', { id: '', authToken: '' });
   return (
     <Router>
-      <UserContext.Provider value={{ user: user, setUser: setUser }}>
-        <ThemeProvider theme={theme}>
-          <LanguageProvider>
-            <Switch>
-              <Route exact path={Routes.DashboardTrial}>
-                <MainMessage isTrial={true} />
-              </Route>
-              <Route exact path={Routes.Dashboard}>
-                <DashboardAuthCheck />
-              </Route>
-              <Route path={Routes.Root}>
-                <Home />
-              </Route>
-            </Switch>
-          </LanguageProvider>
-        </ThemeProvider>
-      </UserContext.Provider>
+      <LanguageProvider>
+        <ErrorHandlingProvider>
+          <ErrorNotification />
+          <UserContext.Provider value={{ user: user, setUser: setUser }}>
+            <ThemeProvider theme={theme}>
+              <Switch>
+                <Route exact path={Routes.DashboardTrial}>
+                  <MainMessage isTrial={true} />
+                </Route>
+                <Route exact path={Routes.Dashboard}>
+                  <DashboardAuthCheck />
+                </Route>
+                <Route path={Routes.Root}>
+                  <Home />
+                </Route>
+              </Switch>
+            </ThemeProvider>
+          </UserContext.Provider>
+        </ErrorHandlingProvider>
+      </LanguageProvider>
     </Router>
   );
 };

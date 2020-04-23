@@ -1,5 +1,6 @@
 import { Template, User } from '../model/model';
 import { CoronaChatAPIInterface } from './CoronaChatAPIInterface';
+import { AppError } from '../providers/ErrorHandlingProvider/ErrorHandlingProvider';
 
 export class CoronaChatAPI implements CoronaChatAPIInterface {
   private static readonly getTemplateURL = 'https://app.coronainfochat.org/getTemplate';
@@ -7,13 +8,15 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
   private static readonly updateTemplateURL = 'https://app.coronainfochat.org/updateTemplate';
 
   private authHeader: string;
+  private handleAppError: (error: AppError) => void;
 
   private static getAuthHeaderFromToken(authToken: string): string {
     return 'Bearer ' + authToken;
   }
 
-  constructor(authToken: string) {
+  constructor(authToken: string, handleAppError: (error: AppError) => void) {
     this.authHeader = CoronaChatAPI.getAuthHeaderFromToken(authToken);
+    this.handleAppError = handleAppError;
   }
 
   setAuthToken(authToken: string) {
@@ -46,6 +49,7 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
             ${url}:`,
               error
             );
+            this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.GET_TEMPLATE_ERROR' });
             reject(error);
           }
         );
@@ -95,6 +99,7 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
             ${url}:`,
               error
             );
+            this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR' });
             reject(error);
           }
         );
