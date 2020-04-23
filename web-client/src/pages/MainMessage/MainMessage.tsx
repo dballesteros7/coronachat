@@ -13,11 +13,11 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from 'react-i18next';
 import { Language } from '../../i18n';
-import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
 import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
 import IntroStepper from '../../components/IntroStepper/IntroStepper';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../App';
+import { getLocalDefaultTemplateForLanguage } from '../../lib/utils';
 
 export function getEmptyTemplate(): Template {
   return {

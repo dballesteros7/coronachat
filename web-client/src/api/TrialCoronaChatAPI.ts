@@ -1,7 +1,7 @@
 import { Template, User } from '../model/model';
 import { CoronaChatAPIInterface } from './CoronaChatAPIInterface';
 import { Language } from '../i18n';
-import { getLocalDefaultTemplateForLanguage } from '../utils/logic-utils';
+import { getLocalDefaultTemplateForLanguage } from '../lib/utils';
 
 export class TrialCoronaChatAPI implements CoronaChatAPIInterface {
   // TODO(MB) not great approach because if language changes in MainMessage (i18n instance),
