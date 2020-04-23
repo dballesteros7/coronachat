@@ -10,7 +10,8 @@ import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../../components/LanguageSelector/LanguageSelector';
 import Login from '../../components/Login/Login';
 import { isUserLoggedIn } from '../../lib/utils';
-import { UserContext, Routes } from '../../App';
+import { Routes } from '../../App';
+import { UserContext } from '../../providers/UserProvider/UserProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

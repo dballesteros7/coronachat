@@ -16,9 +16,9 @@ import { Language } from '../../i18n';
 import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
 import IntroStepper from '../../components/IntroStepper/IntroStepper';
 import { useHistory } from 'react-router-dom';
-import { UserContext } from '../../App';
 import { getLocalDefaultTemplateForLanguage } from '../../lib/utils';
 import { ErrorHandlingContext } from '../../providers/ErrorHandlingProvider/ErrorHandlingProvider';
+import { UserContext } from '../../providers/UserProvider/UserProvider';
 
 export function getEmptyTemplate(): Template {
   return {

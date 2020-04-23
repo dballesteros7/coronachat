@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import './DashboardAuthCheck.scss';
 import MainMessage from '../../pages/MainMessage/MainMessage';
 import { Redirect } from 'react-router-dom';
-import { UserContext, Routes } from '../../App';
+import { Routes } from '../../App';
 import { isUserLoggedIn } from '../../lib/utils';
+import { UserContext } from '../../providers/UserProvider/UserProvider';
 
 const DashboardAuthCheck = () => {
   const { user } = useContext(UserContext);

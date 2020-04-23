@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import './LanguageProvider.scss';
 import { Languages, Language, languageKey } from '../../i18n';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

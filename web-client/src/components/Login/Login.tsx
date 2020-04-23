@@ -12,10 +12,11 @@ import {
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { CoronaChatAPI } from '../../api/CoronaChatAPI';
-import { UserContext, Routes } from '../../App';
+import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
 import { User } from '../../model/model';
 import { ErrorHandlingContext } from '../../providers/ErrorHandlingProvider/ErrorHandlingProvider';
+import { UserContext } from '../../providers/UserProvider/UserProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

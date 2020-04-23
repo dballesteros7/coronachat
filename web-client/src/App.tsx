@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import { User } from './model/model';
 import DashboardAuthCheck from './components/DashboardAuthCheck/DashboardAuthCheck';
 import MainMessage from './pages/MainMessage/MainMessage';
 import LanguageProvider from './providers/LanguageProvider/LanguageProvider';
 import ErrorHandlingProvider from './providers/ErrorHandlingProvider/ErrorHandlingProvider';
+import UserProvider from './providers/UserProvider/UserProvider';
 
 const theme = createMuiTheme({
   palette: {
@@ -29,25 +29,12 @@ export enum Routes {
   DashboardTrial = '/dashboard/trial',
 }
 
-export const UserContext = React.createContext({ user: { id: '', authToken: '' }, setUser: (_?: User) => {} });
-
-const useLocalStorage = <T,>(key: string, defaultState: T): [T, (newValue?: T) => void] => {
-  const initState = () => JSON.parse(window.localStorage.getItem(key) || JSON.stringify(defaultState)) as T;
-  const [storageValue, setStorageInState] = useState(initState);
-  const setStorageValue = (newValue?: T) => {
-    setStorageInState(newValue ?? defaultState);
-    newValue ? window.localStorage.setItem(key, JSON.stringify(newValue)) : window.localStorage.removeItem(key);
-  };
-  return [storageValue, setStorageValue];
-};
-
 const App = () => {
-  let [user, setUser] = useLocalStorage('user', { id: '', authToken: '' });
   return (
     <Router>
       <LanguageProvider>
         <ErrorHandlingProvider>
-          <UserContext.Provider value={{ user: user, setUser: setUser }}>
+          <UserProvider>
             <ThemeProvider theme={theme}>
               <Switch>
                 <Route exact path={Routes.DashboardTrial}>
@@ -61,7 +48,7 @@ const App = () => {
                 </Route>
               </Switch>
             </ThemeProvider>
-          </UserContext.Provider>
+          </UserProvider>
         </ErrorHandlingProvider>
       </LanguageProvider>
     </Router>
