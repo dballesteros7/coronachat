@@ -1,8 +1,7 @@
 import './ErrorHandlingProvider.scss';
-import { SnackbarProvider, VariantType, useSnackbar, SnackbarKey } from 'notistack';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@material-ui/core';
 
 /**
  * @param autoclose default is false
@@ -15,7 +14,7 @@ export type AppError = {
 export const ErrorHandlingContext = React.createContext({ handleAppError: (_: AppError) => {} });
 
 const ErrorHandler = (props: { children: ReactNode }) => {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
 
   const handleAppError = (error: AppError) => {
