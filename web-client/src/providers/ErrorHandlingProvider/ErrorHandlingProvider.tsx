@@ -1,5 +1,8 @@
 import './ErrorHandlingProvider.scss';
-import React, { ReactNode, useState } from 'react';
+import { SnackbarProvider, VariantType, useSnackbar, SnackbarKey } from 'notistack';
+import React, { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@material-ui/core';
 
 /**
  * @param autoclose default is false
@@ -9,19 +12,36 @@ export type AppError = {
   autoclose?: boolean;
 };
 
-const emptyMessage: AppError = { errorMsgLocalisationKey: '' };
-export const ErrorHandlingContext = React.createContext({ error: emptyMessage, handleAppError: (_: AppError) => {} });
+export const ErrorHandlingContext = React.createContext({ handleAppError: (_: AppError) => {} });
 
-const ErrorHandlingProvider = (props: { children: ReactNode }) => {
-  const [error, setError] = useState(emptyMessage);
+const ErrorHandler = (props: { children: ReactNode }) => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { t } = useTranslation();
+
   const handleAppError = (error: AppError) => {
     // Centralized error handling
-    setError(error);
+
+    enqueueSnackbar(t(error.errorMsgLocalisationKey), {
+      variant: 'error',
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'center',
+      },
+    });
   };
+
   return (
-    <ErrorHandlingContext.Provider value={{ error: error, handleAppError: handleAppError }}>
+    <ErrorHandlingContext.Provider value={{ handleAppError: handleAppError }}>
       {props.children}
     </ErrorHandlingContext.Provider>
+  );
+};
+
+const ErrorHandlingProvider = (props: { children: ReactNode }) => {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <ErrorHandler {...props} />
+    </SnackbarProvider>
   );
 };
 

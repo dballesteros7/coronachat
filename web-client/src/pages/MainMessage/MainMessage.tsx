@@ -95,21 +95,11 @@ const MainMessage = (props: { isTrial: boolean }) => {
         console.debug('Got template from server', template);
         setTemplate(template);
       })
-      .catch((error) => {
-        // TODO(MB) notify user
-        console.error(error);
-      })
       .finally(() => {
-        coronaChatAPI.current
-          .getDefaultTemplate()
-          .then((defaultTemplate) => {
-            console.debug('Got default template from server', defaultTemplate);
-            setDefaultTemplate(defaultTemplate);
-          })
-          .catch((error) => {
-            // TODO(MB) notify user
-            console.error(error);
-          });
+        coronaChatAPI.current.getDefaultTemplate().then((defaultTemplate) => {
+          console.debug('Got default template from server', defaultTemplate);
+          setDefaultTemplate(defaultTemplate);
+        });
       });
 
     setIsIntroStepperOpen(localStorage.getItem(introStepsCompletedKey) !== 'true');

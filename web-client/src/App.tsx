@@ -7,7 +7,6 @@ import DashboardAuthCheck from './components/DashboardAuthCheck/DashboardAuthChe
 import MainMessage from './pages/MainMessage/MainMessage';
 import LanguageProvider from './providers/LanguageProvider/LanguageProvider';
 import ErrorHandlingProvider from './providers/ErrorHandlingProvider/ErrorHandlingProvider';
-import ErrorNotification from './components/ErrorNotification/ErrorNotification';
 
 const theme = createMuiTheme({
   palette: {
@@ -48,7 +47,6 @@ const App = () => {
     <Router>
       <LanguageProvider>
         <ErrorHandlingProvider>
-          <ErrorNotification />
           <UserContext.Provider value={{ user: user, setUser: setUser }}>
             <ThemeProvider theme={theme}>
               <Switch>
