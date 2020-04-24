@@ -148,8 +148,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
         console.debug('Template updated successfully');
       })
       .catch((error) => {
-        // TODO(MB) notify user
-        console.error('Update template server request failed with error', error);
+        // TODO(MB) change back to editing mode? so user tries to save again?
       });
   };
 
@@ -187,15 +186,9 @@ const MainMessage = (props: { isTrial: boolean }) => {
       // when post of single menu item is ready
       updatedTemplate.menuItems.push(menuItem);
     }
-    coronaChatAPI.current
-      .updateTemplate(updatedTemplate)
-      .then(() => {
-        console.debug('Template updated successfully');
-      })
-      .catch((error) => {
-        // TODO(MB) notify user
-        console.error('Update template server request failed with error', error);
-      });
+    coronaChatAPI.current.updateTemplate(updatedTemplate).then(() => {
+      console.debug('Template updated successfully');
+    });
     setTemplate(updatedTemplate);
     setEditingMenuItem(getEmptyDefaultMenuItem());
   };

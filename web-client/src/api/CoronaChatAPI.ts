@@ -80,22 +80,41 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
         },
         body: JSON.stringify(template),
       })
-        .then((res) => {
-          return res.json();
-        })
+        .then(
+          (response) => {
+            if (!response.ok) {
+              this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR', status: response.status });
+              const responseStatus = `Response status ${response.status} ${response.statusText}`;
+              console.error(
+                `Error occurred when updating template to 
+              ${url}. ${responseStatus}`,
+                response.statusText
+              );
+              reject(responseStatus);
+            } else {
+              return response.json();
+            }
+          },
+          (error) => {
+            console.error(`Error occurred when updating template to 
+            ${url}: Fetch rejected (for ex. network or CORS error)`);
+            this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR' });
+            reject(error);
+          }
+        )
         .then(
           (response: Template) => {
             if (response) {
               resolve();
             } else {
-              console.warn(`Unexpected response from server when getting template 
-              from ${url}`);
+              console.warn(`Unexpected response from server when updating template 
+              to ${url}`);
               reject(new Error('Unexpected response from server'));
             }
           },
           (error) => {
             console.error(
-              `Error occurred when getting template from 
+              `Response json parsing error when updating template to 
             ${url}:`,
               error
             );

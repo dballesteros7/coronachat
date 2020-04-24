@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 export type AppError = {
   errorMsgLocalisationKey: string;
   autoclose?: boolean;
+  status?: number;
 };
 
 export const ErrorHandlingContext = React.createContext({ handleAppError: (_: AppError) => {} });
