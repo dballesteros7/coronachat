@@ -7,7 +7,7 @@ import { LanguageContext } from '../../providers/LanguageProvider/LanguageProvid
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     langMenuButton: {
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       right: 0,
       zIndex: 10,

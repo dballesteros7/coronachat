@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: 10,
     },
     loginButton: {
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       left: 0,
       zIndex: 10,
