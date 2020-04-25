@@ -9,7 +9,8 @@ const translationIT = {
     GET_TEMPLATE_ERROR: 'Errore durante il caricamento del contenuto del messaggio. Per favore ricarica la pagina.',
     GET_DEFAULT_TEMPLATE_ERROR:
       'Errore durante il caricamento delle opzioni di default. Per favore ricarica la pagina.',
-    UPDATE_TEMPLATE_ERROR: 'Errore duranteil salvataggio dei tuoi cambiamenti. Per favore salvali nuovamente.',
+    UPDATE_TEMPLATE_ERROR: 'Errore durante il salvataggio dei tuoi cambiamenti. Per favore salvali nuovamente.',
+    WRONG_CREDENTIALS: 'Credenziali invalide. Per favore controllale e riprova.',
   },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'Modifiche non salvate',

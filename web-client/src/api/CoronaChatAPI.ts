@@ -167,10 +167,15 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
     // TODO(MB) perform request to server when ready
     return new Promise<User>((resolve, reject) => {
       setTimeout(() => {
-        resolve({
-          id: 'dummy-org-id',
-          authToken: 'dummy-token',
-        });
+        if (username === 'a' && password === 'a') {
+          reject('Wrong credentials');
+          this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.WRONG_CREDENTIALS' });
+        } else {
+          resolve({
+            id: 'dummy-org-id',
+            authToken: 'dummy-token',
+          });
+        }
       }, 1_000);
     });
   }

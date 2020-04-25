@@ -10,6 +10,7 @@ const translationEN = {
     GET_TEMPLATE_ERROR: 'An error occurred while loading the message content. Please refresh the page.',
     GET_DEFAULT_TEMPLATE_ERROR: 'An error occurred while loading the default options. Please refresh the page.',
     UPDATE_TEMPLATE_ERROR: 'An error occurred while saving your changes. Please try to save them again.',
+    WRONG_CREDENTIALS: 'Invalid credentials. Please double-check and try again.',
   },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'There are unsaved changes',

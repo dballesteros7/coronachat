@@ -11,6 +11,7 @@ const translationES = {
     GET_DEFAULT_TEMPLATE_ERROR:
       'Se produjo un error al cargar las opciones predeterminadas. Por favor, refresque la página.',
     UPDATE_TEMPLATE_ERROR: 'Se produjo un error al guardar los cambios. Por favor, intente guardarlos de nuevo.',
+    WRONG_CREDENTIALS: 'Credenciales inválidas. Por favor, compruébelas y inténtelo de nuevo.',
   },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'Tiene cambios no guardados',

@@ -1,15 +1,6 @@
 import React, { useState, useRef, useContext } from 'react';
 import './Login.scss';
-import {
-  Dialog,
-  TextField,
-  DialogActions,
-  Button,
-  LinearProgress,
-  makeStyles,
-  Theme,
-  createStyles,
-} from '@material-ui/core';
+import { Dialog, TextField, DialogActions, Button, LinearProgress } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { CoronaChatAPI } from '../../api/CoronaChatAPI';
 import { Routes } from '../../App';
@@ -18,21 +9,12 @@ import { User } from '../../model/model';
 import { ErrorHandlingContext } from '../../providers/ErrorHandlingProvider/ErrorHandlingProvider';
 import { UserContext } from '../../providers/UserProvider/UserProvider';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    errorMessage: {
-      color: theme.palette.error.main,
-    },
-  })
-);
-
 type LoginDialogProps = {
   onLoginClose: () => void;
 };
 
 const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
-  const classes = useStyles();
   const { onLogin } = useContext(UserContext);
   const { handleAppError } = useContext(ErrorHandlingContext);
   const history = useHistory();
@@ -42,7 +24,6 @@ const Login = (props: LoginDialogProps) => {
   const [password, setPassword] = useState('');
   const [isPasswordErrorEnabled, setPasswordErrorEnabled] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [errorMessage, setErrorMessage] = useState();
 
   const coronaChatAPI = useRef(new CoronaChatAPI('', handleAppError));
 
@@ -58,10 +39,6 @@ const Login = (props: LoginDialogProps) => {
         // it would endup from their dashboard to the trial one and this could be confusing
         history.go(-history.length);
         history.replace(Routes.Dashboard);
-      })
-      .catch((error) => {
-        console.error(error);
-        setErrorMessage(error);
       })
       .finally(() => setIsLoggingIn(false));
   };
@@ -115,7 +92,6 @@ const Login = (props: LoginDialogProps) => {
             onKeyPress={(e) => onKeyPressedOnPasswordField(e.key)}
           />
         </div>
-        {errorMessage && <div className={classes.errorMessage}>{errorMessage}</div>}
       </div>
       <DialogActions>
         <Button onClick={props.onLoginClose} color="primary">
