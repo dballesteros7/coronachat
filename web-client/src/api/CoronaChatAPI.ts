@@ -43,10 +43,10 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
       if (!response.ok) {
         const responseStatus = `Response status ${response.status} ${response.statusText}`;
         const reason = `Error occurred when updating template to 
-            ${url}. ${responseStatus} ${response.statusText}`;
+            ${url}. ${responseStatus}`;
         return Promise.reject({
           reason: reason,
-          appError: { errorMsgLocalisationKey: errorMsgLocalisationKey },
+          appError: { errorMsgLocalisationKey: errorMsgLocalisationKey, statusCode: response.status },
         });
       } else {
         return response.json().catch((error) => {
@@ -121,10 +121,10 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
       if (!response.ok) {
         const responseStatus = `Response status ${response.status} ${response.statusText}`;
         const reason = `Error occurred when updating template to 
-            ${url}. ${responseStatus} ${response.statusText}`;
+            ${url}. ${responseStatus}`;
         return Promise.reject({
           reason: reason,
-          appError: { errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR' },
+          appError: { errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR', statusCode: response.status },
         });
       } else {
         return response.json().catch((error) => {

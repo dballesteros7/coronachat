@@ -33,8 +33,8 @@ const App = () => {
   return (
     <Router>
       <LanguageProvider>
-        <ErrorHandlingProvider>
-          <UserProvider>
+        <UserProvider>
+          <ErrorHandlingProvider>
             <ThemeProvider theme={theme}>
               <Switch>
                 <Route exact path={Routes.DashboardTrial}>
@@ -48,8 +48,8 @@ const App = () => {
                 </Route>
               </Switch>
             </ThemeProvider>
-          </UserProvider>
-        </ErrorHandlingProvider>
+          </ErrorHandlingProvider>
+        </UserProvider>
       </LanguageProvider>
     </Router>
   );

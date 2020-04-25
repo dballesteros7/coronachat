@@ -1,7 +1,7 @@
 import { createStyles, makeStyles, Theme, Button } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import logo from '../../assets/images/coronachat-logo.svg';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
@@ -49,12 +49,17 @@ const Home = () => {
   const classes = useStyles();
   const [t] = useTranslation();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, hasSessionExpired } = useContext(UserContext);
 
   const onLoginButtonClicked = () => {
-    console.debug('Open login dialog');
     setIsLoginDialogOpen(true);
   };
+
+  useEffect(() => {
+    if (hasSessionExpired) {
+      onLoginButtonClicked();
+    }
+  }, [hasSessionExpired]);
 
   return isUserLoggedIn(user) ? (
     <Redirect to={Routes.Dashboard}></Redirect>

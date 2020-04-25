@@ -11,6 +11,7 @@ const translationIT = {
       'Errore durante il caricamento delle opzioni di default. Per favore ricarica la pagina.',
     UPDATE_TEMPLATE_ERROR: 'Errore durante il salvataggio dei tuoi cambiamenti. Per favore salvali nuovamente.',
     WRONG_CREDENTIALS: 'Credenziali invalide. Per favore controllale e riprova.',
+    EXPIRED_LOGIN_SESSION: 'La tua sessione di login è scaduta. Per favore autenticati di nuovo.',
   },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'Modifiche non salvate',

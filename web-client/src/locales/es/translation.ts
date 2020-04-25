@@ -12,6 +12,7 @@ const translationES = {
       'Se produjo un error al cargar las opciones predeterminadas. Por favor, refresque la página.',
     UPDATE_TEMPLATE_ERROR: 'Se produjo un error al guardar los cambios. Por favor, intente guardarlos de nuevo.',
     WRONG_CREDENTIALS: 'Credenciales inválidas. Por favor, compruébelas y inténtelo de nuevo.',
+    EXPIRED_LOGIN_SESSION: 'Su sesión de acceso ha expirado. Por favor, vuelva a entrar.',
   },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'Tiene cambios no guardados',
