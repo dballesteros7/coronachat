@@ -7,6 +7,8 @@ const translationIT = {
   CONTENT_CANT_BE_EMPTY: 'Il contenuto non può essere vuoto.',
   ERRORS: {
     GET_TEMPLATE_ERROR: 'Errore durante il caricamento del contenuto del messaggio. Per favore ricarica la pagina.',
+    GET_DEFAULT_TEMPLATE_ERROR:
+      'Errore durante il caricamento delle opzioni di default. Per favore ricarica la pagina.',
     UPDATE_TEMPLATE_ERROR: 'Errore duranteil salvataggio dei tuoi cambiamenti. Per favore salvali nuovamente.',
   },
   UNSAVED_CHANGES_DIALOG: {

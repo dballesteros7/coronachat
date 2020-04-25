@@ -8,6 +8,7 @@ const translationEN = {
   CONTENT_CANT_BE_EMPTY: 'The content cannot be empty.',
   ERRORS: {
     GET_TEMPLATE_ERROR: 'An error occurred while loading the message content. Please refresh the page.',
+    GET_DEFAULT_TEMPLATE_ERROR: 'An error occurred while loading the default options. Please refresh the page.',
     UPDATE_TEMPLATE_ERROR: 'An error occurred while saving your changes. Please try to save them again.',
   },
   UNSAVED_CHANGES_DIALOG: {

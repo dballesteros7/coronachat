@@ -8,6 +8,8 @@ const translationES = {
   CONTENT_CANT_BE_EMPTY: 'El contenido no puede estar vacío.',
   ERRORS: {
     GET_TEMPLATE_ERROR: 'Se produjo un error al cargar el contenido del mensaje. Por favor, refresque la página.',
+    GET_DEFAULT_TEMPLATE_ERROR:
+      'Se produjo un error al cargar las opciones predeterminadas. Por favor, refresque la página.',
     UPDATE_TEMPLATE_ERROR: 'Se produjo un error al guardar los cambios. Por favor, intente guardarlos de nuevo.',
   },
   UNSAVED_CHANGES_DIALOG: {

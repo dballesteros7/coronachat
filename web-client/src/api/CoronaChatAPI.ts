@@ -23,55 +23,83 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
     this.authHeader = CoronaChatAPI.getAuthHeaderFromToken(authToken);
   }
 
-  private getTemplateFromURL(url: URL): Promise<Template> {
-    const promise = new Promise<Template>((resolve, reject) => {
-      fetch(url.href, {
+  private getTemplateFromURL(url: URL, errorMsgLocalisationKey: string): Promise<Template> {
+    const performFetch = () => {
+      return fetch(url.href, {
         headers: new Headers({
           Authorization: this.authHeader,
         }),
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then(
-          (response: Template) => {
-            if (response) {
-              resolve(response);
-            } else {
-              console.warn(`Unexpected response from server when getting template 
-              from ${url}`);
-              reject(new Error('Unexpected response from server'));
-            }
-          },
-          (error) => {
-            console.error(
-              `Error occurred when getting template from 
-            ${url}:`,
-              error
-            );
-            this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.GET_TEMPLATE_ERROR' });
-            reject(error);
+      }).catch((error) => {
+        const reason = `Error occurred when updating template to 
+          ${url}. Fetch rejected (for ex. network or CORS error): ${error}`;
+        return Promise.reject({
+          reason: reason,
+          appError: { errorMsgLocalisationKey: errorMsgLocalisationKey },
+        });
+      });
+    };
+
+    const parseResponse = (response: Response) => {
+      if (!response.ok) {
+        const responseStatus = `Response status ${response.status} ${response.statusText}`;
+        const reason = `Error occurred when updating template to 
+            ${url}. ${responseStatus} ${response.statusText}`;
+        return Promise.reject({
+          reason: reason,
+          appError: { errorMsgLocalisationKey: errorMsgLocalisationKey },
+        });
+      } else {
+        return response.json().catch((error) => {
+          const reason = `Response json parsing error when updating template to 
+            ${url}: ${error}`;
+          return Promise.reject({
+            reason: reason,
+            appError: { errorMsgLocalisationKey: errorMsgLocalisationKey },
+          });
+        });
+      }
+    };
+
+    const promise = new Promise<Template>((resolve, reject) => {
+      performFetch()
+        .then(parseResponse)
+        .then((response: Template) => {
+          if (response) {
+            resolve(response);
+          } else {
+            const reason = `Unexpected response from server when updating template 
+              to ${url}`;
+            return Promise.reject({
+              reason: reason,
+              appError: { errorMsgLocalisationKey: errorMsgLocalisationKey },
+            });
           }
-        );
+        })
+        .catch(({ reason, appError }) => {
+          // reason contains specific error; appError is a more general msg shown to the user
+          console.error(reason);
+          reject(reason);
+          this.handleAppError(appError);
+        });
     });
     return promise;
   }
 
   getTemplate(): Promise<Template> {
     var url = new URL(CoronaChatAPI.getTemplateURL);
-    return this.getTemplateFromURL(url);
+    return this.getTemplateFromURL(url, 'ERRORS.GET_TEMPLATE_ERROR');
   }
 
   getDefaultTemplate(): Promise<Template> {
     var url = new URL(CoronaChatAPI.getDefaultTemplateURL);
-    return this.getTemplateFromURL(url);
+    return this.getTemplateFromURL(url, 'ERRORS.GET_DEFAULT_TEMPLATE_ERROR');
   }
 
   updateTemplate(template: Template): Promise<void> {
     var url = new URL(CoronaChatAPI.updateTemplateURL);
 
-    const promise = new Promise<void>((resolve, reject) => {
-      fetch(url.href, {
+    const performFetch = () => {
+      return fetch(url.href, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -79,49 +107,58 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
           Authorization: this.authHeader,
         },
         body: JSON.stringify(template),
-      })
-        .then(
-          (response) => {
-            if (!response.ok) {
-              this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR', status: response.status });
-              const responseStatus = `Response status ${response.status} ${response.statusText}`;
-              console.error(
-                `Error occurred when updating template to 
-              ${url}. ${responseStatus}`,
-                response.statusText
-              );
-              reject(responseStatus);
-            } else {
-              return response.json();
-            }
-          },
-          (error) => {
-            console.error(`Error occurred when updating template to 
-            ${url}: Fetch rejected (for ex. network or CORS error)`);
-            this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR' });
-            reject(error);
+      }).catch((error) => {
+        const reason = `Error occurred when updating template to 
+          ${url}. Fetch rejected (for ex. network or CORS error): ${error}`;
+        return Promise.reject({
+          reason: reason,
+          appError: { errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR' },
+        });
+      });
+    };
+
+    const parseResponse = (response: Response) => {
+      if (!response.ok) {
+        const responseStatus = `Response status ${response.status} ${response.statusText}`;
+        const reason = `Error occurred when updating template to 
+            ${url}. ${responseStatus} ${response.statusText}`;
+        return Promise.reject({
+          reason: reason,
+          appError: { errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR' },
+        });
+      } else {
+        return response.json().catch((error) => {
+          const reason = `Response json parsing error when updating template to 
+            ${url}: ${error}`;
+          return Promise.reject({
+            reason: reason,
+            appError: { errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR' },
+          });
+        });
+      }
+    };
+
+    const promise = new Promise<void>((resolve, reject) => {
+      performFetch()
+        .then(parseResponse)
+        .then((response: Template) => {
+          if (response) {
+            resolve();
+          } else {
+            const reason = `Unexpected response from server when updating template 
+              to ${url}`;
+            return Promise.reject({
+              reason: reason,
+              appError: { errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR' },
+            });
           }
-        )
-        .then(
-          (response: Template) => {
-            if (response) {
-              resolve();
-            } else {
-              console.warn(`Unexpected response from server when updating template 
-              to ${url}`);
-              reject(new Error('Unexpected response from server'));
-            }
-          },
-          (error) => {
-            console.error(
-              `Response json parsing error when updating template to 
-            ${url}:`,
-              error
-            );
-            this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR' });
-            reject(error);
-          }
-        );
+        })
+        .catch(({ reason, appError }) => {
+          // reason contains specific error; appError is a more general msg shown to the user
+          console.error(reason);
+          reject(reason);
+          this.handleAppError(appError);
+        });
     });
     return promise;
   }
