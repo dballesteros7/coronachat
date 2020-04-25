@@ -2,7 +2,16 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import './MainMessage.scss';
 import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { Template, MenuItem } from '../../model/model';
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton, Button } from '@material-ui/core';
+import {
+  makeStyles,
+  Theme,
+  createStyles,
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  MenuItem as MaterialMenuItem,
+} from '@material-ui/core';
 import { CoronaChatAPI } from '../../api/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
@@ -10,6 +19,7 @@ import { TrialCoronaChatAPI } from '../../api/TrialCoronaChatAPI';
 import Drawer from '@material-ui/core/Drawer';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from 'react-i18next';
 import { Language } from '../../i18n';
@@ -19,6 +29,7 @@ import { useHistory } from 'react-router-dom';
 import { getLocalDefaultTemplateForLanguage } from '../../lib/utils';
 import { ErrorHandlingContext } from '../../providers/ErrorHandlingProvider/ErrorHandlingProvider';
 import { UserContext } from '../../providers/UserProvider/UserProvider';
+import ThreeDotsMenu from '../../components/ThreeDotsMenu/ThreeDotsMenu';
 
 export function getEmptyTemplate(): Template {
   return {
@@ -38,9 +49,11 @@ const useStyles = makeStyles((theme: Theme) =>
       flex: 1,
       color: 'white',
     },
-    drawer: {
-      // width: '100%',
-      // backgroundColor: 'red'
+    threeDotsMenuItem: {
+      color: theme.palette.primary.main,
+    },
+    threeDotsMenuItemIcon: {
+      marginRight: 10,
     },
   })
 );
@@ -240,15 +253,23 @@ const MainMessage = (props: { isTrial: boolean }) => {
           <Typography variant="h6" color="secondary" className={classes.title}>
             {t('DASHBOARD_TITLE')}
           </Typography>
-          <IconButton autoFocus color="secondary" onClick={() => setIsIntroStepperOpen(true)}>
-            <HelpOutlineIcon></HelpOutlineIcon>
-          </IconButton>
           <IconButton autoFocus id="preview-button" color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
             <VisibilityIcon></VisibilityIcon>
           </IconButton>
-          <Button color="secondary" onClick={onLogoutClicked}>
-            {t('ACTIONS.LOGOUT')}
-          </Button>
+          <ThreeDotsMenu>
+            <MaterialMenuItem
+              key={'help'}
+              className={classes.threeDotsMenuItem}
+              onClick={() => setIsIntroStepperOpen(true)}
+            >
+              <HelpOutlineIcon className={classes.threeDotsMenuItemIcon} />
+              {t('ACTIONS.HELP')}
+            </MaterialMenuItem>
+            <MaterialMenuItem key={'logout'} className={classes.threeDotsMenuItem} onClick={onLogoutClicked}>
+              <MeetingRoomIcon className={classes.threeDotsMenuItemIcon} />
+              {t('ACTIONS.LOGOUT')}
+            </MaterialMenuItem>
+          </ThreeDotsMenu>
         </Toolbar>
       </AppBar>
       <React.Fragment key={'RIGHT'}>
@@ -265,12 +286,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
           )}
           <SplitLayout mainContent={mainForm} optionalContent={messagePreview} />
           {isIntroStepperOpen && <IntroStepper onIntroFinished={onIntroStepsCompleted} />}
-          <Drawer
-            className={classes.drawer + ' MsgPreviewDrawer'}
-            anchor={'right'}
-            open={isMsgPreviewDrawerOpen}
-            onClose={() => {}}
-          >
+          <Drawer className="MsgPreviewDrawer" anchor={'right'} open={isMsgPreviewDrawerOpen} onClose={() => {}}>
             <div className="drawer-content">
               <div className="covid-title-box">
                 <div className="covid-title">{t('INTRO.MESSAGE_PREVIEW')}</div>
