@@ -1,13 +1,21 @@
 import string
 
-from flask import jsonify, request
+from flask import abort, jsonify, request
+from flask_login import LoginManager, login_required, login_user
 from twilio.twiml.messaging_response import MessagingResponse
 
 from ..db import db
-from ..storage.api import AdminReader, AdminWriter, MessageReader
+from ..storage.api import AdminReader, AdminWriter, MessageReader, check_login, load_logged_in_user
 from ..storage.default_data import DEFAULT_TOP_LEVEL_MESSAGE
 from ..storage.transforms import (web_template_to_frontend_top_message,
                                   frontend_top_message_to_web_template)
+
+login_manager = LoginManager()
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return load_logged_in_user(user_id)
 
 
 def register_endpoints(app):
@@ -19,6 +27,7 @@ def register_endpoints(app):
         return jsonify(template)
 
     @app.route('/getTemplate')
+    @login_required
     def _get_template():
         reader = AdminReader()
         frontend_top_level_message = reader.get_top_level_message()
@@ -29,6 +38,7 @@ def register_endpoints(app):
         )
 
     @app.route('/updateTemplate', methods=['POST', 'PUT'])
+    @login_required
     def _update_template():
         json_data = request.get_json()
         if json_data is None:
@@ -57,3 +67,21 @@ def register_endpoints(app):
             resp.message(reader.get_formatted_top_level_message())
 
         return str(resp)
+
+    @app.route('/login', methods=['POST'])
+    def _login():
+        json_data = request.get_json()
+        if json_data is None:
+            raise Exception('Invalid payload.')
+        logged_in_user = check_login(
+            json_data['username'].strip(),
+            json_data['password']
+        )
+        if not logged_in_user:
+            abort(401)
+
+        result = login_user(logged_in_user)
+        if not result:
+            abort(401)
+
+        return jsonify(status='OK')

@@ -2,9 +2,6 @@ import os
 
 from coronachat.app import create_app
 from coronachat.db import db
-from coronachat.storage.api import AdminWriter
-from coronachat.storage.default_data import DEFAULT_TOP_LEVEL_MESSAGE
-
 
 def build_database_uri():
     host = os.environ['RDS_HOSTNAME']

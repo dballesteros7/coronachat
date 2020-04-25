@@ -1,4 +1,15 @@
-from .schema import TopLevelMessage, TopLevelOption
+from .schema import Organization, OrganizationUser, TopLevelMessage, TopLevelOption
+
+default_organization = Organization(
+    name = 'CoronaInfoChat',
+    users = [
+        OrganizationUser(
+            username='coronainfochat',
+            email='info@coronainfochat.org',
+            password='secret',
+        )
+    ]
+)
 
 DEFAULT_TOP_LEVEL_MESSAGE = {
     'header_content': """\

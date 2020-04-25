@@ -1,8 +1,9 @@
 """APIs to communicate with the underlying message storage."""
+from flask_login import UserMixin
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from ..db import db
-from .schema import SecondaryOption, TopLevelMessage, TopLevelOption
+from .schema import OrganizationUser, SecondaryOption, TopLevelMessage, TopLevelOption
 
 # TODO(dballest): Make this into a localization class with scopes.
 if '_' not in globals():
@@ -158,9 +159,45 @@ class MessageReader(object):
             # for secondary_option in sorted(
             #         option.secondary_options, key=lambda o: o.position):
             #     message += '%s\n' % secondary_option.content.strip()
-            
+
             return message
         except NoResultFound:
             return NO_OPTION_FOUND_MSG % option_number
         except MultipleResultsFound:
             return GENERIC_ERROR_MSG
+
+
+class LoggedInUser(UserMixin):
+    backend_user: OrganizationUser()
+
+    def __init__(self, backend_user: OrganizationUser):
+        assert backend_user is not None
+        self.backend_user = backend_user
+
+    @property
+    def id(self) -> int:
+        return self.backend_user.id
+
+
+def load_logged_in_user(user_id: str) -> LoggedInUser:
+    try:
+        org_user = OrganizationUser.query.filter(
+            OrganizationUser.id == int(user_id),
+        ).one()
+        return LoggedInUser(org_user)
+    except NoResultFound:
+        return None
+    except MultipleResultsFound:
+        raise Exception('Unexpected database state.')
+
+
+def check_login(username: str, password: str) -> LoggedInUser:
+    try:
+        org_user = OrganizationUser.query.filter(
+            OrganizationUser.username == username,
+            OrganizationUser.password == password).one()
+        return LoggedInUser(org_user)
+    except NoResultFound:
+        return None
+    except MultipleResultsFound:
+        raise Exception('Unexpected database state.')
