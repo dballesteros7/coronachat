@@ -1,4 +1,7 @@
-import { Template, User } from '../model/model';
+import { Template, User } from '../../model/model';
+import React from 'react';
+
+export const CoronaChatAPIContext = React.createContext<CoronaChatAPIInterface | undefined>(undefined);
 
 export interface CoronaChatAPIInterface {
   getOrganizationId(): Promise<string>;

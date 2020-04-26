@@ -7,6 +7,8 @@ import MainMessage from './pages/MainMessage/MainMessage';
 import LanguageProvider from './providers/LanguageProvider/LanguageProvider';
 import ErrorHandlingProvider from './providers/ErrorHandlingProvider/ErrorHandlingProvider';
 import UserProvider from './providers/UserProvider/UserProvider';
+import TrialCoronaChatAPIProvider from './providers/api/TrialCoronaChatAPIProvider/TrialCoronaChatAPIProvider';
+import CoronaChatAPIProvider from './providers/api/CoronaChatAPIProvider/CoronaChatAPIProvider';
 
 const theme = createMuiTheme({
   palette: {
@@ -36,17 +38,21 @@ const App = () => {
         <UserProvider>
           <ErrorHandlingProvider>
             <ThemeProvider theme={theme}>
-              <Switch>
-                <Route exact path={Routes.DashboardTrial}>
-                  <MainMessage isTrial={true} />
-                </Route>
-                <Route exact path={Routes.Dashboard}>
-                  <DashboardAuthCheck />
-                </Route>
-                <Route path={Routes.Root}>
-                  <Home />
-                </Route>
-              </Switch>
+              <CoronaChatAPIProvider>
+                <Switch>
+                  <Route exact path={Routes.DashboardTrial}>
+                    <TrialCoronaChatAPIProvider>
+                      <MainMessage isTrial={true} />
+                    </TrialCoronaChatAPIProvider>
+                  </Route>
+                  <Route exact path={Routes.Dashboard}>
+                    <DashboardAuthCheck />
+                  </Route>
+                  <Route path={Routes.Root}>
+                    <Home />
+                  </Route>
+                </Switch>
+              </CoronaChatAPIProvider>
             </ThemeProvider>
           </ErrorHandlingProvider>
         </UserProvider>

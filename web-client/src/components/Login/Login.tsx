@@ -1,13 +1,12 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import './Login.scss';
 import { Dialog, TextField, DialogActions, Button, LinearProgress } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { CoronaChatAPI } from '../../api/CoronaChatAPI';
 import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
 import { User } from '../../model/model';
-import { ErrorHandlingContext } from '../../providers/ErrorHandlingProvider/ErrorHandlingProvider';
 import { UserContext } from '../../providers/UserProvider/UserProvider';
+import { CoronaChatAPIContext } from '../../providers/api/CoronaChatAPIInterface';
 
 type LoginDialogProps = {
   onLoginClose: () => void;
@@ -16,7 +15,7 @@ type LoginDialogProps = {
 const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
   const { onLogin } = useContext(UserContext);
-  const { handleAppError } = useContext(ErrorHandlingContext);
+  const coronaChatAPI = useContext(CoronaChatAPIContext);
   const history = useHistory();
 
   const [username, setUsername] = useState('');
@@ -25,12 +24,10 @@ const Login = (props: LoginDialogProps) => {
   const [isPasswordErrorEnabled, setPasswordErrorEnabled] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const coronaChatAPI = useRef(new CoronaChatAPI(handleAppError));
-
   const performLogin = () => {
     setIsLoggingIn(true);
-    coronaChatAPI.current
-      .login(username, password)
+    coronaChatAPI
+      ?.login(username, password)
       .then((user: User) => {
         console.debug('Login successful', user);
         onLogin(user);
