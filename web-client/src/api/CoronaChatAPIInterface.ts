@@ -5,4 +5,5 @@ export interface CoronaChatAPIInterface {
   getDefaultTemplate(): Promise<Template>;
   updateTemplate(template: Template): Promise<void>;
   login(username: string, password: string): Promise<User>;
+  logout(): Promise<void>;
 }

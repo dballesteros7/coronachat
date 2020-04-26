@@ -10,6 +10,7 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
   private static readonly getDefaultTemplateURL = `${CoronaChatAPI.baseURL}/getDefaultTemplate`;
   private static readonly updateTemplateURL = `${CoronaChatAPI.baseURL}/updateTemplate`;
   private static readonly loginURL = `${CoronaChatAPI.baseURL}/login`;
+  private static readonly logoutURL = `${CoronaChatAPI.baseURL}/logout`;
 
   private handleAppError: (error: AppError) => void;
 
@@ -169,7 +170,7 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
 
       const onError = () => {
         const reason = `${xhr.status} ${xhr.statusText}`;
-        console.error(reason);
+        console.error(`Error while logging in: ${reason}`);
         reject(reason);
         const errorMsgLocalisationKey = xhr.status === 401 ? 'ERRORS.WRONG_CREDENTIALS' : 'ERRORS.LOGIN_ERROR';
         this.handleAppError({ errorMsgLocalisationKey: errorMsgLocalisationKey });
@@ -178,6 +179,44 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
       xhr.onload = () => {
         if (xhr.status === 200) {
           resolve({ id: '', isLoggedIn: true });
+        } else {
+          onError();
+        }
+      };
+
+      xhr.onerror = () => {
+        onError();
+      };
+    });
+    return promise;
+  }
+
+  logout(): Promise<void> {
+    // Remove auth cookie locally
+    document.cookie = 'cookiename=session; expires = Thu, 01 Jan 1970 00:00:00 GMT';
+
+    var url = new URL(CoronaChatAPI.logoutURL);
+
+    const promise = new Promise<void>((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+
+      xhr.open('POST', url.toString(), true);
+
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.responseType = 'json';
+      xhr.withCredentials = true;
+
+      xhr.send();
+
+      const onError = () => {
+        const reason = `Error while logging out: ${xhr.status} ${xhr.statusText}`;
+        console.error(reason);
+        reject(reason);
+      };
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          resolve();
         } else {
           onError();
         }

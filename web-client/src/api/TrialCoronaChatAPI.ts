@@ -28,9 +28,11 @@ export class TrialCoronaChatAPI implements CoronaChatAPIInterface {
     return Promise.resolve();
   }
 
-  login(username: string, password: string): Promise<User> {
-    return new Promise<User>((_, reject) => {
-      reject('You cannot log into the trial version!');
-    });
+  login(_: string, __: string): Promise<User> {
+    return Promise.reject('You cannot log into the trial version');
+  }
+
+  logout(): Promise<void> {
+    return Promise.reject('You cannot log out the trial version');
   }
 }

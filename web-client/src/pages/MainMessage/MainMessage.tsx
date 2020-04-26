@@ -217,6 +217,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
 
   const onLogoutClicked = () => {
     onLogout();
+    coronaChatAPI.current.logout().then();
     history.replace('/');
   };
 
