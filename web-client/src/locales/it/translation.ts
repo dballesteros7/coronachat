@@ -12,7 +12,7 @@ const translationIT = {
     UPDATE_TEMPLATE_ERROR: 'Errore durante il salvataggio dei tuoi cambiamenti. Per favore salvali nuovamente.',
     WRONG_CREDENTIALS: 'Credenziali invalide. Per favore controllale e riprova.',
     EXPIRED_LOGIN_SESSION: 'La tua sessione di login è scaduta. Per favore autenticati di nuovo.',
-    LOGIN_ERROR: 'Errore durante il login. Per favore prova di nuovo.',
+    LOGIN_ERROR: 'Errore durante il login. Per favore verifica la tua connessione ad Internet e prova di nuovo.',
   },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'Modifiche non salvate',

@@ -12,7 +12,7 @@ const translationEN = {
     UPDATE_TEMPLATE_ERROR: 'An error occurred while saving your changes. Please try to save them again.',
     WRONG_CREDENTIALS: 'Invalid credentials. Please double-check and try again.',
     EXPIRED_LOGIN_SESSION: 'Your login session has expired. Please log in again.',
-    LOGIN_ERROR: 'An error occurred during login. Please try again.',
+    LOGIN_ERROR: 'An error occurred during login. Please check your Internet connection and try again.',
   },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'There are unsaved changes',
