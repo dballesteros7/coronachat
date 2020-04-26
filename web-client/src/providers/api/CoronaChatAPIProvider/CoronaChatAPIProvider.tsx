@@ -91,6 +91,10 @@ const CoronaChatAPIProvider = (props: { children: ReactNode }) => {
     getOrganizationId: () => {
       var url = new URL(getOrganizationURL);
 
+      type OrganizationResponse = {
+        name?: string;
+      };
+
       const appError: AppError = { errorMsgLocalisationKey: '', silent: true };
 
       const performFetch = () => {
@@ -109,9 +113,9 @@ const CoronaChatAPIProvider = (props: { children: ReactNode }) => {
       const promise = new Promise<string>((resolve, reject) => {
         performFetch()
           .then((response) => parseResponse(response, url.toString(), 'when getting template from', ''))
-          .then((response: string) => {
-            if (response) {
-              resolve(response);
+          .then((response: OrganizationResponse) => {
+            if (response.name) {
+              resolve(response.name);
             } else {
               const reason = `Unexpected response from server when getting template 
                 from ${url}`;
