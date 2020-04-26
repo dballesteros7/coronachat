@@ -115,7 +115,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
   };
 
   const getEmptyDefaultMenuItem = (): MenuItem => {
-    // TODO(MB) could set initial value to null without compiler complaining
+    // TODO(MB) could set initial value to null without compiler complaining? (yes, see UserProvider)
     return {
       id: -1,
       title: '',
