@@ -7,29 +7,15 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
   private static readonly getDefaultTemplateURL = 'https://app.coronainfochat.org/getDefaultTemplate';
   private static readonly updateTemplateURL = 'https://app.coronainfochat.org/updateTemplate';
 
-  private authHeader: string;
   private handleAppError: (error: AppError) => void;
 
-  private static getAuthHeaderFromToken(authToken: string): string {
-    return 'Bearer ' + authToken;
-  }
-
-  constructor(authToken: string, handleAppError: (error: AppError) => void) {
-    this.authHeader = CoronaChatAPI.getAuthHeaderFromToken(authToken);
+  constructor(handleAppError: (error: AppError) => void) {
     this.handleAppError = handleAppError;
-  }
-
-  setAuthToken(authToken: string) {
-    this.authHeader = CoronaChatAPI.getAuthHeaderFromToken(authToken);
   }
 
   private getTemplateFromURL(url: URL, errorMsgLocalisationKey: string): Promise<Template> {
     const performFetch = () => {
-      return fetch(url.href, {
-        headers: new Headers({
-          Authorization: this.authHeader,
-        }),
-      }).catch((error) => {
+      return fetch(url.href).catch((error) => {
         const reason = `Error occurred when updating template to 
           ${url}. Fetch rejected (for ex. network or CORS error): ${error}`;
         return Promise.reject({
@@ -104,7 +90,6 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: this.authHeader,
         },
         body: JSON.stringify(template),
       }).catch((error) => {
@@ -172,8 +157,8 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
           this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.WRONG_CREDENTIALS' });
         } else {
           resolve({
-            id: 'dummy-org-id',
-            authToken: 'dummy-token',
+            id: '',
+            isLoggedIn: true,
           });
         }
       }, 1_000);

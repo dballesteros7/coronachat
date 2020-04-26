@@ -25,7 +25,7 @@ const Login = (props: LoginDialogProps) => {
   const [isPasswordErrorEnabled, setPasswordErrorEnabled] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const coronaChatAPI = useRef(new CoronaChatAPI('', handleAppError));
+  const coronaChatAPI = useRef(new CoronaChatAPI(handleAppError));
 
   const performLogin = () => {
     setIsLoggingIn(true);

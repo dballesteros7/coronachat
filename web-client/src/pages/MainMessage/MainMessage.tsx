@@ -89,16 +89,8 @@ const MainMessage = (props: { isTrial: boolean }) => {
   };
 
   let coronaChatAPI = useRef(
-    props.isTrial ?? true
-      ? new TrialCoronaChatAPI(i18n.language as Language)
-      : new CoronaChatAPI(user.authToken, handleAppError)
+    props.isTrial ?? true ? new TrialCoronaChatAPI(i18n.language as Language) : new CoronaChatAPI(handleAppError)
   );
-
-  useEffect(() => {
-    if (coronaChatAPI.current instanceof CoronaChatAPI) {
-      (coronaChatAPI.current as CoronaChatAPI).setAuthToken(user.authToken);
-    }
-  }, [user]);
 
   useEffect(() => {
     // TODO(MB) add some loading UI
@@ -251,7 +243,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
       <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="secondary" className={classes.title}>
-            {t('DASHBOARD_TITLE')}
+            {t('DASHBOARD_TITLE')} {props.isTrial ? ' - TEST' : user?.id ? ' - ' + user.id : ''}
           </Typography>
           <IconButton autoFocus id="preview-button" color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
             <VisibilityIcon></VisibilityIcon>

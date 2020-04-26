@@ -24,5 +24,5 @@ export interface MenuItem {
 
 export interface User {
   id: string;
-  authToken: string;
+  isLoggedIn: boolean;
 }
