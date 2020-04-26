@@ -64,6 +64,8 @@ class AdminWriter(object):
         stored_top_level_message = logged_in_user.backend_user.organization.top_level_message
         if stored_top_level_message is not None:
             db.session.delete(stored_top_level_message)
+            db.session.add(logged_in_user.backend_user.organization)
+            logged_in_user.backend_user.organization.top_level_message_id = None
 
         top_level_options = []
         for top_level_option in top_level_message_dict['top_level_options']:
@@ -91,6 +93,10 @@ class AdminWriter(object):
         )
 
         db.session.add(top_level_message)
+        db.session.commit()
+
+        db.session.add(logged_in_user.backend_user.organization)
+        logged_in_user.backend_user.organization.top_level_message_id = top_level_message.id
         db.session.commit()
 
 

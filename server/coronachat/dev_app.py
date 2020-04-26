@@ -1,6 +1,6 @@
 from .app import create_app
 from .db import db
-from .storage.api import AdminWriter
+from .storage.api import AdminWriter, LoggedInUser
 from .storage.default_data import DEFAULT_TOP_LEVEL_MESSAGE, default_organization
 
 
@@ -29,5 +29,10 @@ with app.app_context():
     db.session.add(default_organization)
     db.session.commit()
 
+    fake_logged_in_user = LoggedInUser(
+        default_organization.users[0],
+    )
+
     writer = AdminWriter()
-    writer.update_top_level_message(DEFAULT_TOP_LEVEL_MESSAGE)
+    writer.update_top_level_message(
+        DEFAULT_TOP_LEVEL_MESSAGE, fake_logged_in_user)
