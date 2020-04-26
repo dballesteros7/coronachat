@@ -151,27 +151,6 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
   login(username: string, password: string): Promise<User> {
     var url = new URL(CoronaChatAPI.loginURL);
 
-    const performFetch = () => {
-      return fetch(url.href, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      }).catch((error) => {
-        const reason = `Error occurred when updating template to 
-          ${url}. Fetch rejected (for ex. network or CORS error): ${error}`;
-        return Promise.reject({
-          reason: reason,
-          appError: { errorMsgLocalisationKey: 'ERRORS.LOGIN_ERROR' },
-        });
-      });
-    };
-
     const promise = new Promise<User>((resolve, reject) => {
       const xhr = new XMLHttpRequest();
 
@@ -188,63 +167,26 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
         })
       );
 
+      const onError = () => {
+        const reason = `${xhr.status} ${xhr.statusText}`;
+        console.error(reason);
+        reject(reason);
+        const errorMsgLocalisationKey = xhr.status === 401 ? 'ERRORS.WRONG_CREDENTIALS' : 'ERRORS.LOGIN_ERROR';
+        this.handleAppError({ errorMsgLocalisationKey: errorMsgLocalisationKey });
+      };
+
       xhr.onload = () => {
         if (xhr.status === 200) {
           resolve({ id: '', isLoggedIn: true });
         } else {
-          const reason = xhr.statusText;
-          console.error(reason);
-          reject(reason);
-          this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.LOGIN_ERROR' });
+          onError();
         }
       };
 
       xhr.onerror = () => {
-        const reason = xhr.statusText;
-        console.error(reason);
-        reject(reason);
-        this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.LOGIN_ERROR' });
+        onError();
       };
-
-      // TODO(MB) old code using fecth not working with cross site requests and cookie based auth;
-      // improve xhr error handling and delete following code
-      // performFetch()
-      //   .then((response) =>
-      //     CoronaChatAPI.parseResponse(response, url.toString(), 'when logging in', 'ERRORS.LOGIN_ERROR')
-      //   )
-      //   .then((response: Response) => {
-      //     if (response) {
-      //       resolve({ id: '', isLoggedIn: true });
-      //     } else {
-      //       const reason = `Unexpected response from server when updating template
-      //         to ${url}`;
-      //       return Promise.reject({
-      //         reason: reason,
-      //         appError: { errorMsgLocalisationKey: 'ERRORS.LOGIN_ERROR' },
-      //       });
-      //     }
-      //   })
-      //   .catch(({ reason, appError }) => {
-      //     // reason contains specific error; appError is a more general msg shown to the user
-      //     console.error(reason);
-      //     reject(reason);
-      //     this.handleAppError(appError);
-      //   });
     });
     return promise;
-
-    // return new Promise<User>((resolve, reject) => {
-    //   setTimeout(() => {
-    //     if (username === 'a' && password === 'a') {
-    //       reject('Wrong credentials');
-    //       this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.WRONG_CREDENTIALS' });
-    //     } else {
-    //       resolve({
-    //         id: '',
-    //         isLoggedIn: true,
-    //       });
-    //     }
-    //   }, 1_000);
-    // });
   }
 }
