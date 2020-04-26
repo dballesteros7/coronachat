@@ -35,9 +35,9 @@ const App = () => {
   return (
     <Router>
       <LanguageProvider>
-        <ErrorHandlingProvider>
-          <CoronaChatAPIProvider>
-            <UserProvider>
+        <UserProvider>
+          <ErrorHandlingProvider>
+            <CoronaChatAPIProvider>
               <ThemeProvider theme={theme}>
                 <Switch>
                   <Route exact path={Routes.DashboardTrial}>
@@ -53,9 +53,9 @@ const App = () => {
                   </Route>
                 </Switch>
               </ThemeProvider>
-            </UserProvider>
-          </CoronaChatAPIProvider>
-        </ErrorHandlingProvider>
+            </CoronaChatAPIProvider>
+          </ErrorHandlingProvider>
+        </UserProvider>
       </LanguageProvider>
     </Router>
   );

@@ -14,7 +14,7 @@ type LoginDialogProps = {
 
 const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
-  const { onLogin } = useContext(UserContext);
+  const { onLogin, setOrganizationId } = useContext(UserContext);
   const coronaChatAPI = useCoronaChatAPIContext();
   const history = useHistory();
 
@@ -27,7 +27,7 @@ const Login = (props: LoginDialogProps) => {
   const performLogin = () => {
     setIsLoggingIn(true);
     coronaChatAPI
-      ?.login(username, password)
+      .login(username, password)
       .then((user: User) => {
         console.debug('Login successful', user);
         onLogin(user);
@@ -36,6 +36,7 @@ const Login = (props: LoginDialogProps) => {
         // it would endup from their dashboard to the trial one and this could be confusing
         history.go(-history.length);
         history.replace(Routes.Dashboard);
+        coronaChatAPI.getOrganizationId().then((organizationId: string) => onLogin({ ...user, id: organizationId }));
       })
       .finally(() => setIsLoggingIn(false));
   };
