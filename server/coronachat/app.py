@@ -14,7 +14,14 @@ def create_app(config_object) -> Flask:
     app = Flask(__name__.split('.')[0])
     app.config.from_object(config_object)
 
-    CORS(app)
+    CORS(
+        app,
+        supports_credentials=True,
+        origins=[
+            'http://localhost:3000',
+            'https://coronainfochat.org',
+        ],
+    )
     register_endpoints(app)
     login_manager.init_app(app)
 
