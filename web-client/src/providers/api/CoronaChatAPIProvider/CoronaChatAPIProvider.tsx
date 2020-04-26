@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useRef } from 'react';
-import { CoronaChatAPIContext } from '../CoronaChatAPIInterface';
 import { ErrorHandlingContext, AppError } from '../../ErrorHandlingProvider/ErrorHandlingProvider';
 import { Template, User } from '../../../model/model';
+import { CoronaChatAPIContextProvider } from '../CoronaChatAPIInterface';
 
 const baseURL = 'http://development.eba-4rmdgwec.eu-west-1.elasticbeanstalk.com';
 // const baseURL = 'https://app.coronainfochat.org';
@@ -271,7 +271,7 @@ const CoronaChatAPIProvider = (props: { children: ReactNode }) => {
       return promise;
     },
   });
-  return <CoronaChatAPIContext.Provider value={APIs.current}> {props.children} </CoronaChatAPIContext.Provider>;
+  return <CoronaChatAPIContextProvider value={APIs.current}> {props.children} </CoronaChatAPIContextProvider>;
 };
 
 export default CoronaChatAPIProvider;

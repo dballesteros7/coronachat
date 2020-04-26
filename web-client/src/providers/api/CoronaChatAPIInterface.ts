@@ -1,7 +1,7 @@
 import { Template, User } from '../../model/model';
-import React from 'react';
+import { createCtx } from '../../hooks/createCtx';
 
-export const CoronaChatAPIContext = React.createContext<CoronaChatAPIInterface | undefined>(undefined);
+export const [useCoronaChatAPIContext, CoronaChatAPIContextProvider] = createCtx<CoronaChatAPIInterface>();
 
 export interface CoronaChatAPIInterface {
   getOrganizationId(): Promise<string>;

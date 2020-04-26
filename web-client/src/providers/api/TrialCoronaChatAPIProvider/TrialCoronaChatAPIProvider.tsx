@@ -1,9 +1,9 @@
 import React, { ReactNode, useContext, useRef, useCallback } from 'react';
-import { CoronaChatAPIContext } from '../CoronaChatAPIInterface';
 import { Template } from '../../../model/model';
 import { useTranslation } from 'react-i18next';
 import { getLocalDefaultTemplateForLanguage } from '../../../lib/utils';
 import { LanguageContext } from '../../LanguageProvider/LanguageProvider';
+import { CoronaChatAPIContextProvider } from '../CoronaChatAPIInterface';
 
 const TrialCoronaChatAPIProvider = (props: { children: ReactNode }) => {
   const [t] = useTranslation();
@@ -34,7 +34,7 @@ const TrialCoronaChatAPIProvider = (props: { children: ReactNode }) => {
       return Promise.resolve();
     },
   });
-  return <CoronaChatAPIContext.Provider value={APIs.current}> {props.children} </CoronaChatAPIContext.Provider>;
+  return <CoronaChatAPIContextProvider value={APIs.current}> {props.children} </CoronaChatAPIContextProvider>;
 };
 
 export default TrialCoronaChatAPIProvider;

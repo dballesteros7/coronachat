@@ -6,7 +6,7 @@ import { Routes } from '../../App';
 import { useHistory } from 'react-router-dom';
 import { User } from '../../model/model';
 import { UserContext } from '../../providers/UserProvider/UserProvider';
-import { CoronaChatAPIContext } from '../../providers/api/CoronaChatAPIInterface';
+import { useCoronaChatAPIContext } from '../../providers/api/CoronaChatAPIInterface';
 
 type LoginDialogProps = {
   onLoginClose: () => void;
@@ -15,7 +15,7 @@ type LoginDialogProps = {
 const Login = (props: LoginDialogProps) => {
   const [t] = useTranslation();
   const { onLogin } = useContext(UserContext);
-  const coronaChatAPI = useContext(CoronaChatAPIContext);
+  const coronaChatAPI = useCoronaChatAPIContext();
   const history = useHistory();
 
   const [username, setUsername] = useState('');
