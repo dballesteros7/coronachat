@@ -6,6 +6,16 @@ const translationES = {
   CONTENT: 'Contenido',
   TITLE_CANT_BE_EMPTY: 'El título no puede estar vacío.',
   CONTENT_CANT_BE_EMPTY: 'El contenido no puede estar vacío.',
+  ERRORS: {
+    GET_TEMPLATE_ERROR: 'Se produjo un error al cargar el contenido del mensaje. Por favor, refresque la página.',
+    GET_DEFAULT_TEMPLATE_ERROR:
+      'Se produjo un error al cargar las opciones predeterminadas. Por favor, refresque la página.',
+    UPDATE_TEMPLATE_ERROR: 'Se produjo un error al guardar los cambios. Por favor, intente guardarlos de nuevo.',
+    WRONG_CREDENTIALS: 'Credenciales inválidas. Por favor, compruébelas y inténtelo de nuevo.',
+    EXPIRED_LOGIN_SESSION: 'Su sesión de acceso ha expirado. Por favor, vuelva a entrar.',
+    LOGIN_ERROR:
+      'Se produjo un error al iniciar sesión. Por favor, compruebe su conexión a Internet y vuelva a entrar.',
+  },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'Tiene cambios no guardados',
     MESSAGE: 'Si cierra esta vista, perderá los cambios no guardados. ¿Está seguro?',
@@ -20,6 +30,16 @@ const translationES = {
     BACK: 'Atrás',
     NEXT: 'Seguir',
     HELP: 'Ayuda',
+    CANCEL: 'Cancelar',
+    LOGOUT: 'Logout',
+  },
+  LOGIN: {
+    TITLE: 'Login',
+    USERNAME: 'Usuario',
+    USERNAME_CANT_BE_EMPTY: 'El usuario no puede estar vacío.',
+    PASSWORD: 'Contraseña',
+    PASSWORD_CANT_BE_EMPTY: 'La contraseña no puede estar vacía.',
+    LOG_IN: 'Entra',
   },
   MENU: {
     OPTIONS: 'Opciones del menú principal',

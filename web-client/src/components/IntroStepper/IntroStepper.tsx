@@ -6,7 +6,8 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { useTranslation } from 'react-i18next';
-import { LanguageContext, Languages } from '../../i18n';
+import { Languages } from '../../i18n';
+import { LanguageContext } from '../../providers/LanguageProvider/LanguageProvider';
 
 const useStyles = makeStyles({
   introVideo: {

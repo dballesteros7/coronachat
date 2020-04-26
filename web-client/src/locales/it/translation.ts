@@ -5,6 +5,15 @@ const translationIT = {
   CONTENT: 'Contenuto',
   TITLE_CANT_BE_EMPTY: 'Il titolo non può essere vuoto.',
   CONTENT_CANT_BE_EMPTY: 'Il contenuto non può essere vuoto.',
+  ERRORS: {
+    GET_TEMPLATE_ERROR: 'Errore durante il caricamento del contenuto del messaggio. Per favore ricarica la pagina.',
+    GET_DEFAULT_TEMPLATE_ERROR:
+      'Errore durante il caricamento delle opzioni di default. Per favore ricarica la pagina.',
+    UPDATE_TEMPLATE_ERROR: 'Errore durante il salvataggio dei tuoi cambiamenti. Per favore salvali nuovamente.',
+    WRONG_CREDENTIALS: 'Credenziali invalide. Per favore controllale e riprova.',
+    EXPIRED_LOGIN_SESSION: 'La tua sessione di login è scaduta. Per favore autenticati di nuovo.',
+    LOGIN_ERROR: 'Errore durante il login. Per favore verifica la tua connessione ad Internet e prova di nuovo.',
+  },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'Modifiche non salvate',
     MESSAGE: 'Se chiudi, qualsiasi modifica che hai fatto andrà persa. Vuoi chiudere?',
@@ -19,6 +28,16 @@ const translationIT = {
     BACK: 'Indietro',
     NEXT: 'Avanti',
     HELP: 'Aiuto',
+    CANCEL: 'Annulla',
+    LOGOUT: 'Logout',
+  },
+  LOGIN: {
+    TITLE: 'Login',
+    USERNAME: 'Nome utente',
+    USERNAME_CANT_BE_EMPTY: 'Lo username non può essere vuoto.',
+    PASSWORD: 'Password',
+    PASSWORD_CANT_BE_EMPTY: 'La password non può essere vuota.',
+    LOG_IN: 'Entra',
   },
   MENU: {
     OPTIONS: 'Opzioni del menù principale',

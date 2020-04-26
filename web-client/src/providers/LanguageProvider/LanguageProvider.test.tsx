@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MainMessage from './MainMessage';
+import LanguageProvider from './LanguageProvider';
 import { MemoryRouter } from 'react-router-dom';
 
 it('It should mount', () => {
   const div = document.createElement('div');
   ReactDOM.render(
     <MemoryRouter>
-      <MainMessage />
+      <LanguageProvider />
     </MemoryRouter>,
     div
   );

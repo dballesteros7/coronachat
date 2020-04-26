@@ -6,6 +6,14 @@ const translationEN = {
   CONTENT: 'Content',
   TITLE_CANT_BE_EMPTY: 'The title cannot be empty.',
   CONTENT_CANT_BE_EMPTY: 'The content cannot be empty.',
+  ERRORS: {
+    GET_TEMPLATE_ERROR: 'An error occurred while loading the message content. Please refresh the page.',
+    GET_DEFAULT_TEMPLATE_ERROR: 'An error occurred while loading the default options. Please refresh the page.',
+    UPDATE_TEMPLATE_ERROR: 'An error occurred while saving your changes. Please try to save them again.',
+    WRONG_CREDENTIALS: 'Invalid credentials. Please double-check and try again.',
+    EXPIRED_LOGIN_SESSION: 'Your login session has expired. Please log in again.',
+    LOGIN_ERROR: 'An error occurred during login. Please check your Internet connection and try again.',
+  },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'There are unsaved changes',
     MESSAGE: 'If you close, you will lose any change that you may have made.',
@@ -20,6 +28,16 @@ const translationEN = {
     BACK: 'Back',
     NEXT: 'Next',
     HELP: 'Help',
+    CANCEL: 'Cancel',
+    LOGOUT: 'Logout',
+  },
+  LOGIN: {
+    TITLE: 'Login',
+    USERNAME: 'Username',
+    USERNAME_CANT_BE_EMPTY: 'Username cannot be empty.',
+    PASSWORD: 'Password',
+    PASSWORD_CANT_BE_EMPTY: 'Password cannot be empty.',
+    LOG_IN: 'Log in',
   },
   MENU: {
     OPTIONS: 'Main menu options',

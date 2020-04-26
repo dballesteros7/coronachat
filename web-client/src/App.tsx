@@ -1,9 +1,12 @@
-import MainMessage from './pages/MainMessage/MainMessage';
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import { LanguageWrapper } from './i18n';
+import DashboardAuthCheck from './components/DashboardAuthCheck/DashboardAuthCheck';
+import MainMessage from './pages/MainMessage/MainMessage';
+import LanguageProvider from './providers/LanguageProvider/LanguageProvider';
+import ErrorHandlingProvider from './providers/ErrorHandlingProvider/ErrorHandlingProvider';
+import UserProvider from './providers/UserProvider/UserProvider';
 
 const theme = createMuiTheme({
   palette: {
@@ -20,21 +23,34 @@ const theme = createMuiTheme({
   },
 });
 
+export enum Routes {
+  Root = '/',
+  Dashboard = '/dashboard',
+  DashboardTrial = '/dashboard/trial',
+}
+
 const App = () => {
   return (
     <Router>
-      <ThemeProvider theme={theme}>
-        <LanguageWrapper>
-          <Switch>
-            <Route exact path="/dashboard">
-              <MainMessage isTrial={true} />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </LanguageWrapper>
-      </ThemeProvider>
+      <LanguageProvider>
+        <UserProvider>
+          <ErrorHandlingProvider>
+            <ThemeProvider theme={theme}>
+              <Switch>
+                <Route exact path={Routes.DashboardTrial}>
+                  <MainMessage isTrial={true} />
+                </Route>
+                <Route exact path={Routes.Dashboard}>
+                  <DashboardAuthCheck />
+                </Route>
+                <Route path={Routes.Root}>
+                  <Home />
+                </Route>
+              </Switch>
+            </ThemeProvider>
+          </ErrorHandlingProvider>
+        </UserProvider>
+      </LanguageProvider>
     </Router>
   );
 };
