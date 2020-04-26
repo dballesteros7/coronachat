@@ -238,7 +238,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
       <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="secondary" className={classes.title}>
-            {t('DASHBOARD_TITLE')} {props.isTrial ? ' - TEST' : user?.id ? ' - ' + user.id : ''}
+            {t('DASHBOARD_TITLE')} {props.isTrial ? ` - ${t('TRIAL_ACCOUNT')}` : user?.id ? ' - ' + user.id : ''}
           </Typography>
           <IconButton autoFocus id="preview-button" color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
             <VisibilityIcon></VisibilityIcon>

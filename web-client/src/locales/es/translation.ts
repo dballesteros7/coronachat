@@ -6,6 +6,7 @@ const translationES = {
   CONTENT: 'Contenido',
   TITLE_CANT_BE_EMPTY: 'El título no puede estar vacío.',
   CONTENT_CANT_BE_EMPTY: 'El contenido no puede estar vacío.',
+  TRIAL_ACCOUNT: 'Cuenta de prueba',
   ERRORS: {
     GET_TEMPLATE_ERROR: 'Se produjo un error al cargar el contenido del mensaje. Por favor, refresque la página.',
     GET_DEFAULT_TEMPLATE_ERROR:

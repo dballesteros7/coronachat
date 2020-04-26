@@ -5,6 +5,7 @@ const translationIT = {
   CONTENT: 'Contenuto',
   TITLE_CANT_BE_EMPTY: 'Il titolo non può essere vuoto.',
   CONTENT_CANT_BE_EMPTY: 'Il contenuto non può essere vuoto.',
+  TRIAL_ACCOUNT: 'Account di prova',
   ERRORS: {
     GET_TEMPLATE_ERROR: 'Errore durante il caricamento del contenuto del messaggio. Per favore ricarica la pagina.',
     GET_DEFAULT_TEMPLATE_ERROR:
