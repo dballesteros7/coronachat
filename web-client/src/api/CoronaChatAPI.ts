@@ -3,14 +3,45 @@ import { CoronaChatAPIInterface } from './CoronaChatAPIInterface';
 import { AppError } from '../providers/ErrorHandlingProvider/ErrorHandlingProvider';
 
 export class CoronaChatAPI implements CoronaChatAPIInterface {
-  private static readonly getTemplateURL = 'https://app.coronainfochat.org/getTemplate';
-  private static readonly getDefaultTemplateURL = 'https://app.coronainfochat.org/getDefaultTemplate';
-  private static readonly updateTemplateURL = 'https://app.coronainfochat.org/updateTemplate';
+  private static readonly baseURL = 'http://development.eba-4rmdgwec.eu-west-1.elasticbeanstalk.com';
+  // private static readonly baseURL = 'https://app.coronainfochat.org';
+
+  private static readonly getTemplateURL = `${CoronaChatAPI.baseURL}/getTemplate`;
+  private static readonly getDefaultTemplateURL = `${CoronaChatAPI.baseURL}/getDefaultTemplate`;
+  private static readonly updateTemplateURL = `${CoronaChatAPI.baseURL}/updateTemplate`;
+  private static readonly loginURL = `${CoronaChatAPI.baseURL}/login`;
 
   private handleAppError: (error: AppError) => void;
 
   constructor(handleAppError: (error: AppError) => void) {
     this.handleAppError = handleAppError;
+  }
+
+  // TODO(MB) use this method everywhere in this file
+  private static parseResponse(
+    response: Response,
+    requestStringURL: string,
+    requestDescription: string,
+    errorMsgLocalisationKey: string
+  ) {
+    if (!response.ok) {
+      const responseStatus = `Response status ${response.status} ${response.statusText}`;
+      const reason = `Error occurred ${requestDescription} 
+          ${requestStringURL}. ${responseStatus}`;
+      return Promise.reject({
+        reason: reason,
+        appError: { errorMsgLocalisationKey: errorMsgLocalisationKey, statusCode: response.status },
+      });
+    } else {
+      return response.json().catch((error) => {
+        const reason = `Response json parsing error when ${requestDescription} 
+          ${requestStringURL}: ${error}`;
+        return Promise.reject({
+          reason: reason,
+          appError: { errorMsgLocalisationKey: errorMsgLocalisationKey },
+        });
+      });
+    }
   }
 
   private getTemplateFromURL(url: URL, errorMsgLocalisationKey: string): Promise<Template> {
@@ -150,18 +181,69 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
 
   login(username: string, password: string): Promise<User> {
     // TODO(MB) perform request to server when ready
-    return new Promise<User>((resolve, reject) => {
-      setTimeout(() => {
-        if (username === 'a' && password === 'a') {
-          reject('Wrong credentials');
-          this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.WRONG_CREDENTIALS' });
-        } else {
-          resolve({
-            id: '',
-            isLoggedIn: true,
-          });
-        }
-      }, 1_000);
+
+    var url = new URL(CoronaChatAPI.loginURL);
+
+    const performFetch = () => {
+      return fetch(url.href, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: 'coronainfochat',
+          password: 'secret',
+        }),
+      }).catch((error) => {
+        const reason = `Error occurred when updating template to 
+          ${url}. Fetch rejected (for ex. network or CORS error): ${error}`;
+        return Promise.reject({
+          reason: reason,
+          // TODO(MB) add translations for LOGIN_ERROR
+          appError: { errorMsgLocalisationKey: 'ERRORS.LOGIN_ERROR' },
+        });
+      });
+    };
+
+    const promise = new Promise<User>((resolve, reject) => {
+      performFetch()
+        .then((response) =>
+          CoronaChatAPI.parseResponse(response, url.toString(), 'when logging in', 'ERRORS.LOGIN_ERROR')
+        )
+        .then((response: Response) => {
+          if (response) {
+            resolve({ id: '', isLoggedIn: true });
+          } else {
+            const reason = `Unexpected response from server when updating template 
+              to ${url}`;
+            return Promise.reject({
+              reason: reason,
+              appError: { errorMsgLocalisationKey: 'ERRORS.LOGIN_ERROR' },
+            });
+          }
+        })
+        .catch(({ reason, appError }) => {
+          // reason contains specific error; appError is a more general msg shown to the user
+          console.error(reason);
+          reject(reason);
+          this.handleAppError(appError);
+        });
     });
+    return promise;
+
+    // return new Promise<User>((resolve, reject) => {
+    //   setTimeout(() => {
+    //     if (username === 'a' && password === 'a') {
+    //       reject('Wrong credentials');
+    //       this.handleAppError({ errorMsgLocalisationKey: 'ERRORS.WRONG_CREDENTIALS' });
+    //     } else {
+    //       resolve({
+    //         id: '',
+    //         isLoggedIn: true,
+    //       });
+    //     }
+    //   }, 1_000);
+    // });
   }
 }
