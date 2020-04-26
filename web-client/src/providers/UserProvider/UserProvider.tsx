@@ -2,15 +2,24 @@ import React, { ReactNode, useState } from 'react';
 import { User } from '../../model/model';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
-export const UserContext = React.createContext({
-  user: { id: '', isLoggedIn: false },
+type UserContext = {
+  user: User | undefined;
+  hasSessionExpired: boolean;
+  onLogin: (_: User) => void;
+  onLogout: (_?: boolean) => void;
+};
+
+const initUserContext = {
+  user: undefined,
   hasSessionExpired: false,
   onLogin: (_: User) => {},
   onLogout: (_: boolean = false) => {},
-});
+};
+
+export const UserContext = React.createContext<UserContext>(initUserContext);
 
 const UserProvider = (props: { children: ReactNode }) => {
-  let [user, setUser] = useLocalStorage('user', { id: '', isLoggedIn: false });
+  let [user, setUser] = useLocalStorage<User | undefined>('user', undefined);
   let [hasSessionExpired, setHasSessionExpired] = useState(false);
 
   const onLogin = (user: User) => {

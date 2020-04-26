@@ -60,7 +60,7 @@ const Home = () => {
     }
   }, [hasSessionExpired]);
 
-  return user.isLoggedIn ? (
+  return user?.isLoggedIn ? (
     <Redirect to={Routes.Dashboard}></Redirect>
   ) : (
     <>

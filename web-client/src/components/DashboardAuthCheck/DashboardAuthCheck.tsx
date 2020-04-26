@@ -8,7 +8,7 @@ import { UserContext } from '../../providers/UserProvider/UserProvider';
 const DashboardAuthCheck = () => {
   const { user } = useContext(UserContext);
 
-  return user.isLoggedIn ? <MainMessage isTrial={false} /> : <Redirect to={Routes.Root}></Redirect>;
+  return user?.isLoggedIn ? <MainMessage isTrial={false} /> : <Redirect to={Routes.Root}></Redirect>;
 };
 
 export default DashboardAuthCheck;
