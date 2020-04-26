@@ -1,11 +1,11 @@
 import string
 
 from flask import abort, jsonify, request
-from flask_login import LoginManager, login_required, login_user
+from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from twilio.twiml.messaging_response import MessagingResponse
 
 from ..db import db
-from ..storage.api import AdminReader, AdminWriter, MessageReader, check_login, load_logged_in_user
+from ..storage.api import AdminReader, AdminWriter, MessageReader, check_login, get_organization, load_logged_in_user
 from ..storage.default_data import DEFAULT_TOP_LEVEL_MESSAGE
 from ..storage.transforms import (web_template_to_frontend_top_message,
                                   frontend_top_message_to_web_template)
@@ -30,7 +30,9 @@ def register_endpoints(app):
     @login_required
     def _get_template():
         reader = AdminReader()
-        frontend_top_level_message = reader.get_top_level_message()
+        frontend_top_level_message = reader.get_top_level_message(current_user)
+        if frontend_top_level_message is None:
+            abort(404, 'No message found for the organization.')
         return jsonify(
             frontend_top_message_to_web_template(
                 frontend_top_level_message
@@ -47,7 +49,7 @@ def register_endpoints(app):
         writer = AdminWriter()
         top_level_message_dict = web_template_to_frontend_top_message(
             json_data)
-        writer.update_top_level_message(top_level_message_dict)
+        writer.update_top_level_message(top_level_message_dict, current_user)
         return jsonify(status='OK')
 
     @app.route('/inbound_message', methods=['POST'])
@@ -84,4 +86,25 @@ def register_endpoints(app):
         if not result:
             abort(401)
 
+        return jsonify(status='OK')
+
+    @app.route('/organization', methods=['GET'])
+    @login_required
+    def _get_organization():
+        org = get_organization(current_user)
+        return jsonify(org)
+
+    @app.route('/user', methods=['GET'])
+    @login_required
+    def _get_user():
+        org_user = current_user.backend_user
+        return {
+            'username': org_user.username,
+            'email': org_user.email,
+        }
+
+    @app.route('/logout', methods=['POST'])
+    @login_required
+    def _logout():
+        logout_user()
         return jsonify(status='OK')

@@ -22,6 +22,10 @@ with app.app_context():
     db.drop_all()
     db.create_all()
 
+    with db.engine.connect() as conn:
+        statement = db.text('CREATE EXTENSION IF NOT EXISTS pgcrypto')
+        conn.execute(statement)
+
     db.session.add(default_organization)
     db.session.commit()
 
