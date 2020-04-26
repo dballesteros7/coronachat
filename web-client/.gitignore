@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Do not ignore the lib folder content which is ignored by .gitignore in the root folder of the project
+!lib/
