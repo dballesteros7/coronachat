@@ -1,6 +1,6 @@
 import { Template, User } from '../model/model';
 import { CoronaChatAPIInterface } from './CoronaChatAPIInterface';
-import { Language } from '../i18n';
+import { Language, Languages } from '../i18n';
 import { getLocalDefaultTemplateForLanguage } from '../lib/utils';
 
 export class TrialCoronaChatAPI implements CoronaChatAPIInterface {
@@ -10,6 +10,23 @@ export class TrialCoronaChatAPI implements CoronaChatAPIInterface {
 
   constructor(language: Language) {
     this.selectedLanguage = language;
+  }
+
+  getOrganizationId(): Promise<string> {
+    let trialAccount = '';
+    // TODO(MB) not nice to have translations here; improve this
+    switch (this.selectedLanguage) {
+      case Languages.en:
+        trialAccount = 'Trial account';
+        break;
+      case Languages.it:
+        trialAccount = 'Account di prova';
+        break;
+      case Languages.es:
+        trialAccount = 'Cuenta de prueba';
+        break;
+    }
+    return Promise.resolve(trialAccount);
   }
 
   getTemplate(): Promise<Template> {

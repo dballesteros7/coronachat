@@ -5,11 +5,13 @@ import { UserContext } from '../UserProvider/UserProvider';
 
 /**
  * @param autoclose default is false
+ * @param silent default is false; if set to true, the notification will not be shown to the user
  */
 export type AppError = {
   errorMsgLocalisationKey: string;
   autoclose?: boolean;
   statusCode?: number;
+  silent?: boolean;
 };
 
 export const ErrorHandlingContext = React.createContext({ handleAppError: (_: AppError) => {} });
@@ -31,13 +33,15 @@ const ErrorHandler = (props: { children: ReactNode }) => {
         errorMsg = t(error.errorMsgLocalisationKey);
     }
 
-    enqueueSnackbar(errorMsg, {
-      variant: 'error',
-      anchorOrigin: {
-        vertical: 'top',
-        horizontal: 'center',
-      },
-    });
+    if (!error.silent) {
+      enqueueSnackbar(errorMsg, {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+      });
+    }
   };
 
   return (

@@ -6,6 +6,7 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
   private static readonly baseURL = 'http://development.eba-4rmdgwec.eu-west-1.elasticbeanstalk.com';
   // private static readonly baseURL = 'https://app.coronainfochat.org';
 
+  private static readonly getOrganizationURL = `${CoronaChatAPI.baseURL}/organization`;
   private static readonly getTemplateURL = `${CoronaChatAPI.baseURL}/getTemplate`;
   private static readonly getDefaultTemplateURL = `${CoronaChatAPI.baseURL}/getDefaultTemplate`;
   private static readonly updateTemplateURL = `${CoronaChatAPI.baseURL}/updateTemplate`;
@@ -42,6 +43,51 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
         });
       });
     }
+  }
+
+  getOrganizationId(): Promise<string> {
+    var url = new URL(CoronaChatAPI.getOrganizationURL);
+
+    const appError: AppError = { errorMsgLocalisationKey: '', silent: true };
+
+    const performFetch = () => {
+      return fetch(url.href, {
+        credentials: 'include', // needed to set the cookie in cross site requests
+      }).catch((error) => {
+        const reason = `Error occurred when getting organization from
+          ${url}. Fetch rejected (for ex. network or CORS error): ${error}`;
+        return Promise.reject({
+          reason: reason,
+          appError: appError,
+        });
+      });
+    };
+
+    const promise = new Promise<string>((resolve, reject) => {
+      performFetch()
+        .then((response) => CoronaChatAPI.parseResponse(response, url.toString(), 'when getting template from', ''))
+        .then((response: string) => {
+          if (response) {
+            resolve(response);
+          } else {
+            const reason = `Unexpected response from server when getting template 
+              from ${url}`;
+            return Promise.reject({
+              reason: reason,
+              appError: appError,
+            });
+          }
+        })
+        .catch(({ reason, appError }) => {
+          // reason contains specific error; appError is a more general msg shown to the user
+          console.error(reason);
+          reject(reason);
+          // The errors occurring during this request should not be notfiied to the user
+          appError.silent = true;
+          this.handleAppError(appError);
+        });
+    });
+    return promise;
   }
 
   private getTemplateFromURL(url: URL, errorMsgLocalisationKey: string): Promise<Template> {
