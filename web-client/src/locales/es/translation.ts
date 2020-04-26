@@ -13,6 +13,7 @@ const translationES = {
     UPDATE_TEMPLATE_ERROR: 'Se produjo un error al guardar los cambios. Por favor, intente guardarlos de nuevo.',
     WRONG_CREDENTIALS: 'Credenciales inválidas. Por favor, compruébelas y inténtelo de nuevo.',
     EXPIRED_LOGIN_SESSION: 'Su sesión de acceso ha expirado. Por favor, vuelva a entrar.',
+    LOGIN_ERROR: 'Se produjo un error al iniciar sesión. Por favor, vuelva a entrar.',
   },
   UNSAVED_CHANGES_DIALOG: {
     TITLE: 'Tiene cambios no guardados',

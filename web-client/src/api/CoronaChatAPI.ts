@@ -17,7 +17,6 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
     this.handleAppError = handleAppError;
   }
 
-  // TODO(MB) use this method everywhere in this file
   private static parseResponse(
     response: Response,
     requestStringURL: string,
@@ -47,7 +46,7 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
   private getTemplateFromURL(url: URL, errorMsgLocalisationKey: string): Promise<Template> {
     const performFetch = () => {
       return fetch(url.href).catch((error) => {
-        const reason = `Error occurred when updating template to 
+        const reason = `Error occurred when getting template from
           ${url}. Fetch rejected (for ex. network or CORS error): ${error}`;
         return Promise.reject({
           reason: reason,
@@ -56,36 +55,17 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
       });
     };
 
-    const parseResponse = (response: Response) => {
-      if (!response.ok) {
-        const responseStatus = `Response status ${response.status} ${response.statusText}`;
-        const reason = `Error occurred when updating template to 
-            ${url}. ${responseStatus}`;
-        return Promise.reject({
-          reason: reason,
-          appError: { errorMsgLocalisationKey: errorMsgLocalisationKey, statusCode: response.status },
-        });
-      } else {
-        return response.json().catch((error) => {
-          const reason = `Response json parsing error when updating template to 
-            ${url}: ${error}`;
-          return Promise.reject({
-            reason: reason,
-            appError: { errorMsgLocalisationKey: errorMsgLocalisationKey },
-          });
-        });
-      }
-    };
-
     const promise = new Promise<Template>((resolve, reject) => {
       performFetch()
-        .then(parseResponse)
+        .then((response) =>
+          CoronaChatAPI.parseResponse(response, url.toString(), 'when getting template from', errorMsgLocalisationKey)
+        )
         .then((response: Template) => {
           if (response) {
             resolve(response);
           } else {
-            const reason = `Unexpected response from server when updating template 
-              to ${url}`;
+            const reason = `Unexpected response from server when getting template 
+              from ${url}`;
             return Promise.reject({
               reason: reason,
               appError: { errorMsgLocalisationKey: errorMsgLocalisationKey },
@@ -133,30 +113,16 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
       });
     };
 
-    const parseResponse = (response: Response) => {
-      if (!response.ok) {
-        const responseStatus = `Response status ${response.status} ${response.statusText}`;
-        const reason = `Error occurred when updating template to 
-            ${url}. ${responseStatus}`;
-        return Promise.reject({
-          reason: reason,
-          appError: { errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR', statusCode: response.status },
-        });
-      } else {
-        return response.json().catch((error) => {
-          const reason = `Response json parsing error when updating template to 
-            ${url}: ${error}`;
-          return Promise.reject({
-            reason: reason,
-            appError: { errorMsgLocalisationKey: 'ERRORS.UPDATE_TEMPLATE_ERROR' },
-          });
-        });
-      }
-    };
-
     const promise = new Promise<void>((resolve, reject) => {
       performFetch()
-        .then(parseResponse)
+        .then((response) =>
+          CoronaChatAPI.parseResponse(
+            response,
+            url.toString(),
+            'when updating template to',
+            'ERRORS.UPDATE_TEMPLATE_ERROR'
+          )
+        )
         .then((response: Template) => {
           if (response) {
             resolve();
@@ -180,8 +146,6 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
   }
 
   login(username: string, password: string): Promise<User> {
-    // TODO(MB) perform request to server when ready
-
     var url = new URL(CoronaChatAPI.loginURL);
 
     const performFetch = () => {
@@ -192,15 +156,14 @@ export class CoronaChatAPI implements CoronaChatAPIInterface {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: 'coronainfochat',
-          password: 'secret',
+          username: username,
+          password: password,
         }),
       }).catch((error) => {
         const reason = `Error occurred when updating template to 
           ${url}. Fetch rejected (for ex. network or CORS error): ${error}`;
         return Promise.reject({
           reason: reason,
-          // TODO(MB) add translations for LOGIN_ERROR
           appError: { errorMsgLocalisationKey: 'ERRORS.LOGIN_ERROR' },
         });
       });
