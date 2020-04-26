@@ -12,10 +12,8 @@ import {
   IconButton,
   MenuItem as MaterialMenuItem,
 } from '@material-ui/core';
-import { CoronaChatAPI } from '../../api/CoronaChatAPI';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
-import { TrialCoronaChatAPI } from '../../api/TrialCoronaChatAPI';
 import Drawer from '@material-ui/core/Drawer';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -27,9 +25,9 @@ import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
 import IntroStepper from '../../components/IntroStepper/IntroStepper';
 import { useHistory } from 'react-router-dom';
 import { getLocalDefaultTemplateForLanguage } from '../../lib/utils';
-import { ErrorHandlingContext } from '../../providers/ErrorHandlingProvider/ErrorHandlingProvider';
 import { UserContext } from '../../providers/UserProvider/UserProvider';
 import ThreeDotsMenu from '../../components/ThreeDotsMenu/ThreeDotsMenu';
+import { useCoronaChatAPIContext } from '../../providers/api/CoronaChatAPIInterface';
 
 export function getEmptyTemplate(): Template {
   return {
@@ -65,7 +63,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
   const classes = useStyles();
   const history = useHistory();
   const { user, onLogout } = useContext(UserContext);
-  const { handleAppError } = useContext(ErrorHandlingContext);
+  const coronaChatAPI = useCoronaChatAPIContext();
 
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
   const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(false);
@@ -88,27 +86,23 @@ const MainMessage = (props: { isTrial: boolean }) => {
     _setIsMenuItemDialogOpen(newValue);
   };
 
-  let coronaChatAPI = useRef(
-    props.isTrial ?? true ? new TrialCoronaChatAPI(i18n.language as Language) : new CoronaChatAPI(handleAppError)
-  );
-
   useEffect(() => {
     // TODO(MB) add some loading UI
-    coronaChatAPI.current
+    coronaChatAPI
       .getTemplate()
-      .then((template) => {
+      .then((template: Template) => {
         console.debug('Got template from server', template);
         setTemplate(template);
       })
       .finally(() => {
-        coronaChatAPI.current.getDefaultTemplate().then((defaultTemplate) => {
+        coronaChatAPI.getDefaultTemplate().then((defaultTemplate: Template) => {
           console.debug('Got default template from server', defaultTemplate);
           setDefaultTemplate(defaultTemplate);
         });
       });
 
     setIsIntroStepperOpen(localStorage.getItem(introStepsCompletedKey) !== 'true');
-  }, []);
+  }, [coronaChatAPI]);
 
   const getDefaultFooterItemBackToMenu = (): string => {
     return defaultTemplate.menuItems[0]?.footerItems[0] ?? '';
@@ -147,7 +141,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
   };
 
   let onSaveMainHeaderClicked = (_: string) => {
-    coronaChatAPI.current
+    coronaChatAPI
       .updateTemplate(templateRef.current)
       .then(() => {
         console.debug('Template updated successfully');
@@ -191,7 +185,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
       // when post of single menu item is ready
       updatedTemplate.menuItems.push(menuItem);
     }
-    coronaChatAPI.current.updateTemplate(updatedTemplate).then(() => {
+    coronaChatAPI.updateTemplate(updatedTemplate).then(() => {
       console.debug('Template updated successfully');
     });
     setTemplate(updatedTemplate);
@@ -217,7 +211,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
 
   const onLogoutClicked = () => {
     onLogout();
-    coronaChatAPI.current.logout().then();
+    coronaChatAPI.logout().then();
     history.replace('/');
   };
 
@@ -244,7 +238,7 @@ const MainMessage = (props: { isTrial: boolean }) => {
       <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="secondary" className={classes.title}>
-            {t('DASHBOARD_TITLE')} {props.isTrial ? ' - TEST' : user?.id ? ' - ' + user.id : ''}
+            {t('DASHBOARD_TITLE')} {props.isTrial ? ` - ${t('TRIAL_ACCOUNT')}` : user?.id ? ' - ' + user.id : ''}
           </Typography>
           <IconButton autoFocus id="preview-button" color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
             <VisibilityIcon></VisibilityIcon>

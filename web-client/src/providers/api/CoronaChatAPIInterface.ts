@@ -1,4 +1,7 @@
-import { Template, User } from '../model/model';
+import { Template, User } from '../../model/model';
+import { createCtx } from '../../hooks/createCtx';
+
+export const [useCoronaChatAPIContext, CoronaChatAPIContextProvider] = createCtx<CoronaChatAPIInterface>();
 
 export interface CoronaChatAPIInterface {
   getOrganizationId(): Promise<string>;
