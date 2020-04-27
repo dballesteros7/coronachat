@@ -4,10 +4,8 @@ import { Template, MenuItem } from '../../model/model';
 import { List, ListItem, ListItemText, Divider, Button } from '@material-ui/core';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
 import { useTranslation } from 'react-i18next';
-import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
-import i18n, { Language } from '../../i18n';
 
-type MainMessageFormProps = {
+export type MainMessageFormProps = {
   template: Template;
   onMainHeaderChanged: (newText: string) => void;
   onPrefillMainHeaderClicked: () => void;
@@ -28,11 +26,6 @@ const MainMessageForm = (props: MainMessageFormProps) => {
     );
   });
 
-  const getDefaultTemplate = (): Template => {
-    // TODO(MB) get this from defaultTemplate fetched from server with language as param instead
-    return getLocalDefaultTemplateForLanguage(i18n.language as Language);
-  };
-
   return (
     <div className="MainMessageForm">
       {/* TODO(MB) is there a better way instead than passing same props up and down 
@@ -43,7 +36,6 @@ const MainMessageForm = (props: MainMessageFormProps) => {
         showEdit={true}
         label={t('MSG_HEADER')}
         value={props.template.header}
-        prefillValue={getDefaultTemplate().header}
         rows={8}
         placeholder={t('MSG_HEADER_PLACEHOLDER')}
         onPrefillClicked={props.onPrefillMainHeaderClicked}

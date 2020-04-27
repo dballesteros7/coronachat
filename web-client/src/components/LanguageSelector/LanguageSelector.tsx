@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import './LanguageSelector.scss';
-import { Languages, Language, LanguageContext } from '../../i18n';
+import { Languages, Language } from '../../i18n';
 import { Button, Menu, makeStyles, Theme, createStyles, MenuItem } from '@material-ui/core';
+import { LanguageContext } from '../../providers/LanguageProvider/LanguageProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     langMenuButton: {
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       right: 0,
       zIndex: 10,
@@ -36,8 +37,8 @@ const LanguageSelector = () => {
   const onLanguageItemClicked = (language: Language) => {
     // TODO (MB) why do I get the following error if I set i18n from here?
     // cannot change i18n here due to this error:
-    // index.js:1 Warning: Cannot update a component (`LanguageSelector`) while rendering a different component (`LanguageWrapper`).
-    // To locate the bad setState() call inside `LanguageWrapper`, follow the stack trace as described in https://fb.me/setstate-in-render
+    // index.js:1 Warning: Cannot update a component (`LanguageSelector`) while rendering a different component (`LanguageProvider`).
+    // To locate the bad setState() call inside `LanguageProvider`, follow the stack trace as described in https://fb.me/setstate-in-render
     // i18n.changeLanguage(selectedLanguage);
     // localStorage.setItem(languageKey, selectedLanguage);
     onLanguageSelected(language);

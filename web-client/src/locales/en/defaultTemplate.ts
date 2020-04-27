@@ -1,7 +1,6 @@
-import { Template } from '../../model/model';
+import { ReadOnlyTemplate } from '../../model/model';
 
-//TODO (MB) all its properties of this instance should be readonly
-export const defaultTemplateEN: Template = {
+export const defaultTemplateEN: ReadOnlyTemplate = {
   header: `*Welcome to Coronainfochat* 🇨🇴
 
 Official information about coronavirus in Bucaramanga.

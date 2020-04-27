@@ -3,6 +3,10 @@ export interface Template {
   menuItems: MenuItem[];
 }
 
+export type ReadOnlyTemplate = {
+  readonly [K in keyof Template]: Template[K];
+};
+
 export function getIsTitleInvalid(title: string): boolean {
   return title.length === 0;
 }
@@ -16,4 +20,9 @@ export interface MenuItem {
   title: string;
   content: string;
   footerItems: Array<string>;
+}
+
+export interface User {
+  id: string;
+  isLoggedIn: boolean;
 }

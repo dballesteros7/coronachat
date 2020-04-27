@@ -6,7 +6,8 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { useTranslation } from 'react-i18next';
-import { LanguageContext, Languages } from '../../i18n';
+import { Languages } from '../../i18n';
+import { LanguageContext } from '../../providers/LanguageProvider/LanguageProvider';
 
 const useStyles = makeStyles({
   introVideo: {
@@ -47,7 +48,7 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
   const numberOfSteps = 3;
 
   let introVideoUrl = 'https://www.youtube.com/embed/z62eFKWJGIU';
-  const { selectedLanguage, onLanguageSelected } = useContext(LanguageContext);
+  const { selectedLanguage } = useContext(LanguageContext);
   switch (selectedLanguage) {
     case Languages.it:
       introVideoUrl = 'https://www.youtube.com/embed/oY3kbpHRVm8';
@@ -98,6 +99,7 @@ const IntroStepper = (props: { onIntroFinished: () => void }) => {
         <div className={classes.videoContainer}>
           <LinearProgress />
           <iframe
+            title="Intro video"
             className={classes.introVideo}
             width="560"
             height="315"

@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './MenuItemMessageForm.scss';
 import {
   Dialog,
   Button,
-  ListItem,
-  ListItemText,
   Divider,
   makeStyles,
   Theme,
@@ -20,7 +18,7 @@ import { MenuItem, getIsTitleInvalid, getIsContentInvalid } from '../../model/mo
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
 import { useTranslation } from 'react-i18next';
 
-type MenuItemMessageFormProps = {
+export type MenuItemMessageFormProps = {
   menuItem: MenuItem;
   onDeleteMenuItem: (menuItem: MenuItem) => void;
   onMenuItemUpdatedInForm: (updatedMenuItem: MenuItem) => void;
@@ -100,18 +98,17 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     setIsTitleErrorEnabled(true);
   };
 
-  const footerListItems = props.menuItem.footerItems.map((footerItem: string, idx: number) => {
-    return (
-      <ListItem key={idx} dense>
-        <ListItemText primary={footerItem} />
-      </ListItem>
-    );
-  });
+  // const footerListItems = props.menuItem.footerItems.map((footerItem: string, idx: number) => {
+  //   return (
+  //     <ListItem key={idx} dense>
+  //       <ListItemText primary={footerItem} />
+  //     </ListItem>
+  //   );
+  // });
 
   return (
     <>
       <div className="MenuItemMessageForm">
-        {/* <List> */}
         <span className="covid-title-box">
           <h3 className="covid-title">{t('MENU.OPTION_TITLE')}</h3>
         </span>

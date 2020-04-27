@@ -1,24 +1,35 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import './MainMessage.scss';
 import MainMessageForm from '../../components/MainMessageForm/MainMessageForm';
 import { Template, MenuItem } from '../../model/model';
-import { makeStyles, Theme, createStyles, AppBar, Toolbar, Typography, IconButton, Dialog } from '@material-ui/core';
-import { CoronaChatAPI } from '../../services/CoronaChatAPI';
+import {
+  makeStyles,
+  Theme,
+  createStyles,
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  MenuItem as MaterialMenuItem,
+} from '@material-ui/core';
 import MessagePreview from '../../components/MessagePreview/MessagePreview';
 import SplitLayout from '../../components/SplitLayout/SplitLayout';
-import { TrialCoronaChatAPI } from '../../services/TrialCoronaChatAPI';
-import { CoronaChatAPIInterface } from '../../services/CoronaChatAPIInterface';
 import Drawer from '@material-ui/core/Drawer';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from 'react-i18next';
 import { Language } from '../../i18n';
-import { getLocalDefaultTemplateForLanguage } from '../../utils/logic-utils';
 import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
 import IntroStepper from '../../components/IntroStepper/IntroStepper';
+import { useHistory } from 'react-router-dom';
+import { getLocalDefaultTemplateForLanguage } from '../../lib/utils';
+import { UserContext } from '../../providers/UserProvider/UserProvider';
+import ThreeDotsMenu from '../../components/ThreeDotsMenu/ThreeDotsMenu';
+import { useCoronaChatAPIContext } from '../../providers/api/CoronaChatAPIInterface';
 
-function getEmptyTemplate(): Template {
+export function getEmptyTemplate(): Template {
   return {
     header: '',
     menuItems: [],
@@ -36,25 +47,23 @@ const useStyles = makeStyles((theme: Theme) =>
       flex: 1,
       color: 'white',
     },
-    drawer: {
-      // width: '100%',
-      // backgroundColor: 'red'
+    threeDotsMenuItem: {
+      color: theme.palette.primary.main,
+    },
+    threeDotsMenuItemIcon: {
+      marginRight: 10,
     },
   })
 );
 
-const MainMessage = (props: { isTrial?: boolean }) => {
+const introStepsCompletedKey = 'introStepsCompleted';
+
+const MainMessage = (props: { isTrial: boolean }) => {
   const { t, i18n } = useTranslation();
   const classes = useStyles();
-
-  const introStepsCompletedKey = 'introStepsCompleted';
-
-  let coronaChatAPI: CoronaChatAPIInterface;
-  if (props.isTrial) {
-    coronaChatAPI = new TrialCoronaChatAPI(i18n.language as Language);
-  } else {
-    coronaChatAPI = new CoronaChatAPI();
-  }
+  const history = useHistory();
+  const { user, onLogout } = useContext(UserContext);
+  const coronaChatAPI = useCoronaChatAPIContext();
 
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
   const [isIntroStepperOpen, setIsIntroStepperOpen] = useState(false);
@@ -68,6 +77,8 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     _setTemplate(newTemplate);
   };
 
+  const [defaultTemplate, setDefaultTemplate] = useState(getLocalDefaultTemplateForLanguage(i18n.language as Language));
+
   const [_isMenuItemDialogOpen, _setIsMenuItemDialogOpen] = useState(false);
   var isMenuItemDialogOpenRef = useRef(_isMenuItemDialogOpen);
   const setIsMenuItemDialogOpen = (newValue: boolean) => {
@@ -79,30 +90,26 @@ const MainMessage = (props: { isTrial?: boolean }) => {
     // TODO(MB) add some loading UI
     coronaChatAPI
       .getTemplate()
-      .then((template) => {
+      .then((template: Template) => {
         console.debug('Got template from server', template);
         setTemplate(template);
       })
-      .catch((error) => {
-        // TODO(MB) notify user
-        console.error(error);
+      .finally(() => {
+        coronaChatAPI.getDefaultTemplate().then((defaultTemplate: Template) => {
+          console.debug('Got default template from server', defaultTemplate);
+          setDefaultTemplate(defaultTemplate);
+        });
       });
 
     setIsIntroStepperOpen(localStorage.getItem(introStepsCompletedKey) !== 'true');
-  }, []);
-
-  const getDefaultTemplate = (): Template => {
-    // TODO(MB) get this from defaultTemplate fetched from server with language as param instead
-    return getLocalDefaultTemplateForLanguage(i18n.language as Language);
-  };
+  }, [coronaChatAPI]);
 
   const getDefaultFooterItemBackToMenu = (): string => {
-    // TODO(MB) get this from defaultTemplate fetched from server with language as param instead
-    return getDefaultTemplate().menuItems[0]?.footerItems[0] ?? '';
+    return defaultTemplate.menuItems[0]?.footerItems[0] ?? '';
   };
 
-  const getInitSelectedMenuItem = (): MenuItem => {
-    // TODO(MB) could set initial value to null without compiler complaining
+  const getEmptyDefaultMenuItem = (): MenuItem => {
+    // TODO(MB) could set initial value to null without compiler complaining? (yes, see UserProvider)
     return {
       id: -1,
       title: '',
@@ -113,10 +120,10 @@ const MainMessage = (props: { isTrial?: boolean }) => {
 
   // TODO(MB) Does not make sense to store this menuItem
   // find a way to pass it to MenuItemMessageForm directly from 'openMenuItem' handler
-  const initSelectedMenuItem = getInitSelectedMenuItem();
+  const initSelectedMenuItem = getEmptyDefaultMenuItem();
   const [editingMenuItem, setEditingMenuItem] = useState(initSelectedMenuItem);
 
-  const [newMenuItemLatestLocalIdx, setNewMenuItemLatestLocalIdx] = useState(-1);
+  const newMenuItemLatestLocalIdx = useRef(-1);
 
   let updateTemplateHeaderInState = (headerText: string) => {
     // TODO(MB) check deep copy
@@ -126,7 +133,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
   };
 
   let onPrefillMainHeaderClicked = () => {
-    updateTemplateHeaderInState(getDefaultTemplate().header);
+    updateTemplateHeaderInState(defaultTemplate.header);
   };
 
   let onMainHeaderChanged = (newText: string) => {
@@ -140,8 +147,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
         console.debug('Template updated successfully');
       })
       .catch((error) => {
-        // TODO(MB) notify user
-        console.error('Update template server request failed with error', error);
+        // TODO(MB) change back to editing mode? so user tries to save again?
       });
   };
 
@@ -151,17 +157,17 @@ const MainMessage = (props: { isTrial?: boolean }) => {
   };
 
   let onAddMenuItemClicked = () => {
-    let emptyMenuItem = getInitSelectedMenuItem();
-    const newIdx = newMenuItemLatestLocalIdx - 1;
+    let emptyMenuItem = getEmptyDefaultMenuItem();
+    const newIdx = newMenuItemLatestLocalIdx.current - 1;
     emptyMenuItem.id = newIdx;
     setEditingMenuItem(emptyMenuItem);
     setIsMenuItemDialogOpen(true);
-    setNewMenuItemLatestLocalIdx(newIdx);
+    newMenuItemLatestLocalIdx.current = newIdx;
   };
 
   let onCloseAndDiscardChanges = () => {
     setIsMenuItemDialogOpen(false);
-    setEditingMenuItem(getInitSelectedMenuItem());
+    setEditingMenuItem(getEmptyDefaultMenuItem());
   };
 
   let onCloseAndSaveChanges = (menuItem: MenuItem, deleteItem: boolean = false) => {
@@ -179,17 +185,11 @@ const MainMessage = (props: { isTrial?: boolean }) => {
       // when post of single menu item is ready
       updatedTemplate.menuItems.push(menuItem);
     }
-    coronaChatAPI
-      .updateTemplate(updatedTemplate)
-      .then(() => {
-        console.debug('Template updated successfully');
-      })
-      .catch((error) => {
-        // TODO(MB) notify user
-        console.error('Update template server request failed with error', error);
-      });
+    coronaChatAPI.updateTemplate(updatedTemplate).then(() => {
+      console.debug('Template updated successfully');
+    });
     setTemplate(updatedTemplate);
-    setEditingMenuItem(getInitSelectedMenuItem());
+    setEditingMenuItem(getEmptyDefaultMenuItem());
   };
 
   const getEditingMenuItemClone = (): MenuItem => {
@@ -207,6 +207,12 @@ const MainMessage = (props: { isTrial?: boolean }) => {
   const onIntroStepsCompleted = () => {
     setIsIntroStepperOpen(false);
     localStorage.setItem(introStepsCompletedKey, 'true');
+  };
+
+  const onLogoutClicked = () => {
+    onLogout();
+    coronaChatAPI.logout().then();
+    history.replace('/');
   };
 
   let mainForm = (
@@ -232,14 +238,25 @@ const MainMessage = (props: { isTrial?: boolean }) => {
       <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="secondary" className={classes.title}>
-            {t('DASHBOARD_TITLE')}
+            {t('DASHBOARD_TITLE')} {props.isTrial ? ` - ${t('TRIAL_ACCOUNT')}` : user?.id ? ' - ' + user.id : ''}
           </Typography>
-          <IconButton autoFocus color="secondary" onClick={() => setIsIntroStepperOpen(true)}>
-            <HelpOutlineIcon></HelpOutlineIcon>
-          </IconButton>
           <IconButton autoFocus id="preview-button" color="secondary" onClick={() => setMsgPreviewDrawerOpen(true)}>
             <VisibilityIcon></VisibilityIcon>
           </IconButton>
+          <ThreeDotsMenu>
+            <MaterialMenuItem
+              key={'help'}
+              className={classes.threeDotsMenuItem}
+              onClick={() => setIsIntroStepperOpen(true)}
+            >
+              <HelpOutlineIcon className={classes.threeDotsMenuItemIcon} />
+              {t('ACTIONS.HELP')}
+            </MaterialMenuItem>
+            <MaterialMenuItem key={'logout'} className={classes.threeDotsMenuItem} onClick={onLogoutClicked}>
+              <MeetingRoomIcon className={classes.threeDotsMenuItemIcon} />
+              {t('ACTIONS.LOGOUT')}
+            </MaterialMenuItem>
+          </ThreeDotsMenu>
         </Toolbar>
       </AppBar>
       <React.Fragment key={'RIGHT'}>
@@ -256,12 +273,7 @@ const MainMessage = (props: { isTrial?: boolean }) => {
           )}
           <SplitLayout mainContent={mainForm} optionalContent={messagePreview} />
           {isIntroStepperOpen && <IntroStepper onIntroFinished={onIntroStepsCompleted} />}
-          <Drawer
-            className={classes.drawer + ' MsgPreviewDrawer'}
-            anchor={'right'}
-            open={isMsgPreviewDrawerOpen}
-            onClose={() => {}}
-          >
+          <Drawer className="MsgPreviewDrawer" anchor={'right'} open={isMsgPreviewDrawerOpen} onClose={() => {}}>
             <div className="drawer-content">
               <div className="covid-title-box">
                 <div className="covid-title">{t('INTRO.MESSAGE_PREVIEW')}</div>

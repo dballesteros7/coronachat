@@ -38,18 +38,18 @@ const useStyles = makeStyles((theme: Theme) =>
       flex: 1,
       color: 'white',
     },
-    drawer: {
-      // width: '100%',
-      // backgroundColor: 'red'
-    },
+    drawer: {},
   })
 );
 
-const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement<any, any> },
+  ref: React.Ref<unknown>
+) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-type MenuItemDetailProps = {
+export type MenuItemDetailProps = {
   menuItem: MenuItem;
   onCloseAndDiscardChanges: () => void;
   onCloseAndSaveChanges: (menuItem: MenuItem) => void;
@@ -60,11 +60,7 @@ const MenuItemDetail = (props: MenuItemDetailProps) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  // TODO menu item goes here because is shared between form (editing) and preview read only
-  // otherwise the preview can't be live
-  // form has to communicated out actions like delete, edit of each field
   const [menuItem, setMenuItem] = useState(JSON.parse(JSON.stringify(props.menuItem)));
-
   const [isDiscardChangesAlertShowing, setIsDiscardChangesAlertShowing] = useState(false);
   const [isMsgPreviewDrawerOpen, setMsgPreviewDrawerOpen] = useState(false);
 

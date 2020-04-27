@@ -1,8 +1,9 @@
 """APIs to communicate with the underlying message storage."""
+from flask_login import UserMixin
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from ..db import db
-from .schema import SecondaryOption, TopLevelMessage, TopLevelOption
+from .schema import Organization, OrganizationUser, SecondaryOption, TopLevelMessage, TopLevelOption
 
 # TODO(dballest): Make this into a localization class with scopes.
 if '_' not in globals():
@@ -15,11 +16,23 @@ GENERIC_ERROR_MSG = _('Something went wrong! oh well, bye')
 NO_OPTION_FOUND_MSG = _('There is no option number %d')
 
 
+class LoggedInUser(UserMixin):
+    backend_user: OrganizationUser()
+
+    def __init__(self, backend_user: OrganizationUser):
+        assert backend_user is not None
+        self.backend_user = backend_user
+
+    @property
+    def id(self) -> int:
+        return self.backend_user.id
+
+
 class AdminReader(object):
-    def get_top_level_message(self) -> dict:
-        top_level_message = TopLevelMessage.query.first()
+    def get_top_level_message(self, logged_in_user: LoggedInUser) -> dict:
+        top_level_message = logged_in_user.backend_user.organization.top_level_message
         if top_level_message is None:
-            return GENERIC_ERROR_MSG
+            return None
 
         frontend_top_level_options = []
         for top_level_option in top_level_message.top_level_options:
@@ -44,13 +57,15 @@ class AdminReader(object):
 
 
 class AdminWriter(object):
-    def update_top_level_message(self, top_level_message_dict: dict):
+    def update_top_level_message(self, top_level_message_dict: dict, logged_in_user: LoggedInUser):
         # We clear all existing options associated with the top level message
         # since the client is not sending a delta of the updates.
         # NOTE: We are still assuming there is a single top_level_message
-        stored_top_level_message = TopLevelMessage.query.first()
+        stored_top_level_message = logged_in_user.backend_user.organization.top_level_message
         if stored_top_level_message is not None:
             db.session.delete(stored_top_level_message)
+            db.session.add(logged_in_user.backend_user.organization)
+            logged_in_user.backend_user.organization.top_level_message_id = None
 
         top_level_options = []
         for top_level_option in top_level_message_dict['top_level_options']:
@@ -78,6 +93,10 @@ class AdminWriter(object):
         )
 
         db.session.add(top_level_message)
+        db.session.commit()
+
+        db.session.add(logged_in_user.backend_user.organization)
+        logged_in_user.backend_user.organization.top_level_message_id = top_level_message.id
         db.session.commit()
 
 
@@ -158,9 +177,40 @@ class MessageReader(object):
             # for secondary_option in sorted(
             #         option.secondary_options, key=lambda o: o.position):
             #     message += '%s\n' % secondary_option.content.strip()
-            
+
             return message
         except NoResultFound:
             return NO_OPTION_FOUND_MSG % option_number
         except MultipleResultsFound:
             return GENERIC_ERROR_MSG
+
+
+def load_logged_in_user(user_id: str) -> LoggedInUser:
+    try:
+        org_user = OrganizationUser.query.filter(
+            OrganizationUser.id == int(user_id),
+        ).one()
+        return LoggedInUser(org_user)
+    except NoResultFound:
+        return None
+    except MultipleResultsFound:
+        raise Exception('Unexpected database state.')
+
+
+def check_login(username: str, password: str) -> LoggedInUser:
+    try:
+        org_user = OrganizationUser.query.filter(
+            OrganizationUser.username == username,
+            OrganizationUser.password == password).one()
+        return LoggedInUser(org_user)
+    except NoResultFound:
+        return None
+    except MultipleResultsFound:
+        raise Exception('Unexpected database state.')
+
+
+def get_organization(logged_in_user: LoggedInUser) -> dict:
+    org = Organization.query.get(logged_in_user.backend_user.id)
+    return {
+        'name': org.name,
+    }
