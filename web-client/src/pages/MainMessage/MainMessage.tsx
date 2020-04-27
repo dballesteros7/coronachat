@@ -91,12 +91,10 @@ const MainMessage = (props: { isTrial: boolean }) => {
     coronaChatAPI
       .getTemplate()
       .then((template: Template) => {
-        console.debug('Got template from server', template);
         setTemplate(template);
       })
       .finally(() => {
         coronaChatAPI.getDefaultTemplate().then((defaultTemplate: Template) => {
-          console.debug('Got default template from server', defaultTemplate);
           setDefaultTemplate(defaultTemplate);
         });
       });
