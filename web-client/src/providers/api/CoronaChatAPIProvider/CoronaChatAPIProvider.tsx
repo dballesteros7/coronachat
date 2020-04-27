@@ -3,8 +3,8 @@ import { ErrorHandlingContext, AppError } from '../../ErrorHandlingProvider/Erro
 import { Template, User } from '../../../model/model';
 import { CoronaChatAPIContextProvider } from '../CoronaChatAPIInterface';
 
-const baseURL = 'http://development.eba-4rmdgwec.eu-west-1.elasticbeanstalk.com';
-// const baseURL = 'https://app.coronainfochat.org';
+// const baseURL = 'http://development.eba-4rmdgwec.eu-west-1.elasticbeanstalk.com';
+const baseURL = 'https://app.coronainfochat.org';
 
 const getOrganizationURL = `${baseURL}/organization`;
 const getTemplateURL = `${baseURL}/getTemplate`;
