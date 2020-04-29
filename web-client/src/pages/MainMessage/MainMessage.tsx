@@ -24,7 +24,7 @@ import { Language } from '../../i18n';
 import MenuItemDetail from '../MenuItemDetail/MenuItemDetail';
 import IntroStepper from '../../components/IntroStepper/IntroStepper';
 import { useHistory } from 'react-router-dom';
-import { getLocalDefaultTemplateForLanguage } from '../../lib/utils';
+import { getLocalDefaultTemplateForLanguage } from '../../lib/language-utils';
 import { UserContext } from '../../providers/UserProvider/UserProvider';
 import ThreeDotsMenu from '../../components/ThreeDotsMenu/ThreeDotsMenu';
 import { useCoronaChatAPIContext } from '../../providers/api/CoronaChatAPIInterface';

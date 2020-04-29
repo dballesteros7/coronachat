@@ -99,6 +99,7 @@ const MenuItemMessageForm = (props: MenuItemMessageFormProps) => {
     setIsTitleErrorEnabled(true);
   };
 
+  // Feature disabled for now
   // const footerListItems = props.menuItem.footerItems.map((footerItem: string, idx: number) => {
   //   return (
   //     <ListItem key={idx} dense>

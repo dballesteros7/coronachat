@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useRef, useCallback } from 'react';
 import { Template } from '../../../model/model';
 import { useTranslation } from 'react-i18next';
-import { getLocalDefaultTemplateForLanguage } from '../../../lib/utils';
+import { getLocalDefaultTemplateForLanguage } from '../../../lib/language-utils';
 import { LanguageContext } from '../../LanguageProvider/LanguageProvider';
 import { CoronaChatAPIContextProvider } from '../CoronaChatAPIInterface';
 
