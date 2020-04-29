@@ -24,7 +24,9 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from 'react-i18next';
 import { TransitionProps } from '@material-ui/core/transitions/transition';
-import { MenuItem, getIsTitleInvalid, getIsContentInvalid } from '../../model/model';
+import { MenuItem } from '../../model/model';
+import { getIsContentInvalid, getIsTitleInvalid } from '../../model/modelUtils';
+
 import MenuItemMessageForm from '../../components/MenuItemMessageForm/MenuItemMessageForm';
 
 const useStyles = makeStyles((theme: Theme) =>

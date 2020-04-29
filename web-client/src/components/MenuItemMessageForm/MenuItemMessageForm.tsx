@@ -14,7 +14,8 @@ import {
   DialogActions,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { MenuItem, getIsTitleInvalid, getIsContentInvalid } from '../../model/model';
+import { MenuItem } from '../../model/model';
+import { getIsContentInvalid, getIsTitleInvalid } from '../../model/modelUtils';
 import SmartTextArea from '../SmartTextArea/SmartTextArea';
 import { useTranslation } from 'react-i18next';
 
