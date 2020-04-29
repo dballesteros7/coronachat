@@ -3,7 +3,7 @@ import { Template } from '../../model/model';
 import { CoronaChatAPIContextProvider } from '../../providers/api/CoronaChatAPIInterface';
 import { defaultTemplateEN } from '../../locales/en/defaultTemplate';
 
-type RejectConfiguration = {
+export type RejectConfiguration = {
   getDefaultTemplate: Boolean;
   getOrganization: Boolean;
   getTemplate: Boolean;
