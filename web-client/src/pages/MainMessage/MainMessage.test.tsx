@@ -6,7 +6,7 @@ import MockCoronaChatAPIProvider, {
   RejectConfiguration,
 } from '../../mock-data/MockCoronaChatAPIProvider/MockCoronaChatAPIProvider';
 
-function testMountWithRejectConfiguration(rejectConfiguration: RejectConfigurwation) {
+function testMountWithRejectConfiguration(rejectConfiguration: RejectConfiguration) {
   const div = document.createElement('div');
   ReactDOM.render(
     <MockCoronaChatAPIProvider rejectConfiguration={rejectConfiguration}>
