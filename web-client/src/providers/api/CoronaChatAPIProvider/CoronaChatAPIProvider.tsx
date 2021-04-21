@@ -128,7 +128,7 @@ const CoronaChatAPIProvider = (props: { children: ReactNode }) => {
             // reason contains specific error; appError is a more general msg shown to the user
             console.error(reason);
             reject(reason);
-            // The errors occurring during this request should not be notfiied to the user
+            // The errors occurring during this request should not be notified to the user
             appError.silent = true;
             handleAppError(appError);
           });
